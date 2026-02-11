@@ -11,6 +11,8 @@
     "create-diff:mac": "{ git diff -- . ':(exclude)node_modules' ':(exclude)package-lock.json' ':(exclude)src/app/fonts' ':(exclude)public' && git ls-files --others --exclude-standard ':!node_modules/*' ':!package-lock.json' ':!src/app/fonts/*' ':!public/*' | while read file; do echo \"+++ $file\"; cat \"$file\"; done; } > ~/Desktop/diff.txt"
   },
   "dependencies": {
+    "@prisma/client": "6.19",
+    "dotenv": "^17.2.4",
     "next": "16.1.6",
     "postcss": "^8.5.6",
     "react": "19.2.3",
@@ -18,11 +20,12 @@
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.1.18",
-    "@types/node": "^20",
+    "@types/node": "^20.19.33",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.1.6",
+    "prisma": "6.19",
     "tailwindcss": "^4.1.18",
     "typescript": "^5"
   }
