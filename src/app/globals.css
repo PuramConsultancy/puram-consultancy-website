@@ -1,7 +1,14 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --color-background: #ffffff;
+  --color-foreground: #171717;
+  --color-primary: #023341;
+  --color-secondary: #fd5e02;
+  --color-secondary-hover: #e95502;
+  --color-on-primary: #ffffff;
+  --color-on-primary-muted: rgb(255 255 255 / 0.75);
+  --color-on-primary-subtle: rgb(255 255 255 / 0.4);
+  --color-divider-on-primary: rgb(255 255 255 / 0.2);
 }
 
