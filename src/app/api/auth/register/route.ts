@@ -6,6 +6,12 @@ import { NextRequest, NextResponse } from "next/server";
 import generateToken, { IJWTPayload } from "../../helpers/generateToken";
 import handleError from "../../helpers/handleError";
 
+/**
+ * @route   POST /api/auth/register
+ * @desc    Authenticate user and return JWT token
+ * @access  Public
+ */
+
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
