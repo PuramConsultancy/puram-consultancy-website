@@ -1,10 +1,11 @@
 import {
+  DiscordIcon,
   FacebookIcon,
   InstagramIcon,
   TikTokIcon,
   YouTubeIcon,
-} from "./icons";
-import type { LinkItem, SocialItem } from "./types";
+} from "@/components/footer/icons";
+import type { LinkItem, SocialItem } from "@/data/footer/types";
 
 export const serviceLinks: LinkItem[] = [
   { label: "Brand Creation", href: "/services/brand-creation" },
@@ -32,5 +33,5 @@ export const socialLinks: SocialItem[] = [
   { label: "YouTube", href: "https://www.youtube.com", icon: YouTubeIcon },
   { label: "Instagram", href: "https://www.instagram.com", icon: InstagramIcon },
   { label: "TikTok", href: "https://www.tiktok.com", icon: TikTokIcon },
+  { label: "Discord", href: "https://discord.com", icon: DiscordIcon },
 ];
-

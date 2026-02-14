@@ -1,13 +1,13 @@
 import Link from "next/link";
 
-import { legalLinks } from "./data";
+import { legalLinks } from "@/data/footer/data";
 
 export default function FooterBottom() {
   return (
-    <div className="mx-auto w-full max-w-7xl px-4 pb-12 pt-6 sm:px-6 lg:px-8">
-      <div className="flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
+    <div className="mx-auto w-full max-w-7xl px-3 py-5 sm:px-4 lg:px-6">
+      <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
         <nav aria-label="Legal Policies">
-          <ul className="flex flex-wrap items-center gap-2 text-sm text-[var(--color-on-primary-muted)]">
+          <ul className="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-[var(--color-on-primary-muted)]">
             {legalLinks.map((item, index) => (
               <li key={item.href} className="flex items-center gap-2">
                 <Link
@@ -33,4 +33,3 @@ export default function FooterBottom() {
     </div>
   );
 }
-

@@ -1,4 +1,4 @@
-import { socialLinks } from "./data";
+import { socialLinks } from "@/data/footer/data";
 import SocialIconLink from "./SocialIconLink";
 
 export default function FooterBrand() {
@@ -18,7 +18,7 @@ export default function FooterBrand() {
       </div>
 
       <div>
-        <ul className="mt-1 flex flex-wrap gap-2">
+        <ul className="mt-2 flex flex-wrap items-center gap-4">
           {socialLinks.map((item) => (
             <li key={item.label}>
               <SocialIconLink item={item} />
@@ -29,4 +29,3 @@ export default function FooterBrand() {
     </div>
   );
 }
-

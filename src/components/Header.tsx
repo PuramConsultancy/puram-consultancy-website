@@ -13,11 +13,12 @@ type HeaderNavLink = {
 };
 
 const headerLinks: HeaderNavLink[] = [
+  { label: "Home", href: "/" },
   { label: "About", href: "/about" },
   { label: "Services", href: "/services" },
+  { label: "Process", href: "/process" },
   { label: "Blog", href: "/blog" },
   { label: "Contact", href: "/contact" },
-  { label: "Book Consultation", href: "/book-consultation" },
 ];
 
 export default function Header() {

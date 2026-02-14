@@ -10,4 +10,3 @@ export type SocialItem = {
   href: string;
   icon: ComponentType<SVGProps<SVGSVGElement>>;
 };
-

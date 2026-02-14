@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import type { LinkItem } from "./types";
+import type { LinkItem } from "@/data/footer/types";
 
 type FooterColumnProps = {
   title: string;
@@ -40,4 +40,3 @@ export default function FooterColumn({
     </div>
   );
 }
-

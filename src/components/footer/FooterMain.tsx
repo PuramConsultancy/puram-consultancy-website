@@ -1,12 +1,12 @@
-import { resourceLinks, serviceLinks } from "./data";
+import { resourceLinks, serviceLinks } from "@/data/footer/data";
 import FooterBrand from "./FooterBrand";
 import FooterColumn from "./FooterColumn";
 import FooterContact from "./FooterContact";
 
 export default function FooterMain() {
   return (
-    <div className="mx-auto w-full max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-      <div className="grid grid-cols-1 gap-10 border-b border-[var(--color-divider-on-primary)] pb-10 md:grid-cols-2 xl:grid-cols-4">
+    <div className="mx-auto w-full max-w-7xl px-3 py-10 sm:px-4 sm:py-10 lg:px-6">
+      <div className="grid grid-cols-1 gap-8 border-b border-[var(--color-divider-on-primary)] pb-8 md:grid-cols-4">
         <FooterBrand />
         <FooterColumn
           title="Services"
@@ -23,4 +23,3 @@ export default function FooterMain() {
     </div>
   );
 }
-
