@@ -1,19 +1,16 @@
 import Image from "next/image";
 import Link from "next/link";
 
+import { contactLinks } from "@/data/contactLinks";
 import { resourceLinks } from "@/data/resourceLinks";
 import { serviceLinks } from "@/data/serviceLinks";
-import { contactLinks } from "@/data/contactLinks";
 import { socialLinks } from "@/data/socialLinks";
 
 const Footer = () => {
   return (
-    <footer className="bg-(--color-primary) px-6 pt-14 text-white lg:px-20">
-      {/* Top Footer Content */}
-      <div className="mx-auto flex max-w-7xl flex-col justify-between gap-12 pb-12 lg:flex-row">
-        {/* Left Side: Logo + Brand + Text + Social */}
-        <div className="flex flex-1 flex-col gap-4">
-          {/* Logo + Brand */}
+    <footer className="bg-(--color-primary) px-4 pt-12 text-white sm:px-6 lg:px-20">
+      <div className="mx-auto flex max-w-7xl flex-col gap-10 pb-10 lg:flex-row lg:justify-between lg:gap-12 lg:pb-12">
+        <div className="flex flex-1 flex-col gap-4 lg:max-w-md">
           <Link href="/" className="group flex items-center gap-4">
             <div className="relative h-14 w-14 overflow-hidden rounded-xl bg-white transition-transform duration-300 group-hover:scale-110">
               <Image
@@ -25,18 +22,16 @@ const Footer = () => {
               />
             </div>
 
-            <h2 className="text-3xl font-bold text-(--color-primary-50)">
+            <h2 className="text-2xl font-bold text-(--color-primary-50) sm:text-3xl">
               Puram
             </h2>
           </Link>
 
-          {/* Description */}
-          <p className="max-w-sm text-sm leading-relaxed text-gray-400">
+          <p className="max-w-sm text-sm leading-relaxed text-gray-400 sm:max-w-md">
             We build the systems that build your business. Strategic consulting
             for the next generation of industry leaders.
           </p>
 
-          {/* Social Media Icons */}
           <div className="mt-2 flex items-center gap-3">
             {socialLinks.map((social) => {
               const Icon = social.icon;
@@ -57,11 +52,9 @@ const Footer = () => {
           </div>
         </div>
 
-        {/* Right Side: Footer Columns */}
-        <div className="grid flex-1 grid-cols-2 gap-10 text-gray-400 md:grid-cols-3">
-          {/* Column 1: Resources */}
+        <div className="grid flex-1 grid-cols-1 gap-8 text-gray-400 sm:grid-cols-2 lg:grid-cols-3">
           <div>
-            <h3 className="mb-4 text-lg font-semibold text-gray-400">
+            <h3 className="mb-3 text-base font-semibold text-gray-300 sm:text-lg">
               Resources
             </h3>
 
@@ -79,9 +72,8 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Column 2: Services */}
           <div>
-            <h3 className="mb-4 text-lg font-semibold text-gray-400">
+            <h3 className="mb-3 text-base font-semibold text-gray-300 sm:text-lg">
               Services
             </h3>
 
@@ -99,9 +91,8 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Column 3: Connect */}
           <div>
-            <h3 className="mb-4 text-lg font-semibold text-gray-400">
+            <h3 className="mb-3 text-base font-semibold text-gray-300 sm:text-lg">
               Connect
             </h3>
 
@@ -110,7 +101,7 @@ const Footer = () => {
                 <li key={item.name}>
                   <Link
                     href={item.href}
-                    className="hover:text-300 transition-colors duration-300"
+                    className="break-words transition-colors duration-300 hover:text-gray-300"
                   >
                     {item.name}
                   </Link>
@@ -121,20 +112,17 @@ const Footer = () => {
         </div>
       </div>
 
-      {/* Bottom Footer Bar */}
       <div className="border-t border-white/10 py-6">
-        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 text-sm text-gray-500 md:flex-row">
-          {/* Copyright */}
+        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-3 text-center text-sm text-gray-500 md:flex-row md:text-left">
           <p>
-            © {new Date().getFullYear()}{" "}
+            Copyright {new Date().getFullYear()}{" "}
             <span className="font-medium text-(--color-primary-50)">
               Puram Consultancy
             </span>
             . All rights reserved.
           </p>
 
-          {/* Extra Links (Optional) */}
-          <div className="flex gap-6">
+          <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
             <Link
               href="/privacy"
               className="transition-colors duration-300 hover:text-white"
