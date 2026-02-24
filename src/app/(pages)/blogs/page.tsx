@@ -1,3 +1,6 @@
+import { PageShell } from "@/components/ui/page-shell";
+import { SurfaceCard } from "@/components/ui/surface-card";
+
 const posts = [
   {
     title: "How to Build a Predictable Growth System",
@@ -21,8 +24,8 @@ const posts = [
 
 const BlogsPage = () => {
   return (
-    <section className="mx-auto flex w-full max-w-6xl flex-col gap-8 py-6 sm:gap-10 sm:py-8 lg:gap-12 lg:py-10">
-      <header className="rounded-3xl border border-slate-200 bg-white p-6 sm:p-8 lg:p-10">
+    <PageShell>
+      <SurfaceCard as="header" padding="roomy">
         <p className="text-xs font-semibold tracking-[0.18em] uppercase text-(--color-secondary)">
           Insights
         </p>
@@ -33,13 +36,15 @@ const BlogsPage = () => {
           Short, clear, and actionable content for founders and teams focused
           on better strategy, better systems, and better growth outcomes.
         </p>
-      </header>
+      </SurfaceCard>
 
       <section className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
         {posts.map((post) => (
-          <article
+          <SurfaceCard
+            as="article"
             key={post.title}
-            className="rounded-3xl border border-slate-200 bg-slate-50 p-6"
+            tone="muted"
+            className="p-6"
           >
             <p className="text-xs font-semibold tracking-[0.14em] uppercase text-(--color-secondary)">
               {post.meta}
@@ -50,10 +55,10 @@ const BlogsPage = () => {
             <p className="mt-3 text-sm leading-relaxed text-slate-600 sm:text-base">
               {post.description}
             </p>
-          </article>
+          </SurfaceCard>
         ))}
       </section>
-    </section>
+    </PageShell>
   );
 };
 

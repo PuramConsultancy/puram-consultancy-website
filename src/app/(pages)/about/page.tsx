@@ -1,4 +1,6 @@
-import Link from "next/link";
+import { LinkCta } from "@/components/ui/link-cta";
+import { PageShell } from "@/components/ui/page-shell";
+import { SurfaceCard } from "@/components/ui/surface-card";
 
 const keyPoints = [
   {
@@ -20,7 +22,7 @@ const keyPoints = [
 
 const AboutPage = () => {
   return (
-    <section className="mx-auto flex w-full max-w-6xl flex-col gap-8 py-6 sm:gap-10 sm:py-8 lg:gap-12 lg:py-10">
+    <PageShell>
       <header className="rounded-3xl bg-(--color-primary) p-6 text-white sm:p-8 lg:p-10">
         <p className="text-xs font-semibold tracking-[0.18em] uppercase text-[#FD5E02]">
           About Us
@@ -35,7 +37,7 @@ const AboutPage = () => {
         </p>
       </header>
 
-      <section className="rounded-3xl border border-slate-200 bg-white p-6 sm:p-8 lg:p-10">
+      <SurfaceCard padding="roomy">
         <h2 className="text-2xl font-semibold text-(--color-primary) sm:text-3xl">
           About Puram Consultancy
         </h2>
@@ -44,13 +46,15 @@ const AboutPage = () => {
           to help founders and growing companies scale with confidence. We keep
           the process clear, focused, and result-oriented.
         </p>
-      </section>
+      </SurfaceCard>
 
       <section className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {keyPoints.map((item) => (
-          <article
+          <SurfaceCard
+            as="article"
             key={item.title}
-            className="rounded-3xl border border-slate-200 bg-slate-50 p-6 sm:p-7"
+            tone="muted"
+            className="p-6 sm:p-7"
           >
             <h3 className="text-xl font-semibold text-(--color-primary) sm:text-2xl">
               {item.title}
@@ -58,11 +62,11 @@ const AboutPage = () => {
             <p className="mt-3 text-sm leading-relaxed text-slate-600 sm:text-base">
               {item.description}
             </p>
-          </article>
+          </SurfaceCard>
         ))}
       </section>
 
-      <section className="rounded-3xl border border-slate-200 bg-white p-6 sm:p-8 lg:p-10">
+      <SurfaceCard padding="roomy">
         <div className="grid gap-6 lg:grid-cols-[1.2fr_0.8fr] lg:items-center">
           <div>
             <h2 className="text-2xl font-semibold text-(--color-primary) sm:text-3xl">
@@ -82,16 +86,17 @@ const AboutPage = () => {
             <p className="mt-2 text-lg font-semibold sm:text-xl">
               Ready to scale with a clear roadmap?
             </p>
-            <Link
+            <LinkCta
               href="/contact"
-              className="mt-4 inline-flex h-11 items-center justify-center rounded-xl bg-(--color-primary) px-6 text-sm font-semibold text-white transition-colors duration-300 hover:bg-[#012732]"
+              variant="primary"
+              className="mt-4"
             >
               Book Strategy Call
-            </Link>
+            </LinkCta>
           </div>
         </div>
-      </section>
-    </section>
+      </SurfaceCard>
+    </PageShell>
   );
 };
 

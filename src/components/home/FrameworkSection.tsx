@@ -1,5 +1,8 @@
 import Link from "next/link";
 
+import { LinkCta } from "@/components/ui/link-cta";
+import { SurfaceCard } from "@/components/ui/surface-card";
+
 const phases = [
   {
     title: "Strategic Clarity",
@@ -21,7 +24,7 @@ const phases = [
 
 const FrameworkSection = () => {
   return (
-    <section className="rounded-3xl bg-(--color-primary) p-6 text-(--color-primary-50) sm:p-8 lg:p-10">
+    <SurfaceCard tone="brand" padding="roomy" className="border-transparent">
       <div className="mx-auto max-w-6xl">
         <h2 className="text-3xl font-semibold sm:text-4xl lg:text-5xl">
           The SCALE Growth Framework
@@ -53,14 +56,15 @@ const FrameworkSection = () => {
           This isn&apos;t theory. It&apos;s battle-tested execution.
         </p>
 
-        <Link
+        <LinkCta
           href="/process"
-          className="mt-6 inline-flex h-12 items-center justify-center rounded-xl bg-(--color-secondary) px-8 text-base font-semibold text-white transition-colors duration-300 hover:bg-(--color-secondary-500)"
+          size="lg"
+          className="mt-6"
         >
           Explore How It Works -&gt;
-        </Link>
+        </LinkCta>
       </div>
-    </section>
+    </SurfaceCard>
   );
 };
 
