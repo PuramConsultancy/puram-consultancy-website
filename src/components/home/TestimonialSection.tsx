@@ -3,6 +3,8 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 
+import { SurfaceCard } from "@/components/ui/surface-card";
+
 type Testimonial = {
   quote: string;
   name: string;
@@ -38,6 +40,8 @@ const testimonials: Testimonial[] = [
 
 const AUTO_SLIDE_MS = 5000;
 const TRANSITION_MS = 500;
+const navButtonClassName =
+  "flex h-12 w-12 items-center justify-center rounded-full border border-slate-300 text-slate-500 transition-colors duration-300 hover:bg-slate-100 sm:h-16 sm:w-16 lg:h-[4.5rem] lg:w-[4.5rem]";
 
 const TestimonialContent = ({ testimonial }: { testimonial: Testimonial }) => {
   return (
@@ -127,7 +131,7 @@ const TestimonialSection = () => {
   }, [handleNext]);
 
   return (
-    <section className="rounded-3xl border border-slate-200 bg-white py-10 sm:py-14 lg:py-16">
+    <SurfaceCard padding="none" className="py-10 sm:py-14 lg:py-16">
       <div className="mx-auto max-w-7xl px-3 sm:px-4">
         <div className="mb-8 text-center">
           <h2 className="text-3xl font-semibold text-(--color-primary) sm:text-4xl lg:text-5xl">
@@ -136,75 +140,75 @@ const TestimonialSection = () => {
         </div>
 
         <div className="grid grid-cols-[auto_1fr_auto] items-center gap-2 sm:gap-6 lg:gap-8">
-        <button
-          type="button"
-          aria-label="Previous testimonial"
-          className="flex h-12 w-12 items-center justify-center rounded-full border border-slate-300 text-slate-500 transition-colors duration-300 hover:bg-slate-100 sm:h-16 sm:w-16 lg:h-[4.5rem] lg:w-[4.5rem]"
-          onClick={handlePrev}
-        >
-          <FiChevronLeft className="text-3xl lg:text-4xl" />
-        </button>
+          <button
+            type="button"
+            aria-label="Previous testimonial"
+            className={navButtonClassName}
+            onClick={handlePrev}
+          >
+            <FiChevronLeft className="text-3xl lg:text-4xl" />
+          </button>
 
-        <article className="rounded-3xl border border-slate-200 bg-slate-50 p-6 text-center sm:p-10 lg:p-12 xl:p-14">
-          <div className="relative min-h-[19rem] sm:min-h-[22rem] lg:min-h-[25rem]">
-            {previousIndex !== null ? (
+          <article className="rounded-3xl border border-slate-200 bg-slate-50 p-6 text-center sm:p-10 lg:p-12 xl:p-14">
+            <div className="relative min-h-[19rem] sm:min-h-[22rem] lg:min-h-[25rem]">
+              {previousIndex !== null ? (
+                <div
+                  className={`absolute inset-0 transition-all duration-[500ms] ease-out ${
+                    isTransitioning
+                      ? direction === 1
+                        ? "-translate-x-8 opacity-0"
+                        : "translate-x-8 opacity-0"
+                      : "translate-x-0 opacity-100"
+                  }`}
+                >
+                  <TestimonialContent testimonial={testimonials[previousIndex]} />
+                </div>
+              ) : null}
+
               <div
-                className={`absolute inset-0 transition-all duration-[500ms] ease-out ${
-                  isTransitioning
-                    ? direction === 1
-                      ? "-translate-x-8 opacity-0"
-                      : "translate-x-8 opacity-0"
-                    : "translate-x-0 opacity-100"
+                className={`relative transition-all duration-[500ms] ease-out ${
+                  incomingVisible
+                    ? "translate-x-0 opacity-100"
+                    : direction === 1
+                      ? "translate-x-8 opacity-0"
+                      : "-translate-x-8 opacity-0"
                 }`}
               >
-                <TestimonialContent testimonial={testimonials[previousIndex]} />
+                <TestimonialContent testimonial={testimonials[currentIndex]} />
               </div>
-            ) : null}
-
-            <div
-              className={`relative transition-all duration-[500ms] ease-out ${
-                incomingVisible
-                  ? "translate-x-0 opacity-100"
-                  : direction === 1
-                    ? "translate-x-8 opacity-0"
-                    : "-translate-x-8 opacity-0"
-              }`}
-            >
-              <TestimonialContent testimonial={testimonials[currentIndex]} />
             </div>
-          </div>
 
-          <div className="mt-7 flex items-center justify-center gap-2.5">
-            {testimonials.map((testimonial, index) => {
-              const isActive = index === currentIndex;
+            <div className="mt-7 flex items-center justify-center gap-2.5">
+              {testimonials.map((testimonial, index) => {
+                const isActive = index === currentIndex;
 
-              return (
-                <button
-                  key={testimonial.name}
-                  type="button"
-                  aria-label={`Go to testimonial ${index + 1}`}
-                  className={
-                    isActive
-                      ? "h-2.5 w-8 rounded-full bg-(--color-secondary)"
-                      : "h-2.5 w-2.5 rounded-full bg-slate-300 transition-colors duration-300 hover:bg-slate-400"
-                  }
-                  onClick={() =>
-                    transitionTo(index, index > currentIndex ? 1 : -1)
-                  }
-                />
-              );
-            })}
-          </div>
-        </article>
+                return (
+                  <button
+                    key={testimonial.name}
+                    type="button"
+                    aria-label={`Go to testimonial ${index + 1}`}
+                    className={
+                      isActive
+                        ? "h-2.5 w-8 rounded-full bg-(--color-secondary)"
+                        : "h-2.5 w-2.5 rounded-full bg-slate-300 transition-colors duration-300 hover:bg-slate-400"
+                    }
+                    onClick={() =>
+                      transitionTo(index, index > currentIndex ? 1 : -1)
+                    }
+                  />
+                );
+              })}
+            </div>
+          </article>
 
-        <button
-          type="button"
-          aria-label="Next testimonial"
-          className="flex h-12 w-12 items-center justify-center rounded-full border border-slate-300 text-slate-500 transition-colors duration-300 hover:bg-slate-100 sm:h-16 sm:w-16 lg:h-[4.5rem] lg:w-[4.5rem]"
-          onClick={handleNext}
-        >
-          <FiChevronRight className="text-3xl lg:text-4xl" />
-        </button>
+          <button
+            type="button"
+            aria-label="Next testimonial"
+            className={navButtonClassName}
+            onClick={handleNext}
+          >
+            <FiChevronRight className="text-3xl lg:text-4xl" />
+          </button>
 
         </div>
 
@@ -222,7 +226,7 @@ const TestimonialSection = () => {
           </ul>
         </div>
       </div>
-    </section>
+    </SurfaceCard>
   );
 };
 

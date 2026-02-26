@@ -1,11 +1,17 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { navLinks } from "@/data/navLinks";
+
+import SiteLogo from "./SiteLogo";
 import { Button } from "./ui/button";
 import { useRouter } from "next/navigation";
+
+const desktopNavLinkClassName =
+  "group relative text-gray-800 transition-colors duration-300 hover:text-(--color-secondary)";
+const mobileNavLinkClassName =
+  "rounded-md px-2 py-2 text-sm font-medium text-gray-800 transition-colors duration-300 hover:bg-slate-100 hover:text-(--color-secondary)";
 
 const Header = () => {
   const router = useRouter();
@@ -36,23 +42,11 @@ const Header = () => {
   return (
     <header className="sticky top-0 z-50 w-full border-b border-slate-200/70 bg-white/85 shadow-sm backdrop-blur-3xl">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 sm:py-4 lg:px-20">
-        <Link href="/" className="flex items-center gap-3">
-          <div className="relative h-10 w-10 overflow-hidden rounded-xl transition-transform duration-300 hover:scale-110 focus-visible:scale-110 sm:h-12 sm:w-12">
-            <Image
-              src="/image.png"
-              alt="Puram Consultancy Logo"
-              fill
-              className="object-contain"
-              priority
-            />
-          </div>
-
-          <div className="hidden leading-tight sm:block">
-            <h1 className="text-2xl font-bold text-(--color-primary) lg:text-3xl">
-              Puram
-            </h1>
-          </div>
-        </Link>
+        <SiteLogo
+          className="focus-visible:outline-none"
+          logoWrapClassName="sm:h-12 sm:w-12 focus-visible:scale-110"
+          textClassName="hidden sm:block"
+        />
 
         <div className="flex items-center gap-8">
           <nav className="hidden items-center gap-7 text-sm font-medium md:flex">
@@ -60,7 +54,7 @@ const Header = () => {
               <Link
                 key={link.name}
                 href={link.href}
-                className="group relative text-gray-800 transition-colors duration-300 hover:text-(--color-secondary)"
+                className={desktopNavLinkClassName}
               >
                 {link.name}
                 <span className="absolute -bottom-1 left-0 h-0.5 w-full origin-center scale-x-0 bg-(--color-secondary) transition-transform duration-300 group-hover:scale-x-100"></span>
@@ -130,7 +124,7 @@ const Header = () => {
               key={link.name}
               href={link.href}
               onClick={() => setIsMenuOpen(false)}
-              className="rounded-md px-2 py-2 text-sm font-medium text-gray-800 transition-colors duration-300 hover:bg-slate-100 hover:text-(--color-secondary)"
+              className={mobileNavLinkClassName}
             >
               {link.name}
             </Link>

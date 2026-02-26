@@ -1,9 +1,11 @@
 import Image from "next/image";
 import Link from "next/link";
 
+import { LinkCta } from "@/components/ui/link-cta";
+
 const TransformSection = () => {
   return (
-    <section className="overflow-hidden rounded-2xl bg-[#023f50] py-8 sm:py-10 lg:py-14">
+    <section className="overflow-hidden rounded-2xl bg-(--color-primary) py-8 sm:py-10 lg:py-14">
       <div className="mx-auto grid max-w-7xl gap-8 px-5 sm:px-8 lg:grid-cols-[1fr_0.95fr] lg:items-center lg:px-10">
         <div>
           <h2 className="text-4xl leading-tight font-semibold text-white sm:text-5xl lg:text-[5.2rem]">
@@ -19,19 +21,22 @@ const TransformSection = () => {
           </p>
 
           <div className="mt-7 flex flex-col gap-3 sm:flex-row">
-            <Link
+            <LinkCta
               href="/contact"
-              className="inline-flex h-12 items-center justify-center rounded-xl bg-(--color-secondary) px-7 text-base font-semibold text-white transition-colors duration-300 hover:bg-(--color-secondary-500) sm:h-13 sm:px-8"
+              size="lg"
+              className="sm:px-8"
             >
               Book Free Consultation <span className="ml-2">-&gt;</span>
-            </Link>
+            </LinkCta>
 
-            <Link
+            <LinkCta
               href="/services"
-              className="inline-flex h-12 items-center justify-center rounded-xl border border-white/75 bg-transparent px-7 text-base font-semibold text-white transition-colors duration-300 hover:bg-white/10 sm:h-13 sm:px-8"
+              variant="light"
+              size="lg"
+              className="sm:px-8"
             >
               Explore Services
-            </Link>
+            </LinkCta>
           </div>
         </div>
 

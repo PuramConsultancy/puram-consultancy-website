@@ -9,10 +9,11 @@ import ServicesSection from "@/components/home/ServicesSection";
 import TestimonialSection from "@/components/home/TestimonialSection";
 import TrustedBySection from "@/components/home/TrustedBySection";
 import WhyPuramSection from "@/components/home/WhyPuramSection";
+import { PageShell } from "@/components/ui/page-shell";
 
 const HomePage = () => {
   return (
-    <section className="mx-auto flex w-full max-w-430 flex-col gap-12 py-6 sm:gap-16 sm:py-8 lg:gap-20 lg:py-10">
+    <PageShell maxWidthClassName="max-w-[1720px]" className="gap-12 sm:gap-16 lg:gap-20">
       <HomeHeroSection />
       <TrustedBySection />
       <ProblemSection />
@@ -24,7 +25,7 @@ const HomePage = () => {
       <CaseStudySection />
       <ConsultationCtaSection />
       <FounderCredibilitySection />
-    </section>
+    </PageShell>
   );
 };
 

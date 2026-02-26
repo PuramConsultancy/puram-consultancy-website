@@ -1,4 +1,6 @@
-import Link from "next/link";
+import { LinkCta } from "@/components/ui/link-cta";
+import { PageShell } from "@/components/ui/page-shell";
+import { SurfaceCard } from "@/components/ui/surface-card";
 
 const impactStats = [
   {
@@ -64,6 +66,10 @@ const engagementFlow = [
 
 const AboutPage = () => {
   return (
+    <PageShell>
+      <header className="rounded-3xl bg-(--color-primary) p-6 text-white sm:p-8 lg:p-10">
+        <p className="text-xs font-semibold tracking-[0.18em] uppercase text-[#FD5E02]">
+          About Us
     <section className="mx-auto flex w-full max-w-6xl flex-col gap-8 py-6 sm:gap-10 sm:py-8 lg:gap-12 lg:py-10">
       <header className="rounded-3xl bg-(--color-primary) p-6 text-(--color-primary-50) sm:p-8 lg:p-10">
         <p className="text-xs font-semibold tracking-[0.18em] uppercase text-(--color-secondary-300)">
@@ -99,64 +105,7 @@ const AboutPage = () => {
         </div>
       </header>
 
-      <section className="grid gap-5 lg:grid-cols-[1.2fr_0.8fr]">
-        <article className="rounded-3xl border border-slate-200 bg-white p-6 sm:p-8 lg:p-10">
-          <h2 className="text-2xl font-semibold text-(--color-primary) sm:text-3xl">
-            About The Platform
-          </h2>
-          <p className="mt-4 text-base leading-relaxed text-slate-700 sm:text-lg">
-            Growth usually breaks when strategy, sales, delivery, and team
-            execution are disconnected. Our work connects these layers into one
-            operating system so your business can scale with fewer surprises.
-          </p>
-          <p className="mt-4 text-sm leading-relaxed text-slate-600 sm:text-base">
-            We partner with leadership teams to create practical roadmaps,
-            implementation cycles, and accountability structures that improve
-            decision quality and execution speed.
-          </p>
-        </article>
-
-        <article className="rounded-3xl border border-(--color-secondary-200) bg-(--color-secondary-50) p-6 sm:p-8">
-          <p className="text-xs font-semibold tracking-[0.14em] uppercase text-(--color-secondary-700)">
-            What We Solve
-          </p>
-          <ul className="mt-4 space-y-3 text-sm leading-relaxed text-slate-700 sm:text-base">
-            <li>Fragmented growth efforts across channels and teams</li>
-            <li>Inconsistent lead-to-revenue conversion systems</li>
-            <li>Operational strain as demand and delivery scale up</li>
-            <li>Lack of visibility into what is driving growth</li>
-          </ul>
-        </article>
-      </section>
-
-      <section>
-        <div>
-          <p className="text-xs font-semibold tracking-[0.18em] uppercase text-(--color-secondary)">
-            Core Values
-          </p>
-          <h2 className="mt-2 text-2xl font-semibold text-(--color-primary) sm:text-3xl">
-            Principles Behind Every Engagement
-          </h2>
-        </div>
-
-        <div className="mt-5 grid gap-5 md:grid-cols-2">
-          {coreValues.map((item) => (
-            <article
-              key={item.title}
-              className="rounded-3xl border border-slate-200 bg-slate-50 p-6 sm:p-7"
-            >
-              <h3 className="text-xl font-semibold text-(--color-primary) sm:text-2xl">
-                {item.title}
-              </h3>
-              <p className="mt-3 text-sm leading-relaxed text-slate-600 sm:text-base">
-                {item.description}
-              </p>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section className="rounded-3xl border border-slate-200 bg-white p-6 sm:p-8 lg:p-10">
+      <SurfaceCard padding="roomy">
         <h2 className="text-2xl font-semibold text-(--color-primary) sm:text-3xl">
           How We Work With You
         </h2>
@@ -164,28 +113,27 @@ const AboutPage = () => {
           The process is intentionally simple so your team can execute quickly
           and stay aligned at every stage.
         </p>
+      </SurfaceCard>
 
-        <div className="mt-6 grid gap-5 lg:grid-cols-3">
-          {engagementFlow.map((step) => (
-            <article
-              key={step.phase}
-              className="rounded-2xl border border-slate-200 bg-white p-5 sm:p-6"
-            >
-              <p className="text-xs font-semibold tracking-[0.14em] uppercase text-(--color-secondary)">
-                Phase {step.phase}
-              </p>
-              <h3 className="mt-2 text-xl font-semibold text-(--color-primary) sm:text-2xl">
-                {step.title}
-              </h3>
-              <p className="mt-3 text-sm leading-relaxed text-slate-600 sm:text-base">
-                {step.description}
-              </p>
-            </article>
-          ))}
-        </div>
+      <section className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        {keyPoints.map((item) => (
+          <SurfaceCard
+            as="article"
+            key={item.title}
+            tone="muted"
+            className="p-6 sm:p-7"
+          >
+            <h3 className="text-xl font-semibold text-(--color-primary) sm:text-2xl">
+              {item.title}
+            </h3>
+            <p className="mt-3 text-sm leading-relaxed text-slate-600 sm:text-base">
+              {item.description}
+            </p>
+          </SurfaceCard>
+        ))}
       </section>
 
-      <section className="rounded-3xl bg-(--color-primary) p-6 text-(--color-primary-50) sm:p-8 lg:p-10">
+      <SurfaceCard padding="roomy">
         <div className="grid gap-6 lg:grid-cols-[1.2fr_0.8fr] lg:items-center">
           <article className="rounded-3xl border border-white/15 bg-white/5 p-6 sm:p-7">
             <p className="text-xs font-semibold tracking-[0.18em] uppercase text-(--color-secondary-300)">
@@ -207,16 +155,17 @@ const AboutPage = () => {
             <p className="mt-2 text-lg font-semibold sm:text-xl">
               Ready to scale with a clear roadmap?
             </p>
-            <Link
+            <LinkCta
               href="/contact"
-              className="mt-4 inline-flex h-11 items-center justify-center rounded-xl bg-(--color-primary) px-6 text-sm font-semibold text-white transition-colors duration-300 hover:bg-(--color-primary-800)"
+              variant="primary"
+              className="mt-4"
             >
               Book Strategy Call
-            </Link>
-          </article>
+            </LinkCta>
+          </div>
         </div>
-      </section>
-    </section>
+      </SurfaceCard>
+    </PageShell>
   );
 };
 

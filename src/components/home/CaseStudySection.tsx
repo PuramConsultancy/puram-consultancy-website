@@ -1,5 +1,8 @@
 import Link from "next/link";
 
+import { LinkCta } from "@/components/ui/link-cta";
+import { SurfaceCard } from "@/components/ui/surface-card";
+
 const outcomes = [
   "Clarify positioning",
   "Build automated lead systems",
@@ -8,7 +11,7 @@ const outcomes = [
 
 const CaseStudySection = () => {
   return (
-    <section className="rounded-3xl border border-slate-200 bg-white p-6 sm:p-8 lg:p-10">
+    <SurfaceCard padding="roomy">
       <div className="mx-auto max-w-5xl">
         <h2 className="text-3xl font-semibold text-(--color-primary) sm:text-4xl lg:text-5xl">
           From Chaos to 7-Figure Scale
@@ -23,14 +26,16 @@ const CaseStudySection = () => {
           ))}
         </ul>
 
-        <Link
+        <LinkCta
           href="/case-studies"
-          className="mt-7 inline-flex h-12 items-center justify-center rounded-xl border border-slate-300 px-8 text-base font-semibold text-(--color-primary) transition-colors duration-300 hover:bg-slate-100"
+          variant="outline"
+          size="lg"
+          className="mt-7"
         >
           View Case Study -&gt;
-        </Link>
+        </LinkCta>
       </div>
-    </section>
+    </SurfaceCard>
   );
 };
 

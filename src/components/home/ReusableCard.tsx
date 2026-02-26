@@ -26,6 +26,8 @@ const ReusableCard = ({
   titleClassName,
   descriptionClassName,
 }: ReusableCardProps) => {
+  const resolvedCtaLabel = ctaLabel ?? "Learn More";
+
   return (
     <article className={cn("rounded-3xl", className)}>
       <div
@@ -45,12 +47,12 @@ const ReusableCard = ({
         {description}
       </p>
 
-      {href && ctaLabel ? (
+      {href ? (
         <Link
           href={href}
           className="mt-7 inline-flex items-center gap-2 text-lg font-semibold text-(--color-secondary) transition-colors duration-300 hover:text-(--color-secondary-500) sm:text-xl"
         >
-          {ctaLabel}
+          {resolvedCtaLabel}
           <span aria-hidden="true">-&gt;</span>
         </Link>
       ) : null}

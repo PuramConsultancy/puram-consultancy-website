@@ -1,3 +1,5 @@
+import { SurfaceCard } from "@/components/ui/surface-card";
+
 const painPoints = [
   "Revenue that fluctuates unpredictably",
   "Marketing that burns cash but lacks ROI clarity",
@@ -8,7 +10,7 @@ const painPoints = [
 
 const ProblemSection = () => {
   return (
-    <section className="rounded-3xl border border-slate-200 bg-white p-6 sm:p-8 lg:p-10">
+    <SurfaceCard padding="roomy">
       <div className="mx-auto max-w-5xl">
         <h2 className="text-3xl font-semibold text-(--color-primary) sm:text-4xl lg:text-5xl">
           Scaling Shouldn&apos;t Feel This Hard
@@ -30,7 +32,7 @@ const ProblemSection = () => {
           And tactics won&apos;t fix it.
         </p>
       </div>
-    </section>
+    </SurfaceCard>
   );
 };
 

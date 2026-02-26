@@ -1,5 +1,7 @@
 import Link from "next/link";
 
+import { LinkCta } from "@/components/ui/link-cta";
+
 const calloutItems = [
   "Where your growth bottlenecks are",
   "What systems are missing",
@@ -27,12 +29,14 @@ const ConsultationCtaSection = () => {
           No pressure. No obligations. Just clarity.
         </p>
 
-        <Link
+        <LinkCta
           href="/contact"
-          className="mt-8 inline-flex h-12 items-center justify-center rounded-xl bg-(--color-primary) px-8 text-base font-semibold text-white transition-colors duration-300 hover:bg-[#012732]"
+          variant="primary"
+          size="lg"
+          className="mt-8"
         >
           Book Free Strategy Call -&gt;
-        </Link>
+        </LinkCta>
 
         <p className="mt-5 text-sm font-medium text-orange-100 sm:text-base">
           Limited strategy slots available each month.

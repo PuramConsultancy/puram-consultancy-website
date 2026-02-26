@@ -1,12 +1,16 @@
 import Link from "next/link";
 
+import { LinkCta } from "@/components/ui/link-cta";
+import { PageShell } from "@/components/ui/page-shell";
+import { SurfaceCard } from "@/components/ui/surface-card";
+
 import { serviceLinks } from "@/data/serviceLinks";
 import { serviceContentByName, serviceSlugFromHref } from "@/data/serviceDetails";
 
 const ServicesPage = () => {
   return (
-    <section className="mx-auto flex w-full max-w-6xl flex-col gap-10 py-8 sm:py-10">
-      <header className="rounded-3xl border border-slate-200 bg-white p-6 sm:p-8">
+    <PageShell className="gap-10 py-8 sm:py-10 lg:py-10">
+      <SurfaceCard as="header">
         <h1 className="text-3xl font-semibold text-(--color-primary) sm:text-4xl lg:text-5xl">
           End-to-End Growth and Scaling Solutions
         </h1>
@@ -31,7 +35,7 @@ const ServicesPage = () => {
             );
           })}
         </nav>
-      </header>
+      </SurfaceCard>
 
       <div className="space-y-6">
         {serviceLinks.map((service) => {
@@ -39,10 +43,11 @@ const ServicesPage = () => {
           const slug = serviceSlugFromHref(service.href);
 
           return (
-            <article
+            <SurfaceCard
+              as="article"
               key={service.name}
               id={slug}
-              className="scroll-mt-28 rounded-3xl border border-slate-200 bg-white p-6 sm:p-8"
+              className="scroll-mt-28"
             >
               <h2 className="text-2xl font-semibold text-(--color-primary) sm:text-3xl">
                 {content.heading}
@@ -56,12 +61,12 @@ const ServicesPage = () => {
                   <li key={outcome}>- {outcome}</li>
                 ))}
               </ul>
-            </article>
+            </SurfaceCard>
           );
         })}
       </div>
 
-      <div className="rounded-3xl bg-(--color-primary) p-6 text-(--color-primary-50) sm:p-8">
+      <SurfaceCard tone="brand" padding="default">
         <h3 className="text-2xl font-semibold sm:text-3xl">
           Not sure which service fits your stage?
         </h3>
@@ -69,14 +74,14 @@ const ServicesPage = () => {
           Book a strategy call and we will map the right service path for your
           business model, current constraints, and growth goals.
         </p>
-        <Link
+        <LinkCta
           href="/contact"
-          className="mt-5 inline-flex h-11 items-center justify-center rounded-xl bg-(--color-secondary) px-6 text-sm font-semibold text-white transition-colors duration-300 hover:bg-(--color-secondary-500)"
+          className="mt-5"
         >
           Book a Free Strategy Call -&gt;
-        </Link>
-      </div>
-    </section>
+        </LinkCta>
+      </SurfaceCard>
+    </PageShell>
   );
 };
 

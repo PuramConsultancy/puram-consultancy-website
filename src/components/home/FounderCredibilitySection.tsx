@@ -1,6 +1,8 @@
+import { SurfaceCard } from "@/components/ui/surface-card";
+
 const FounderCredibilitySection = () => {
   return (
-    <section className="rounded-3xl border border-slate-200 bg-slate-50 p-6 sm:p-8 lg:p-10">
+    <SurfaceCard tone="muted" padding="roomy">
       <div className="mx-auto max-w-5xl">
         <h2 className="text-3xl font-semibold text-(--color-primary) sm:text-4xl lg:text-5xl">
           Meet the Team Behind Your Growth
@@ -19,7 +21,7 @@ const FounderCredibilitySection = () => {
           marketing to build businesses that grow sustainably.
         </p>
       </div>
-    </section>
+    </SurfaceCard>
   );
 };
 
