@@ -26,7 +26,7 @@ export const useRegister = ({
   >({
     apiClient: jsonApiClient,
     method: "post",
-    url: "/auth/register",
+    url: "/api/auth/register",
     errorMessage: "Failed to register user.",
     invalidateQueryKey,
     mutationOptions: {},
