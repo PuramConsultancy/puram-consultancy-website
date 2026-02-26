@@ -1,56 +1,127 @@
-import Link from "next/link";
+import { LinkCta } from "@/components/ui/link-cta";
+import { PageShell } from "@/components/ui/page-shell";
+import { SurfaceCard } from "@/components/ui/surface-card";
 
-const keyPoints = [
+const impactStats = [
   {
-    title: "Who We Are",
-    description:
-      "Puram Consultancy is a growth-focused consulting platform that helps founders and teams scale with clarity.",
+    value: "120+",
+    label: "Growth Projects Guided",
+    description: "Across founders, service brands, and scaling teams.",
   },
   {
-    title: "What We Do",
-    description:
-      "We align strategy, systems, and execution so businesses can grow consistently without operational chaos.",
+    value: "4-Step",
+    label: "Execution Framework",
+    description: "A repeatable operating cadence from strategy to optimization.",
   },
   {
-    title: "How We Work",
+    value: "90-Day",
+    label: "Momentum Window",
+    description: "Focused actions designed to create measurable business traction.",
+  },
+];
+
+const coreValues = [
+  {
+    title: "Clarity Before Complexity",
     description:
-      "Simple plans, measurable actions, and practical implementation tailored to your current business stage.",
+      "We simplify growth decisions into clear priorities so teams can move faster with less confusion.",
+  },
+  {
+    title: "Execution Over Theory",
+    description:
+      "Every strategy includes practical implementation steps, owners, timelines, and measurable outcomes.",
+  },
+  {
+    title: "Systems That Scale",
+    description:
+      "We design processes that can handle growth without creating chaos in operations or delivery.",
+  },
+  {
+    title: "Compounding Improvement",
+    description:
+      "Small, consistent optimizations across funnel, operations, and team rhythms produce durable results.",
+  },
+];
+
+const engagementFlow = [
+  {
+    phase: "01",
+    title: "Diagnose",
+    description:
+      "We map your growth constraints, positioning gaps, and internal bottlenecks.",
+  },
+  {
+    phase: "02",
+    title: "Architect",
+    description:
+      "You get a tailored roadmap with priorities, milestones, and accountability loops.",
+  },
+  {
+    phase: "03",
+    title: "Execute & Refine",
+    description:
+      "We support implementation, track key signals, and optimize to keep momentum consistent.",
   },
 ];
 
 const AboutPage = () => {
   return (
-    <section className="mx-auto flex w-full max-w-6xl flex-col gap-8 py-6 sm:gap-10 sm:py-8 lg:gap-12 lg:py-10">
+    <PageShell>
       <header className="rounded-3xl bg-(--color-primary) p-6 text-white sm:p-8 lg:p-10">
         <p className="text-xs font-semibold tracking-[0.18em] uppercase text-[#FD5E02]">
           About Us
+    <section className="mx-auto flex w-full max-w-6xl flex-col gap-8 py-6 sm:gap-10 sm:py-8 lg:gap-12 lg:py-10">
+      <header className="rounded-3xl bg-(--color-primary) p-6 text-(--color-primary-50) sm:p-8 lg:p-10">
+        <p className="text-xs font-semibold tracking-[0.18em] uppercase text-(--color-secondary-300)">
+          About Puram
         </p>
         <h1 className="mt-3 max-w-4xl text-3xl font-semibold leading-tight sm:text-4xl lg:text-5xl">
-          Building Better Growth Systems for Modern Businesses
+          We Build Growth Systems That Teams Can Actually Run
         </h1>
         <p className="mt-4 max-w-4xl text-base leading-relaxed text-(--color-primary-100) sm:text-lg">
-          We help businesses move from scattered efforts to structured growth.
-          Our focus is to create reliable systems that improve performance,
-          decision-making, and long-term expansion.
+          Puram Consultancy is a strategy and implementation platform for
+          founders and teams that want predictable growth. We align offers,
+          operations, and execution rhythms so results are steady instead of
+          random.
         </p>
+
+        <div className="mt-6 grid gap-4 sm:grid-cols-3">
+          {impactStats.map((stat) => (
+            <article
+              key={stat.label}
+              className="rounded-2xl border border-white/15 bg-white/5 p-4"
+            >
+              <p className="text-2xl font-semibold text-white sm:text-3xl">
+                {stat.value}
+              </p>
+              <p className="mt-1 text-sm font-medium text-(--color-primary-50)">
+                {stat.label}
+              </p>
+              <p className="mt-2 text-xs leading-relaxed text-(--color-primary-200)">
+                {stat.description}
+              </p>
+            </article>
+          ))}
+        </div>
       </header>
 
-      <section className="rounded-3xl border border-slate-200 bg-white p-6 sm:p-8 lg:p-10">
+      <SurfaceCard padding="roomy">
         <h2 className="text-2xl font-semibold text-(--color-primary) sm:text-3xl">
-          About Puram Consultancy
+          How We Work With You
         </h2>
-        <p className="mt-4 text-base leading-relaxed text-slate-700 sm:text-lg">
-          Puram Consultancy combines strategic consulting and execution support
-          to help founders and growing companies scale with confidence. We keep
-          the process clear, focused, and result-oriented.
+        <p className="mt-3 max-w-4xl text-sm leading-relaxed text-slate-600 sm:text-base">
+          The process is intentionally simple so your team can execute quickly
+          and stay aligned at every stage.
         </p>
-      </section>
+      </SurfaceCard>
 
       <section className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {keyPoints.map((item) => (
-          <article
+          <SurfaceCard
+            as="article"
             key={item.title}
-            className="rounded-3xl border border-slate-200 bg-slate-50 p-6 sm:p-7"
+            tone="muted"
+            className="p-6 sm:p-7"
           >
             <h3 className="text-xl font-semibold text-(--color-primary) sm:text-2xl">
               {item.title}
@@ -58,40 +129,43 @@ const AboutPage = () => {
             <p className="mt-3 text-sm leading-relaxed text-slate-600 sm:text-base">
               {item.description}
             </p>
-          </article>
+          </SurfaceCard>
         ))}
       </section>
 
-      <section className="rounded-3xl border border-slate-200 bg-white p-6 sm:p-8 lg:p-10">
+      <SurfaceCard padding="roomy">
         <div className="grid gap-6 lg:grid-cols-[1.2fr_0.8fr] lg:items-center">
-          <div>
-            <h2 className="text-2xl font-semibold text-(--color-primary) sm:text-3xl">
-              Short and Clean. Strategy That Works.
-            </h2>
-            <p className="mt-4 text-base leading-relaxed text-slate-700 sm:text-lg">
-              We believe business growth should feel structured, not stressful.
-              Our team helps you prioritize what matters, execute faster, and
-              build systems that support sustainable success.
+          <article className="rounded-3xl border border-white/15 bg-white/5 p-6 sm:p-7">
+            <p className="text-xs font-semibold tracking-[0.18em] uppercase text-(--color-secondary-300)">
+              Let&apos;s Build Your Next Stage
             </p>
-          </div>
+            <h2 className="mt-3 text-2xl font-semibold leading-tight text-(--color-primary-50) sm:text-3xl lg:text-4xl">
+              Ready to turn scattered growth into a structured system?
+            </h2>
+            <p className="mt-4 text-sm leading-relaxed text-(--color-primary-100) sm:text-base">
+              We will assess your current stage and map a practical execution
+              plan tailored to your team, offer, and goals.
+            </p>
+          </article>
 
-          <div className="rounded-2xl bg-(--color-secondary) p-5 text-white sm:p-6">
+          <article className="rounded-2xl bg-(--color-secondary) p-5 text-white sm:p-6">
             <p className="text-sm font-semibold tracking-[0.14em] uppercase text-orange-100">
               Next Step
             </p>
             <p className="mt-2 text-lg font-semibold sm:text-xl">
               Ready to scale with a clear roadmap?
             </p>
-            <Link
+            <LinkCta
               href="/contact"
-              className="mt-4 inline-flex h-11 items-center justify-center rounded-xl bg-(--color-primary) px-6 text-sm font-semibold text-white transition-colors duration-300 hover:bg-[#012732]"
+              variant="primary"
+              className="mt-4"
             >
               Book Strategy Call
-            </Link>
+            </LinkCta>
           </div>
         </div>
-      </section>
-    </section>
+      </SurfaceCard>
+    </PageShell>
   );
 };
 
