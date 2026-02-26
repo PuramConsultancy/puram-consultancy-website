@@ -13,7 +13,7 @@ import { PageShell } from "@/components/ui/page-shell";
 
 const HomePage = () => {
   return (
-    <PageShell maxWidthClassName="max-w-[1720px]" className="gap-12 sm:gap-16 lg:gap-20">
+    <section className="mx-auto flex w-full max-w-[1720px] flex-col gap-12 py-6 sm:gap-16 sm:py-8 lg:gap-20 lg:py-10">
       <HomeHeroSection />
       <TrustedBySection />
       <ProblemSection />

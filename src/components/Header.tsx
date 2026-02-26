@@ -2,11 +2,10 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+
 import { navLinks } from "@/data/navLinks";
 
-import SiteLogo from "./SiteLogo";
 import { Button } from "./ui/button";
-import { useRouter } from "next/navigation";
 
 const desktopNavLinkClassName =
   "group relative text-gray-800 transition-colors duration-300 hover:text-(--color-secondary)";
@@ -14,7 +13,6 @@ const mobileNavLinkClassName =
   "rounded-md px-2 py-2 text-sm font-medium text-gray-800 transition-colors duration-300 hover:bg-slate-100 hover:text-(--color-secondary)";
 
 const Header = () => {
-  const router = useRouter();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
@@ -67,15 +65,12 @@ const Header = () => {
               variant="outline"
               size="sm"
               className="cursor-pointer transition-colors duration-300 hover:bg-slate-100"
-              onClick={() => router.push("/login")}
             >
               Login
             </Button>
-
             <Button
               variant="default"
               size="sm"
-              onClick={() => router.push("/register")}
               className="cursor-pointer bg-(--color-secondary) text-white transition-colors duration-300 hover:bg-(--color-secondary-500)"
             >
               Sign Up
@@ -93,18 +88,18 @@ const Header = () => {
             <span className="sr-only">Menu</span>
             <span className="relative block h-4 w-5">
               <span
-                className={`absolute top-0 left-0 h-0.5 w-5 bg-current transition-transform duration-300 ${
-                  isMenuOpen ? "translate-y-1.75 rotate-45" : ""
+                className={`absolute left-0 top-0 h-0.5 w-5 bg-current transition-transform duration-300 ${
+                  isMenuOpen ? "translate-y-[7px] rotate-45" : ""
                 }`}
               />
               <span
-                className={`absolute top-1.75 left-0 h-0.5 w-5 bg-current transition-opacity duration-300 ${
+                className={`absolute left-0 top-[7px] h-0.5 w-5 bg-current transition-opacity duration-300 ${
                   isMenuOpen ? "opacity-0" : "opacity-100"
                 }`}
               />
               <span
                 className={`absolute bottom-0 left-0 h-0.5 w-5 bg-current transition-transform duration-300 ${
-                  isMenuOpen ? "-translate-y-1.75 -rotate-45" : ""
+                  isMenuOpen ? "-translate-y-[7px] -rotate-45" : ""
                 }`}
               />
             </span>
@@ -115,7 +110,7 @@ const Header = () => {
       <div
         id="mobile-nav"
         className={`overflow-hidden border-t border-slate-200/70 bg-white/95 backdrop-blur-md transition-[max-height] duration-300 md:hidden ${
-          isMenuOpen ? "max-h-128" : "max-h-0 border-transparent"
+          isMenuOpen ? "max-h-[32rem]" : "max-h-0 border-transparent"
         }`}
       >
         <nav className="mx-auto flex max-w-7xl flex-col gap-1 px-4 py-4 sm:px-6">
