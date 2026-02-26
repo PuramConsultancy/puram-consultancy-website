@@ -12,7 +12,6 @@
   --color-on-primary-muted: rgb(255 255 255 / 0.75);
   --color-on-primary-subtle: rgb(255 255 255 / 0.4);
   --color-divider-on-primary: rgb(255 255 255 / 0.2); */
-  
 
   --color-primary: #023341; 
   --color-primary-50: oklch(95% 0.05 220);   /* very light blue, subtle backgrounds */

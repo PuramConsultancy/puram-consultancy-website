@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { ApiProvider } from "./providers/ApiProvider";
-import ReactQueryProvider from "./providers/ReactQueryProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -19,7 +17,7 @@ export const metadata: Metadata = {
   description:
     " Welcome to our official website. We provide professional consultancy services to help your business grow.",
   icons: {
-    icon: "/image.png",
+    icon: "/image.png", 
   },
 };
 
@@ -34,9 +32,7 @@ export default function RootLayout({
         suppressHydrationWarning
         className={`${geistSans.variable} ${geistMono.variable} bg-slate-50 text-slate-900 antialiased`}
       >
-        <ApiProvider>
-          <ReactQueryProvider>{children}</ReactQueryProvider>
-        </ApiProvider>
+        {children}
       </body>
     </html>
   );
