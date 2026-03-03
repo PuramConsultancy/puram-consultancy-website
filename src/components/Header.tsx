@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 
 import { navLinks } from "@/data/navLinks";
 
+import SiteLogo from "./SiteLogo";
 import { Button } from "./ui/button";
 
 const desktopNavLinkClassName =
