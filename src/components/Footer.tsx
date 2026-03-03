@@ -8,7 +8,7 @@ import { socialLinks } from "@/data/socialLinks";
 
 const Footer = () => {
   return (
-    <footer className="bg-(--color-primary) px-4 pt-12 text-white sm:px-6 lg:px-20">
+    <footer className="bg-(--color-primary) px-4 pt-12 text-white sm:px-6 lg:px-10 xl:px-14">
       <div className="mx-auto flex max-w-7xl flex-col gap-10 pb-10 lg:flex-row lg:justify-between lg:gap-12 lg:pb-12">
         <div className="flex flex-1 flex-col gap-4 lg:max-w-md">
           <Link href="/" className="group flex items-center gap-4">

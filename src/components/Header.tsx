@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { FiMenu, FiX } from "react-icons/fi";
 
 import { navLinks } from "@/data/navLinks";
 
@@ -12,12 +13,7 @@ const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
-    if (!isMenuOpen) {
-      document.body.style.overflow = "";
-      return;
-    }
-
-    document.body.style.overflow = "hidden";
+    if (!isMenuOpen) return;
 
     const handleEscape = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
@@ -28,14 +24,13 @@ const Header = () => {
     window.addEventListener("keydown", handleEscape);
 
     return () => {
-      document.body.style.overflow = "";
       window.removeEventListener("keydown", handleEscape);
     };
   }, [isMenuOpen]);
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-slate-200/70 bg-white/85 shadow-sm backdrop-blur-3xl">
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 sm:py-4 lg:px-20">
+    <header className="sticky top-0 z-50 w-full border-b border-slate-200/80 bg-white/95 shadow-sm backdrop-blur-xl">
+      <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 sm:py-4 lg:px-10 xl:px-14">
         <Link href="/" className="flex items-center gap-3">
           <div className="relative h-10 w-10 overflow-hidden rounded-xl transition-transform duration-300 hover:scale-110 focus-visible:scale-110 sm:h-12 sm:w-12">
             <Image
@@ -54,8 +49,8 @@ const Header = () => {
           </div>
         </Link>
 
-        <div className="flex items-center gap-8">
-          <nav className="hidden items-center gap-7 text-sm font-medium md:flex">
+        <div className="flex items-center gap-5 lg:gap-8">
+          <nav className="hidden items-center gap-6 text-sm font-medium md:flex lg:gap-7">
             {navLinks.map((link) => (
               <Link
                 key={link.name}
@@ -89,39 +84,33 @@ const Header = () => {
             type="button"
             aria-expanded={isMenuOpen}
             aria-controls="mobile-nav"
-            aria-label="Toggle navigation menu"
-            className="flex h-10 w-10 items-center justify-center rounded-md text-(--color-primary) transition-colors duration-300 hover:bg-slate-100 md:hidden"
+            aria-label={
+              isMenuOpen ? "Close navigation menu" : "Open navigation menu"
+            }
+            className="flex h-11 w-11 items-center justify-center rounded-xl border border-slate-200 bg-white text-(--color-primary) shadow-sm transition-colors duration-300 hover:bg-slate-100 md:hidden"
             onClick={() => setIsMenuOpen((prev) => !prev)}
           >
-            <span className="sr-only">Menu</span>
-            <span className="relative block h-4 w-5">
-              <span
-                className={`absolute left-0 top-0 h-0.5 w-5 bg-current transition-transform duration-300 ${
-                  isMenuOpen ? "translate-y-[7px] rotate-45" : ""
-                }`}
-              />
-              <span
-                className={`absolute left-0 top-[7px] h-0.5 w-5 bg-current transition-opacity duration-300 ${
-                  isMenuOpen ? "opacity-0" : "opacity-100"
-                }`}
-              />
-              <span
-                className={`absolute bottom-0 left-0 h-0.5 w-5 bg-current transition-transform duration-300 ${
-                  isMenuOpen ? "-translate-y-[7px] -rotate-45" : ""
-                }`}
-              />
+            <span className="sr-only">
+              {isMenuOpen ? "Close menu" : "Open menu"}
             </span>
+            {isMenuOpen ? (
+              <FiX className="text-2xl" aria-hidden="true" />
+            ) : (
+              <FiMenu className="text-2xl" aria-hidden="true" />
+            )}
           </button>
         </div>
       </div>
 
       <div
         id="mobile-nav"
-        className={`overflow-hidden border-t border-slate-200/70 bg-white/95 backdrop-blur-md transition-[max-height] duration-300 md:hidden ${
-          isMenuOpen ? "max-h-[32rem]" : "max-h-0 border-transparent"
+        className={`overflow-hidden border-t bg-white shadow-[0_14px_30px_rgba(2,51,65,0.08)] transition-[max-height,opacity,border-color] duration-300 ease-out md:hidden ${
+          isMenuOpen
+            ? "max-h-[34rem] border-slate-200/80 opacity-100"
+            : "max-h-0 border-transparent opacity-0"
         }`}
       >
-        <nav className="mx-auto flex max-w-7xl flex-col gap-1 px-4 py-4 sm:px-6">
+        <nav className="mx-auto flex max-w-7xl flex-col gap-1 px-4 py-4 sm:px-6 lg:px-10 xl:px-14">
           {navLinks.map((link) => (
             <Link
               key={link.name}
@@ -133,11 +122,11 @@ const Header = () => {
             </Link>
           ))}
 
-          <div className="mt-2 flex items-center gap-3">
+          <div className="mt-3 grid grid-cols-2 gap-2">
             <Button
               variant="outline"
               size="sm"
-              className="flex-1 cursor-pointer transition-colors duration-300 hover:bg-slate-100"
+              className="cursor-pointer border-slate-300 transition-colors duration-300 hover:bg-slate-100"
               onClick={() => setIsMenuOpen(false)}
             >
               Login
@@ -145,7 +134,7 @@ const Header = () => {
             <Button
               variant="default"
               size="sm"
-              className="flex-1 cursor-pointer bg-(--color-secondary) text-white transition-colors duration-300 hover:bg-(--color-secondary-500)"
+              className="cursor-pointer bg-(--color-secondary) text-white transition-colors duration-300 hover:bg-(--color-secondary-500)"
               onClick={() => setIsMenuOpen(false)}
             >
               Sign Up

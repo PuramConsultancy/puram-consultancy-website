@@ -42,9 +42,11 @@ const TRANSITION_MS = 500;
 const TestimonialContent = ({ testimonial }: { testimonial: Testimonial }) => {
   return (
     <>
-      <p className="text-left text-5xl leading-none text-orange-100 sm:text-6xl">&quot;</p>
+      <p className="text-left text-5xl leading-none text-orange-100 sm:text-6xl">
+        &quot;
+      </p>
 
-      <blockquote className="mx-auto mt-2 max-w-4xl text-lg leading-relaxed text-(--color-primary) sm:text-2xl lg:text-[3.1rem] lg:leading-[1.32]">
+      <blockquote className="mx-auto mt-2 max-w-4xl text-lg leading-relaxed break-words text-(--color-primary) sm:text-2xl lg:text-[3.1rem] lg:leading-[1.32]">
         {testimonial.quote}
       </blockquote>
 
@@ -135,77 +137,78 @@ const TestimonialSection = () => {
           </h2>
         </div>
 
-        <div className="grid grid-cols-[auto_1fr_auto] items-center gap-2 sm:gap-6 lg:gap-8">
-        <button
-          type="button"
-          aria-label="Previous testimonial"
-          className="flex h-12 w-12 items-center justify-center rounded-full border border-slate-300 text-slate-500 transition-colors duration-300 hover:bg-slate-100 sm:h-16 sm:w-16 lg:h-[4.5rem] lg:w-[4.5rem]"
-          onClick={handlePrev}
-        >
-          <FiChevronLeft className="text-3xl lg:text-4xl" />
-        </button>
+        <div className="grid grid-cols-[2.5rem_minmax(0,1fr)_2.5rem] items-center gap-2 sm:grid-cols-[auto_minmax(0,1fr)_auto] sm:gap-4 lg:gap-6">
+          <button
+            type="button"
+            aria-label="Previous testimonial"
+            className="flex h-10 w-10 items-center justify-center rounded-full border border-slate-300 text-slate-500 transition-colors duration-300 hover:bg-slate-100 sm:h-12 sm:w-12 lg:h-14 lg:w-14"
+            onClick={handlePrev}
+          >
+            <FiChevronLeft className="text-2xl lg:text-3xl" />
+          </button>
 
-        <article className="rounded-3xl border border-slate-200 bg-slate-50 p-6 text-center sm:p-10 lg:p-12 xl:p-14">
-          <div className="relative min-h-[19rem] sm:min-h-[22rem] lg:min-h-[25rem]">
-            {previousIndex !== null ? (
+          <article className="min-w-0 overflow-hidden rounded-3xl border border-slate-200 bg-slate-50 p-5 text-center sm:p-8 lg:p-10 xl:p-12">
+            <div className="relative min-h-[19rem] overflow-hidden sm:min-h-[22rem] lg:min-h-[25rem]">
+              {previousIndex !== null ? (
+                <div
+                  className={`absolute inset-0 transition-all duration-[500ms] ease-out ${
+                    isTransitioning
+                      ? direction === 1
+                        ? "-translate-x-8 opacity-0"
+                        : "translate-x-8 opacity-0"
+                      : "translate-x-0 opacity-100"
+                  }`}
+                >
+                  <TestimonialContent
+                    testimonial={testimonials[previousIndex]}
+                  />
+                </div>
+              ) : null}
+
               <div
-                className={`absolute inset-0 transition-all duration-[500ms] ease-out ${
-                  isTransitioning
-                    ? direction === 1
-                      ? "-translate-x-8 opacity-0"
-                      : "translate-x-8 opacity-0"
-                    : "translate-x-0 opacity-100"
+                className={`relative transition-all duration-[500ms] ease-out ${
+                  incomingVisible
+                    ? "translate-x-0 opacity-100"
+                    : direction === 1
+                      ? "translate-x-8 opacity-0"
+                      : "-translate-x-8 opacity-0"
                 }`}
               >
-                <TestimonialContent testimonial={testimonials[previousIndex]} />
+                <TestimonialContent testimonial={testimonials[currentIndex]} />
               </div>
-            ) : null}
-
-            <div
-              className={`relative transition-all duration-[500ms] ease-out ${
-                incomingVisible
-                  ? "translate-x-0 opacity-100"
-                  : direction === 1
-                    ? "translate-x-8 opacity-0"
-                    : "-translate-x-8 opacity-0"
-              }`}
-            >
-              <TestimonialContent testimonial={testimonials[currentIndex]} />
             </div>
-          </div>
 
-          <div className="mt-7 flex items-center justify-center gap-2.5">
-            {testimonials.map((testimonial, index) => {
-              const isActive = index === currentIndex;
+            <div className="mt-7 flex items-center justify-center gap-2.5">
+              {testimonials.map((testimonial, index) => {
+                const isActive = index === currentIndex;
 
-              return (
-                <button
-                  key={testimonial.name}
-                  type="button"
-                  aria-label={`Go to testimonial ${index + 1}`}
-                  className={
-                    isActive
-                      ? "h-2.5 w-8 rounded-full bg-(--color-secondary)"
-                      : "h-2.5 w-2.5 rounded-full bg-slate-300 transition-colors duration-300 hover:bg-slate-400"
-                  }
-                  onClick={() =>
-                    transitionTo(index, index > currentIndex ? 1 : -1)
-                  }
-                />
-              );
-            })}
-          </div>
-        </article>
+                return (
+                  <button
+                    key={testimonial.name}
+                    type="button"
+                    aria-label={`Go to testimonial ${index + 1}`}
+                    className={
+                      isActive
+                        ? "h-2.5 w-8 rounded-full bg-(--color-secondary)"
+                        : "h-2.5 w-2.5 rounded-full bg-slate-300 transition-colors duration-300 hover:bg-slate-400"
+                    }
+                    onClick={() =>
+                      transitionTo(index, index > currentIndex ? 1 : -1)
+                    }
+                  />
+                );
+              })}
+            </div>
+          </article>
 
-        <button
-          type="button"
-          aria-label="Next testimonial"
-          className="flex h-12 w-12 items-center justify-center rounded-full border border-slate-300 text-slate-500 transition-colors duration-300 hover:bg-slate-100 sm:h-16 sm:w-16 lg:h-[4.5rem] lg:w-[4.5rem]"
-          onClick={handleNext}
-        >
-          <FiChevronRight className="text-3xl lg:text-4xl" />
-        </button>
-
+          <button
+            type="button"
+            aria-label="Next testimonial"
+            className="flex h-10 w-10 items-center justify-center rounded-full border border-slate-300 text-slate-500 transition-colors duration-300 hover:bg-slate-100 sm:h-12 sm:w-12 lg:h-14 lg:w-14"
+            onClick={handleNext}
+          >
+            <FiChevronRight className="text-2xl lg:text-3xl" />
+          </button>
         </div>
 
         <div className="mx-auto mt-8 max-w-4xl">
