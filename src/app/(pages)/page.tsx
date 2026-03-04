@@ -23,8 +23,6 @@ const HomePage = () => {
       <TestimonialSection />
       <CaseStudySection />
       <ConsultationCtaSection />
-        <FounderCredibilitySection />
-      </section>
       <FounderCredibilitySection />
     </section>
   );
