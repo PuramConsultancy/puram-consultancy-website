@@ -13,7 +13,7 @@ import { PageShell } from "@/components/ui/page-shell";
 
 const HomePage = () => {
   return (
-    <section className="mx-auto flex w-full max-w-[1720px] flex-col gap-12 py-6 sm:gap-16 sm:py-8 lg:gap-20 lg:py-10">
+    <section className="mx-auto flex w-full max-w-430 flex-col gap-12 py-6 sm:gap-16 sm:py-8 lg:gap-20 lg:py-10">
       <HomeHeroSection />
       <TrustedBySection />
       <ProblemSection />
@@ -24,8 +24,8 @@ const HomePage = () => {
       <TestimonialSection />
       <CaseStudySection />
       <ConsultationCtaSection />
-      <FounderCredibilitySection />
-    </PageShell>
+        <FounderCredibilitySection />
+      </section>
   );
 };
 
