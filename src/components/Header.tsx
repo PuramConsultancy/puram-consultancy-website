@@ -1,12 +1,11 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import { FiMenu, FiX } from "react-icons/fi";
 
 import { navLinks } from "@/data/navLinks";
-
-import SiteLogo from "./SiteLogo";
 import { Button } from "./ui/button";
 import SiteLogo from "./SiteLogo";
 
@@ -82,7 +81,7 @@ const Header = () => {
               size="sm"
               className="cursor-pointer bg-(--color-secondary) text-white transition-colors duration-300 hover:bg-(--color-secondary-500)"
             >
-              Sign Up
+              <Link href="/register">Sign Up</Link>
             </Button>
           </div>
 
