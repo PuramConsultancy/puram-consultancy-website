@@ -8,6 +8,7 @@ import { navLinks } from "@/data/navLinks";
 
 import SiteLogo from "./SiteLogo";
 import { Button } from "./ui/button";
+import SiteLogo from "./SiteLogo";
 
 const desktopNavLinkClassName =
   "group relative text-gray-800 transition-colors duration-300 hover:text-(--color-secondary)";
