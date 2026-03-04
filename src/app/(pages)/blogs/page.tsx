@@ -1,0 +1,65 @@
+import { PageShell } from "@/components/ui/page-shell";
+import { SurfaceCard } from "@/components/ui/surface-card";
+
+const posts = [
+  {
+    title: "How to Build a Predictable Growth System",
+    description:
+      "A practical framework for turning inconsistent revenue into repeatable growth.",
+    meta: "Strategy",
+  },
+  {
+    title: "Operational Bottlenecks That Slow Down Scaling",
+    description:
+      "Common execution gaps that hold founders back and how to fix them.",
+    meta: "Operations",
+  },
+  {
+    title: "From Lead Generation to Revenue Consistency",
+    description:
+      "How to connect messaging, conversion, and follow-up into one working system.",
+    meta: "Growth",
+  },
+];
+
+const BlogsPage = () => {
+  return (
+    <PageShell>
+      <SurfaceCard as="header" padding="roomy">
+        <p className="text-xs font-semibold tracking-[0.18em] uppercase text-(--color-secondary)">
+          Insights
+        </p>
+        <h1 className="mt-3 text-3xl font-semibold text-(--color-primary) sm:text-4xl lg:text-5xl">
+          Blogs and Practical Business Insights
+        </h1>
+        <p className="mt-4 max-w-4xl text-base leading-relaxed text-slate-700 sm:text-lg">
+          Short, clear, and actionable content for founders and teams focused
+          on better strategy, better systems, and better growth outcomes.
+        </p>
+      </SurfaceCard>
+
+      <section className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+        {posts.map((post) => (
+          <SurfaceCard
+            as="article"
+            key={post.title}
+            tone="muted"
+            className="p-6"
+          >
+            <p className="text-xs font-semibold tracking-[0.14em] uppercase text-(--color-secondary)">
+              {post.meta}
+            </p>
+            <h2 className="mt-2 text-xl font-semibold text-(--color-primary) sm:text-2xl">
+              {post.title}
+            </h2>
+            <p className="mt-3 text-sm leading-relaxed text-slate-600 sm:text-base">
+              {post.description}
+            </p>
+          </SurfaceCard>
+        ))}
+      </section>
+    </PageShell>
+  );
+};
+
+export default BlogsPage;

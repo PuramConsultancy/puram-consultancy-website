@@ -1,42 +1,68 @@
-import Image from "next/image";
 import Link from "next/link";
 
+import { contactLinks } from "@/data/contactLinks";
 import { resourceLinks } from "@/data/resourceLinks";
 import { serviceLinks } from "@/data/serviceLinks";
-import { contactLinks } from "@/data/contactLinks";
 import { socialLinks } from "@/data/socialLinks";
+
+import SiteLogo from "./SiteLogo";
+
+type FooterColumnProps = {
+  title: string;
+  links: Array<{ name: string; href: string }>;
+  itemClassName?: string;
+};
+
+const FooterColumn = ({ title, links, itemClassName }: FooterColumnProps) => {
+  return (
+    <div>
+      <h3 className="mb-3 text-base font-semibold text-gray-300 sm:text-lg">
+        {title}
+      </h3>
+
+      <ul className="flex flex-col gap-2 text-sm">
+        {links.map((link) => (
+          <li key={link.name}>
+            <Link
+              href={link.href}
+              className={itemClassName ?? "transition-colors duration-300 hover:text-gray-300"}
+            >
+              {link.name}
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+};
+
+const legalLinks: Array<{ href: string; label: string }> = [
+  {
+    href: "/privacy",
+    label: "Privacy Policy",
+  },
+  {
+    href: "/terms",
+    label: "Terms of Service",
+  },
+];
 
 const Footer = () => {
   return (
-    <footer className="bg-(--color-primary) px-6 pt-14 text-white lg:px-20">
-      {/* Top Footer Content */}
-      <div className="mx-auto flex max-w-7xl flex-col justify-between gap-12 pb-12 lg:flex-row">
-        {/* Left Side: Logo + Brand + Text + Social */}
-        <div className="flex flex-1 flex-col gap-4">
-          {/* Logo + Brand */}
-          <Link href="/" className="group flex items-center gap-4">
-            <div className="relative h-14 w-14 overflow-hidden rounded-xl bg-white transition-transform duration-300 group-hover:scale-110">
-              <Image
-                src="/image.png"
-                alt="Puram Consultancy Logo"
-                fill
-                className="object-contain p-2"
-                priority
-              />
-            </div>
+    <footer className="bg-(--color-primary) px-4 pt-12 text-white sm:px-6 lg:px-10 xl:px-14">
+      <div className="mx-auto flex max-w-7xl flex-col gap-10 pb-10 lg:flex-row lg:justify-between lg:gap-12 lg:pb-12">
+        <div className="flex flex-1 flex-col gap-4 lg:max-w-md">
+          <SiteLogo
+            className="gap-4"
+            logoWrapClassName="h-14 w-14 bg-white p-2"
+            textClassName="text-(--color-primary-50) sm:text-3xl"
+          />
 
-            <h2 className="text-3xl font-bold text-(--color-primary-50)">
-              Puram
-            </h2>
-          </Link>
-
-          {/* Description */}
-          <p className="max-w-sm text-sm leading-relaxed text-gray-400">
+          <p className="max-w-sm text-sm leading-relaxed text-gray-400 sm:max-w-md">
             We build the systems that build your business. Strategic consulting
             for the next generation of industry leaders.
           </p>
 
-          {/* Social Media Icons */}
           <div className="mt-2 flex items-center gap-3">
             {socialLinks.map((social) => {
               const Icon = social.icon;
@@ -57,97 +83,37 @@ const Footer = () => {
           </div>
         </div>
 
-        {/* Right Side: Footer Columns */}
-        <div className="grid flex-1 grid-cols-2 gap-10 text-gray-400 md:grid-cols-3">
-          {/* Column 1: Resources */}
-          <div>
-            <h3 className="mb-4 text-lg font-semibold text-gray-400">
-              Resources
-            </h3>
-
-            <ul className="flex flex-col gap-2 text-sm">
-              {resourceLinks.map((link) => (
-                <li key={link.name}>
-                  <Link
-                    href={link.href}
-                    className="transition-colors duration-300 hover:text-gray-300"
-                  >
-                    {link.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Column 2: Services */}
-          <div>
-            <h3 className="mb-4 text-lg font-semibold text-gray-400">
-              Services
-            </h3>
-
-            <ul className="flex flex-col gap-2 text-sm">
-              {serviceLinks.map((link) => (
-                <li key={link.name}>
-                  <Link
-                    href={link.href}
-                    className="transition-colors duration-300 hover:text-gray-300"
-                  >
-                    {link.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Column 3: Connect */}
-          <div>
-            <h3 className="mb-4 text-lg font-semibold text-gray-400">
-              Connect
-            </h3>
-
-            <ul className="flex flex-col gap-3 text-sm">
-              {contactLinks.map((item) => (
-                <li key={item.name}>
-                  <Link
-                    href={item.href}
-                    className="hover:text-300 transition-colors duration-300"
-                  >
-                    {item.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
+        <div className="grid flex-1 grid-cols-1 gap-8 text-gray-400 sm:grid-cols-2 lg:grid-cols-3">
+          <FooterColumn title="Resources" links={resourceLinks} />
+          <FooterColumn title="Services" links={serviceLinks} />
+          <FooterColumn
+            title="Connect"
+            links={contactLinks}
+            itemClassName="break-words transition-colors duration-300 hover:text-gray-300"
+          />
         </div>
       </div>
 
-      {/* Bottom Footer Bar */}
       <div className="border-t border-white/10 py-6">
-        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 text-sm text-gray-500 md:flex-row">
-          {/* Copyright */}
+        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-3 text-center text-sm text-gray-500 md:flex-row md:text-left">
           <p>
-            © {new Date().getFullYear()}{" "}
+            Copyright {new Date().getFullYear()}{" "}
             <span className="font-medium text-(--color-primary-50)">
               Puram Consultancy
             </span>
             . All rights reserved.
           </p>
 
-          {/* Extra Links (Optional) */}
-          <div className="flex gap-6">
-            <Link
-              href="/privacy"
-              className="transition-colors duration-300 hover:text-white"
-            >
-              Privacy Policy
-            </Link>
-
-            <Link
-              href="/terms"
-              className="transition-colors duration-300 hover:text-white"
-            >
-              Terms of Service
-            </Link>
+          <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
+            {legalLinks.map((link) => (
+              <Link
+                key={link.label}
+                href={link.href}
+                className="transition-colors duration-300 hover:text-white"
+              >
+                {link.label}
+              </Link>
+            ))}
           </div>
         </div>
       </div>
