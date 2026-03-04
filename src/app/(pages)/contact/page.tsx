@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import BookingContactForm from "@/components/contact/BookingContactForm";
 import { PageShell } from "@/components/ui/page-shell";
 import { SurfaceCard } from "@/components/ui/surface-card";
 
@@ -10,7 +11,7 @@ const ContactPage = () => {
   return (
     <PageShell>
       <header className="rounded-3xl bg-(--color-primary) p-6 text-(--color-primary-50) sm:p-8 lg:p-10">
-        <p className="text-xs font-semibold tracking-[0.18em] uppercase text-(--color-secondary-300)">
+        <p className="text-xs font-semibold tracking-[0.18em] text-(--color-secondary-300) uppercase">
           Contact
         </p>
         <h1 className="mt-3 text-3xl font-semibold sm:text-4xl lg:text-5xl">
@@ -66,6 +67,20 @@ const ContactPage = () => {
           </div>
         </SurfaceCard>
       </section>
+
+      <SurfaceCard as="section" id="booking-form-section">
+        <h2 className="text-2xl font-semibold text-(--color-primary) sm:text-3xl">
+          Booking Form
+        </h2>
+        <p className="mt-2 text-sm leading-relaxed text-slate-600 sm:text-base">
+          Fill in the details below and our team will reach out for your booking
+          inquiry.
+        </p>
+
+        <div className="mt-6">
+          <BookingContactForm />
+        </div>
+      </SurfaceCard>
     </PageShell>
   );
 };

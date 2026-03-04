@@ -9,7 +9,6 @@ import ServicesSection from "@/components/home/ServicesSection";
 import TestimonialSection from "@/components/home/TestimonialSection";
 import TrustedBySection from "@/components/home/TrustedBySection";
 import WhyPuramSection from "@/components/home/WhyPuramSection";
-import { PageShell } from "@/components/ui/page-shell";
 
 const HomePage = () => {
   return (
@@ -26,6 +25,8 @@ const HomePage = () => {
       <ConsultationCtaSection />
         <FounderCredibilitySection />
       </section>
+      <FounderCredibilitySection />
+    </section>
   );
 };
 

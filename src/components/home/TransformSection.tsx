@@ -1,5 +1,4 @@
 import Image from "next/image";
-import Link from "next/link";
 
 import { LinkCta } from "@/components/ui/link-cta";
 
@@ -16,16 +15,12 @@ const TransformSection = () => {
           </h2>
 
           <p className="mt-6 max-w-3xl text-base leading-relaxed text-slate-100 sm:text-xl lg:text-[2rem]">
-            We help SMEs and startups build sustainable growth through
-            strategic consulting, automation, and proven frameworks.
+            We help SMEs and startups build sustainable growth through strategic
+            consulting, automation, and proven frameworks.
           </p>
 
           <div className="mt-7 flex flex-col gap-3 sm:flex-row">
-            <LinkCta
-              href="/contact"
-              size="lg"
-              className="sm:px-8"
-            >
+            <LinkCta href="/contact#booking-form" size="lg" className="sm:px-8">
               Book Free Consultation <span className="ml-2">-&gt;</span>
             </LinkCta>
 
