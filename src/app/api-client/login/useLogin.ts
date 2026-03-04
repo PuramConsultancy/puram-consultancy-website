@@ -18,7 +18,7 @@ export const useLogin = ({
   >({
     apiClient: jsonApiClient,
     method: "post",
-    url: "/auth/login",
+    url: "/api/auth/login",
     errorMessage: "Failed to login.",
     invalidateQueryKey,
     mutationOptions: {},

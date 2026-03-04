@@ -74,7 +74,7 @@ const Header = () => {
               size="sm"
               className="cursor-pointer transition-colors duration-300 hover:bg-slate-100"
             >
-              Login
+              <Link href="/login"> Login</Link>
             </Button>
             <Button
               variant="default"
