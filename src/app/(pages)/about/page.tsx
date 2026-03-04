@@ -67,10 +67,6 @@ const engagementFlow = [
 const AboutPage = () => {
   return (
     <PageShell>
-      <header className="rounded-3xl bg-(--color-primary) p-6 text-white sm:p-8 lg:p-10">
-        <p className="text-xs font-semibold tracking-[0.18em] uppercase text-[#FD5E02]">
-          About Us
-    <section className="mx-auto flex w-full max-w-6xl flex-col gap-8 py-6 sm:gap-10 sm:py-8 lg:gap-12 lg:py-10">
       <header className="rounded-3xl bg-(--color-primary) p-6 text-(--color-primary-50) sm:p-8 lg:p-10">
         <p className="text-xs font-semibold tracking-[0.18em] uppercase text-(--color-secondary-300)">
           About Puram
@@ -107,42 +103,56 @@ const AboutPage = () => {
 
       <SurfaceCard padding="roomy">
         <h2 className="text-2xl font-semibold text-(--color-primary) sm:text-3xl">
-          How We Work With You
+          Core Values
         </h2>
-        <p className="mt-3 max-w-4xl text-sm leading-relaxed text-slate-600 sm:text-base">
-          The process is intentionally simple so your team can execute quickly
-          and stay aligned at every stage.
-        </p>
+        <div className="mt-4 grid gap-4 sm:grid-cols-2">
+          {coreValues.map((value) => (
+            <article
+              key={value.title}
+              className="rounded-2xl border border-slate-200 bg-slate-50 p-5"
+            >
+              <h3 className="text-lg font-semibold text-(--color-primary) sm:text-xl">
+                {value.title}
+              </h3>
+              <p className="mt-2 text-sm leading-relaxed text-slate-600 sm:text-base">
+                {value.description}
+              </p>
+            </article>
+          ))}
+        </div>
       </SurfaceCard>
 
-      <section className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-        {keyPoints.map((item) => (
-          <SurfaceCard
-            as="article"
-            key={item.title}
-            tone="muted"
-            className="p-6 sm:p-7"
-          >
-            <h3 className="text-xl font-semibold text-(--color-primary) sm:text-2xl">
-              {item.title}
-            </h3>
-            <p className="mt-3 text-sm leading-relaxed text-slate-600 sm:text-base">
-              {item.description}
-            </p>
-          </SurfaceCard>
-        ))}
-      </section>
-
       <SurfaceCard padding="roomy">
+        <h2 className="text-2xl font-semibold text-(--color-primary) sm:text-3xl">
+          How We Engage
+        </h2>
+        <div className="mt-4 grid gap-4 lg:grid-cols-3">
+          {engagementFlow.map((step) => (
+            <article
+              key={step.phase}
+              className="rounded-2xl border border-slate-200 bg-slate-50 p-5"
+            >
+              <p className="text-xs font-semibold tracking-[0.14em] uppercase text-(--color-secondary)">
+                Stage {step.phase}
+              </p>
+              <h3 className="mt-2 text-lg font-semibold text-(--color-primary) sm:text-xl">
+                {step.title}
+              </h3>
+              <p className="mt-2 text-sm leading-relaxed text-slate-600 sm:text-base">
+                {step.description}
+              </p>
+            </article>
+          ))}
+        </div>
+      </SurfaceCard>
+
+      <SurfaceCard padding="roomy" tone="muted">
         <div className="grid gap-6 lg:grid-cols-[1.2fr_0.8fr] lg:items-center">
-          <article className="rounded-3xl border border-white/15 bg-white/5 p-6 sm:p-7">
-            <p className="text-xs font-semibold tracking-[0.18em] uppercase text-(--color-secondary-300)">
-              Let&apos;s Build Your Next Stage
-            </p>
-            <h2 className="mt-3 text-2xl font-semibold leading-tight text-(--color-primary-50) sm:text-3xl lg:text-4xl">
+          <article>
+            <h2 className="text-2xl font-semibold leading-tight text-(--color-primary) sm:text-3xl lg:text-4xl">
               Ready to turn scattered growth into a structured system?
             </h2>
-            <p className="mt-4 text-sm leading-relaxed text-(--color-primary-100) sm:text-base">
+            <p className="mt-4 text-sm leading-relaxed text-slate-600 sm:text-base">
               We will assess your current stage and map a practical execution
               plan tailored to your team, offer, and goals.
             </p>
@@ -155,14 +165,10 @@ const AboutPage = () => {
             <p className="mt-2 text-lg font-semibold sm:text-xl">
               Ready to scale with a clear roadmap?
             </p>
-            <LinkCta
-              href="/contact"
-              variant="primary"
-              className="mt-4"
-            >
+            <LinkCta href="/contact#booking-form" variant="primary" className="mt-4">
               Book Strategy Call
             </LinkCta>
-          </div>
+          </article>
         </div>
       </SurfaceCard>
     </PageShell>

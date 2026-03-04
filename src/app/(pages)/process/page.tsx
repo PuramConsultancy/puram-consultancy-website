@@ -1,5 +1,3 @@
-import Link from "next/link";
-
 import { LinkCta } from "@/components/ui/link-cta";
 import { PageShell } from "@/components/ui/page-shell";
 import { SurfaceCard } from "@/components/ui/surface-card";
@@ -31,10 +29,10 @@ const ProcessPage = () => {
   return (
     <PageShell>
       <header className="rounded-3xl bg-(--color-primary) p-6 text-(--color-primary-50) sm:p-8 lg:p-10">
-        <p className="text-xs font-semibold tracking-[0.18em] uppercase text-(--color-secondary-300)">
+        <p className="text-xs font-semibold tracking-[0.18em] text-(--color-secondary-300) uppercase">
           Our Process
         </p>
-        <h1 className="mt-3 text-3xl font-semibold leading-tight sm:text-4xl lg:text-5xl">
+        <h1 className="mt-3 text-3xl leading-tight font-semibold sm:text-4xl lg:text-5xl">
           A Clear 4-Step System for Sustainable Growth
         </h1>
         <p className="mt-4 max-w-4xl text-base leading-relaxed text-(--color-primary-100) sm:text-lg">
@@ -46,12 +44,8 @@ const ProcessPage = () => {
 
       <section className="grid gap-5 sm:grid-cols-2">
         {steps.map((step, index) => (
-          <SurfaceCard
-            as="article"
-            key={step.title}
-            className="p-6 sm:p-7"
-          >
-            <p className="text-xs font-semibold tracking-[0.14em] uppercase text-(--color-secondary)">
+          <SurfaceCard as="article" key={step.title} className="p-6 sm:p-7">
+            <p className="text-xs font-semibold tracking-[0.14em] text-(--color-secondary) uppercase">
               Step {index + 1}
             </p>
             <h2 className="mt-2 text-2xl font-semibold text-(--color-primary)">
@@ -69,13 +63,10 @@ const ProcessPage = () => {
           Ready to Start?
         </h2>
         <p className="mt-3 text-base leading-relaxed text-slate-700 sm:text-lg">
-          Book a strategy call and we will map the right execution path for
-          your stage, goals, and current constraints.
+          Book a strategy call and we will map the right execution path for your
+          stage, goals, and current constraints.
         </p>
-        <LinkCta
-          href="/contact"
-          className="mt-5"
-        >
+        <LinkCta href="/contact#booking-form" className="mt-5">
           Book Strategy Call
         </LinkCta>
       </SurfaceCard>

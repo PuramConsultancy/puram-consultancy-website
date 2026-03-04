@@ -1,5 +1,3 @@
-import Link from "next/link";
-
 import { LinkCta } from "@/components/ui/link-cta";
 
 const calloutItems = [
@@ -30,7 +28,7 @@ const ConsultationCtaSection = () => {
         </p>
 
         <LinkCta
-          href="/contact"
+          href="/contact#booking-form"
           variant="primary"
           size="lg"
           className="mt-8"

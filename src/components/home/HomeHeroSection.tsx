@@ -1,5 +1,4 @@
 import Image from "next/image";
-import Link from "next/link";
 
 import { LinkCta } from "@/components/ui/link-cta";
 
@@ -25,18 +24,11 @@ const HomeHeroSection = () => {
           </p>
 
           <div className="mt-7 flex flex-col justify-center gap-3 sm:flex-row lg:justify-start">
-            <LinkCta
-              href="/contact"
-              size="lg"
-            >
+            <LinkCta href="/contact#booking-form" size="lg">
               Book Your Free Strategy Call -&gt;
             </LinkCta>
 
-            <LinkCta
-              href="/process"
-              variant="light"
-              size="lg"
-            >
+            <LinkCta href="/process" variant="light" size="lg">
               See How It Works
             </LinkCta>
           </div>

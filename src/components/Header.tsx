@@ -6,6 +6,7 @@ import { FiMenu, FiX } from "react-icons/fi";
 
 import { navLinks } from "@/data/navLinks";
 
+import SiteLogo from "./SiteLogo";
 import { Button } from "./ui/button";
 
 const desktopNavLinkClassName =

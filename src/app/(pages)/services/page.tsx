@@ -5,7 +5,10 @@ import { PageShell } from "@/components/ui/page-shell";
 import { SurfaceCard } from "@/components/ui/surface-card";
 
 import { serviceLinks } from "@/data/serviceLinks";
-import { serviceContentByName, serviceSlugFromHref } from "@/data/serviceDetails";
+import {
+  serviceContentByName,
+  serviceSlugFromHref,
+} from "@/data/serviceDetails";
 
 const ServicesPage = () => {
   return (
@@ -74,10 +77,7 @@ const ServicesPage = () => {
           Book a strategy call and we will map the right service path for your
           business model, current constraints, and growth goals.
         </p>
-        <LinkCta
-          href="/contact"
-          className="mt-5"
-        >
+        <LinkCta href="/contact#booking-form" className="mt-5">
           Book a Free Strategy Call -&gt;
         </LinkCta>
       </SurfaceCard>
