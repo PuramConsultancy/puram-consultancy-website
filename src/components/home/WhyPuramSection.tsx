@@ -1,5 +1,7 @@
 import { FiAward, FiBarChart2, FiLayers, FiUserCheck } from "react-icons/fi";
 
+import { SurfaceCard } from "@/components/ui/surface-card";
+
 import ReusableCard from "./ReusableCard";
 
 const items = [
@@ -31,7 +33,7 @@ const items = [
 
 const WhyPuramSection = () => {
   return (
-    <section className="rounded-3xl border border-slate-200 bg-white py-16 sm:py-20 lg:py-24">
+    <SurfaceCard padding="none" className="py-16 sm:py-20 lg:py-24">
       <div className="mx-auto max-w-7xl">
         <div className="text-center">
           <h2 className="text-3xl font-semibold text-(--color-primary) sm:text-4xl lg:text-5xl">
@@ -57,7 +59,7 @@ const WhyPuramSection = () => {
           ))}
         </div>
       </div>
-    </section>
+    </SurfaceCard>
   );
 };
 

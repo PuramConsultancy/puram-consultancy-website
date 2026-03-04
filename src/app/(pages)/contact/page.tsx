@@ -1,11 +1,14 @@
 import Link from "next/link";
 
+import { PageShell } from "@/components/ui/page-shell";
+import { SurfaceCard } from "@/components/ui/surface-card";
+
 import { contactLinks } from "@/data/contactLinks";
 import { socialLinks } from "@/data/socialLinks";
 
 const ContactPage = () => {
   return (
-    <section className="mx-auto flex w-full max-w-6xl flex-col gap-8 py-6 sm:gap-10 sm:py-8 lg:gap-12 lg:py-10">
+    <PageShell>
       <header className="rounded-3xl bg-(--color-primary) p-6 text-(--color-primary-50) sm:p-8 lg:p-10">
         <p className="text-xs font-semibold tracking-[0.18em] uppercase text-(--color-secondary-300)">
           Contact
@@ -20,7 +23,7 @@ const ContactPage = () => {
       </header>
 
       <section className="grid gap-5 lg:grid-cols-[1.1fr_0.9fr]">
-        <article className="rounded-3xl border border-slate-200 bg-white p-6 sm:p-8">
+        <SurfaceCard as="article">
           <h2 className="text-2xl font-semibold text-(--color-primary) sm:text-3xl">
             Reach Us Directly
           </h2>
@@ -36,9 +39,9 @@ const ContactPage = () => {
               </li>
             ))}
           </ul>
-        </article>
+        </SurfaceCard>
 
-        <article className="rounded-3xl border border-slate-200 bg-slate-50 p-6 sm:p-8">
+        <SurfaceCard as="article" tone="muted">
           <h2 className="text-2xl font-semibold text-(--color-primary) sm:text-3xl">
             Follow Us
           </h2>
@@ -61,9 +64,9 @@ const ContactPage = () => {
               );
             })}
           </div>
-        </article>
+        </SurfaceCard>
       </section>
-    </section>
+    </PageShell>
   );
 };
 

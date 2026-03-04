@@ -1,5 +1,9 @@
 import Link from "next/link";
 
+import { LinkCta } from "@/components/ui/link-cta";
+import { PageShell } from "@/components/ui/page-shell";
+import { SurfaceCard } from "@/components/ui/surface-card";
+
 const steps = [
   {
     title: "Discovery",
@@ -25,7 +29,7 @@ const steps = [
 
 const ProcessPage = () => {
   return (
-    <section className="mx-auto flex w-full max-w-6xl flex-col gap-8 py-6 sm:gap-10 sm:py-8 lg:gap-12 lg:py-10">
+    <PageShell>
       <header className="rounded-3xl bg-(--color-primary) p-6 text-(--color-primary-50) sm:p-8 lg:p-10">
         <p className="text-xs font-semibold tracking-[0.18em] uppercase text-(--color-secondary-300)">
           Our Process
@@ -42,9 +46,10 @@ const ProcessPage = () => {
 
       <section className="grid gap-5 sm:grid-cols-2">
         {steps.map((step, index) => (
-          <article
+          <SurfaceCard
+            as="article"
             key={step.title}
-            className="rounded-3xl border border-slate-200 bg-white p-6 sm:p-7"
+            className="p-6 sm:p-7"
           >
             <p className="text-xs font-semibold tracking-[0.14em] uppercase text-(--color-secondary)">
               Step {index + 1}
@@ -55,11 +60,11 @@ const ProcessPage = () => {
             <p className="mt-3 text-sm leading-relaxed text-slate-600 sm:text-base">
               {step.description}
             </p>
-          </article>
+          </SurfaceCard>
         ))}
       </section>
 
-      <section className="rounded-3xl border border-slate-200 bg-slate-50 p-6 sm:p-8">
+      <SurfaceCard tone="muted">
         <h2 className="text-2xl font-semibold text-(--color-primary) sm:text-3xl">
           Ready to Start?
         </h2>
@@ -67,14 +72,14 @@ const ProcessPage = () => {
           Book a strategy call and we will map the right execution path for
           your stage, goals, and current constraints.
         </p>
-        <Link
+        <LinkCta
           href="/contact"
-          className="mt-5 inline-flex h-11 items-center justify-center rounded-xl bg-(--color-secondary) px-6 text-sm font-semibold text-white transition-colors duration-300 hover:bg-(--color-secondary-500)"
+          className="mt-5"
         >
           Book Strategy Call
-        </Link>
-      </section>
-    </section>
+        </LinkCta>
+      </SurfaceCard>
+    </PageShell>
   );
 };
 

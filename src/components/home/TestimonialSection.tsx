@@ -3,6 +3,8 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 
+import { SurfaceCard } from "@/components/ui/surface-card";
+
 type Testimonial = {
   quote: string;
   name: string;
@@ -38,6 +40,8 @@ const testimonials: Testimonial[] = [
 
 const AUTO_SLIDE_MS = 5000;
 const TRANSITION_MS = 500;
+const navButtonClassName =
+  "flex h-12 w-12 items-center justify-center rounded-full border border-slate-300 text-slate-500 transition-colors duration-300 hover:bg-slate-100 sm:h-16 sm:w-16 lg:h-[4.5rem] lg:w-[4.5rem]";
 
 const TestimonialContent = ({ testimonial }: { testimonial: Testimonial }) => {
   return (
@@ -129,7 +133,7 @@ const TestimonialSection = () => {
   }, [handleNext]);
 
   return (
-    <section className="rounded-3xl border border-slate-200 bg-white py-10 sm:py-14 lg:py-16">
+    <SurfaceCard padding="none" className="py-10 sm:py-14 lg:py-16">
       <div className="mx-auto max-w-7xl px-3 sm:px-4">
         <div className="mb-8 text-center">
           <h2 className="text-3xl font-semibold text-(--color-primary) sm:text-4xl lg:text-5xl">
@@ -225,7 +229,7 @@ const TestimonialSection = () => {
           </ul>
         </div>
       </div>
-    </section>
+    </SurfaceCard>
   );
 };
 

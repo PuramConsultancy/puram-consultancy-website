@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { FiMenu, FiX } from "react-icons/fi";
@@ -8,6 +7,11 @@ import { FiMenu, FiX } from "react-icons/fi";
 import { navLinks } from "@/data/navLinks";
 
 import { Button } from "./ui/button";
+
+const desktopNavLinkClassName =
+  "group relative text-gray-800 transition-colors duration-300 hover:text-(--color-secondary)";
+const mobileNavLinkClassName =
+  "rounded-md px-2 py-2 text-sm font-medium text-gray-800 transition-colors duration-300 hover:bg-slate-100 hover:text-(--color-secondary)";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -55,7 +59,7 @@ const Header = () => {
               <Link
                 key={link.name}
                 href={link.href}
-                className="group relative text-gray-800 transition-colors duration-300 hover:text-(--color-secondary)"
+                className={desktopNavLinkClassName}
               >
                 {link.name}
                 <span className="absolute -bottom-1 left-0 h-0.5 w-full origin-center scale-x-0 bg-(--color-secondary) transition-transform duration-300 group-hover:scale-x-100"></span>
@@ -116,7 +120,7 @@ const Header = () => {
               key={link.name}
               href={link.href}
               onClick={() => setIsMenuOpen(false)}
-              className="rounded-md px-2 py-2 text-sm font-medium text-gray-800 transition-colors duration-300 hover:bg-slate-100 hover:text-(--color-secondary)"
+              className={mobileNavLinkClassName}
             >
               {link.name}
             </Link>

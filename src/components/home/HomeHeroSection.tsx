@@ -1,6 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 
+import { LinkCta } from "@/components/ui/link-cta";
+
 const trustPoints = [
   "No long-term contracts",
   "Data-driven execution",
@@ -9,7 +11,7 @@ const trustPoints = [
 
 const HomeHeroSection = () => {
   return (
-    <section className="rounded-3xl border border-white/10 bg-[#003B4A] p-6 sm:p-8 lg:p-12">
+    <section className="rounded-3xl border border-white/10 bg-(--color-primary) p-6 sm:p-8 lg:p-12">
       <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[1.08fr_0.92fr] lg:items-center lg:gap-10">
         <div className="text-center lg:text-left">
           <h1 className="text-3xl font-semibold text-white sm:text-4xl lg:text-6xl lg:leading-[1.15]">
@@ -23,19 +25,20 @@ const HomeHeroSection = () => {
           </p>
 
           <div className="mt-7 flex flex-col justify-center gap-3 sm:flex-row lg:justify-start">
-            <Link
+            <LinkCta
               href="/contact"
-              className="inline-flex h-12 items-center justify-center rounded-xl bg-(--color-secondary) px-8 text-base font-semibold text-white transition-colors duration-300 hover:bg-(--color-secondary-500)"
+              size="lg"
             >
               Book Your Free Strategy Call -&gt;
-            </Link>
+            </LinkCta>
 
-            <Link
+            <LinkCta
               href="/process"
-              className="inline-flex h-12 items-center justify-center rounded-xl border border-white/60 px-8 text-base font-semibold text-white transition-colors duration-300 hover:bg-white/10"
+              variant="light"
+              size="lg"
             >
               See How It Works
-            </Link>
+            </LinkCta>
           </div>
 
           <ul className="mt-7 grid gap-2 text-sm text-slate-100 sm:grid-cols-3 sm:text-base">
