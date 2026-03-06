@@ -6,6 +6,7 @@ import { SurfaceCard } from "@/components/ui/surface-card";
 
 import { contactLinks } from "@/data/contactLinks";
 import { socialLinks } from "@/data/socialLinks";
+import ContactForm from "./ContactForm";
 
 const ContactPage = () => {
   return (
@@ -78,7 +79,7 @@ const ContactPage = () => {
         </p>
 
         <div className="mt-6">
-          <BookingContactForm />
+          <ContactForm />
         </div>
       </SurfaceCard>
     </PageShell>

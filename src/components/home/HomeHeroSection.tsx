@@ -25,7 +25,7 @@ const HomeHeroSection = () => {
 
           <div className="mt-7 flex flex-col justify-center gap-3 sm:flex-row lg:justify-start">
             <LinkCta href="/contact#booking-form" size="lg">
-              Book Your Free Strategy Call -&gt;
+              Book Your Free Strategy Call
             </LinkCta>
 
             <LinkCta href="/process" variant="light" size="lg">
@@ -47,7 +47,7 @@ const HomeHeroSection = () => {
         </div>
 
         <div className="mx-auto w-full max-w-xl">
-          <div className="relative h-72 overflow-hidden rounded-3xl border border-white/15 shadow-2xl sm:h-[26rem] lg:h-[34rem]">
+          <div className="relative h-72 overflow-hidden rounded-3xl border border-white/15 shadow-2xl sm:h-104 lg:h-136">
             <Image
               src="/Home page old photo.png"
               alt="Business analytics laptop workspace"

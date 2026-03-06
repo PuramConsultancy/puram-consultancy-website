@@ -5,8 +5,11 @@ import { ComponentProps } from "react";
 import { useFieldContext } from "./Field";
 
 interface IInput extends ComponentProps<"input"> {
+  as?: "input" | "textarea";
   inputClass?: string;
 }
+
+
 
 const Input = ({
   className,
