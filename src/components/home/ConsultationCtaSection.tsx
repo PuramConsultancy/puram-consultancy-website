@@ -33,7 +33,7 @@ const ConsultationCtaSection = () => {
           size="lg"
           className="mt-8"
         >
-          Book Free Strategy Call -&gt;
+          Book Free Strategy Call
         </LinkCta>
 
         <p className="mt-5 text-sm font-medium text-orange-100 sm:text-base">

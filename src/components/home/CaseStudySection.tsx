@@ -32,7 +32,7 @@ const CaseStudySection = () => {
           size="lg"
           className="mt-7"
         >
-          View Case Study -&gt;
+          View Case Study
         </LinkCta>
       </div>
     </SurfaceCard>

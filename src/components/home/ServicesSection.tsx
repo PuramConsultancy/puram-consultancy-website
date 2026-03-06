@@ -69,7 +69,7 @@ const ServicesSection = () => {
             size="lg"
             className="border-2 border-(--color-primary) font-medium sm:h-14 sm:text-xl"
           >
-            View All Services -&gt;
+            View All Services
           </LinkCta>
         </div>
       </div>
