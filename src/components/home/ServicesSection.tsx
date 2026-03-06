@@ -42,7 +42,7 @@ const ServicesSection = () => {
 
         <div className="mt-10 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
           {orderedServices.map((service, index) => {
-            const content = serviceContentByName[service.name];
+            const content = serviceContentByName[service.name as keyof typeof serviceContentByName];
             const Icon = iconByIndex[index % iconByIndex.length];
             const slug = serviceSlugFromHref(service.href);
 
@@ -50,7 +50,7 @@ const ServicesSection = () => {
               <ReusableCard
                 key={service.name}
                 icon={Icon}
-                title={content.title}
+                title={content.heading}
                 description={content.shortDescription}
                 href={`/services#${slug}`}
                 className="border border-slate-200 bg-white p-6 shadow-[0_2px_10px_rgba(2,51,65,0.04)]"

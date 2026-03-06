@@ -28,7 +28,7 @@ const surfaceCardVariants = cva("rounded-3xl border", {
 
 type SurfaceCardProps = HTMLAttributes<HTMLElement> &
   VariantProps<typeof surfaceCardVariants> & {
-    as?: "article" | "section" | "div";
+    as?: "article" | "section" | "div" | "header" | "main" | "footer";
   };
 
 const SurfaceCard = ({

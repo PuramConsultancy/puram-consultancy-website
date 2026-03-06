@@ -56,13 +56,15 @@ const Field = <T extends z.ZodType<any, any>>({
     );
   }
 
+  const typedForm = form as UseFormReturn<z.infer<T>>;
+
   const id = useId();
   const {
     formState: { errors },
-  } = form;
+  } = typedForm;
 
   return (
-    <FieldContext.Provider value={{ id, name, form, disabled }}>
+    <FieldContext.Provider value={{ id, name, form: typedForm, disabled }}>
       <div
         className={cn(
           "group w-full",
@@ -87,7 +89,7 @@ const Field = <T extends z.ZodType<any, any>>({
         data-invalid={disabled}
         {...rest}
       >
-        {typeof children === "function" ? children(form) : children}
+        {typeof children === "function" ? children(typedForm) : children}
       </div>
     </FieldContext.Provider>
   );

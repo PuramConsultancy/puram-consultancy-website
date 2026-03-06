@@ -16,7 +16,9 @@ import { useForm, UseFormProps, UseFormReturn } from "react-hook-form";
 import { z } from "zod";
 
 // Create a context for the form methods
-const FormContext = createContext<UseFormReturn<any> | undefined>(undefined);
+const FormContext = createContext<
+  UseFormReturn<z.input<any>, any, z.output<any>> | undefined
+>(undefined);
 
 // Custom hook to access form context
 export const useFormContext = <T extends z.ZodType<any, any>>() => {
@@ -24,25 +26,27 @@ export const useFormContext = <T extends z.ZodType<any, any>>() => {
   if (!context) {
     throw new Error("useFormContext must be used within a Form component");
   }
-  return context as UseFormReturn<z.infer<T>>;
+  return context as UseFormReturn<z.input<T>, any, z.output<T>>;
 };
 
 interface IForm<T extends z.ZodType<any, any>> extends Omit<
   ComponentProps<"form">,
   "children" | "onSubmit" | "defaultValue" | "defaultChecked"
 > {
-  children: ((context: UseFormReturn<z.infer<T>>) => ReactNode) | ReactNode;
+  children:
+    | ((context: UseFormReturn<z.input<T>, any, z.output<T>>) => ReactNode)
+    | ReactNode;
   validationSchema: T;
-  defaultValues?: z.infer<T>;
+  defaultValues?: z.input<T>;
   onSubmit?: (
-    values: z.infer<T>,
-    methods: UseFormReturn<z.infer<T>>,
+    values: z.output<T>,
+    methods: UseFormReturn<z.input<T>,any, z.output<T>>,
   ) => void | Promise<void>;
-  formOptions?: UseFormProps<z.infer<T>>;
+  formOptions?: UseFormProps<z.input<T>, any, z.output<T>>;
   isLoading?: boolean;
   "aria-label"?: string;
   setFormMethod?: Dispatch<
-    SetStateAction<UseFormReturn<z.infer<T>, any, z.infer<T>> | null>
+    SetStateAction<UseFormReturn<z.input<T>, any, z.output<T>> | null>
   >;
 }
 
@@ -58,7 +62,7 @@ const Form = <T extends z.ZodType<any, any>>({
   setFormMethod,
   ...rest
 }: IForm<T>) => {
-  const methods = useForm<z.infer<T>>({
+  const methods = useForm<z.input<T>, any, z.output<T>>({
     resolver: zodResolver(validationSchema) as any,
     defaultValues,
     ...formOptions,
@@ -89,7 +93,9 @@ const Form = <T extends z.ZodType<any, any>>({
   return (
     <FormContext.Provider value={methods}>
       <form
-        onSubmit={handleSubmit((values) => onSubmit(values, methods))}
+        onSubmit={handleSubmit((values) =>
+          onSubmit(values as z.output<T>, methods),
+        )}
         className={cn("group", className)}
         noValidate
         aria-label={ariaLabel}

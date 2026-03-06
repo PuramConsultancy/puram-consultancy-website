@@ -16,7 +16,7 @@ import { useForm, UseFormProps, UseFormReturn } from "react-hook-form";
 import { z } from "zod";
 
 interface MultiStepFormContextType<T extends z.ZodType<any, any>> {
-  methods: UseFormReturn<z.infer<T>>;
+  methods: UseFormReturn<z.input<T>, any, z.output<T>>;
   currentStep: number;
   totalSteps: number;
   nextStep: () => void;
@@ -34,7 +34,7 @@ const MultiStepFormContext =
 
 export const useMultiStepForm = <T extends z.ZodType<any, any>>() => {
   const context = useContext(
-    MultiStepFormContext
+    MultiStepFormContext,
   ) as MultiStepFormContextType<T> | null;
   if (!context) {
     throw new Error("useMultiStepForm must be used within a MultiStepForm");
@@ -42,14 +42,18 @@ export const useMultiStepForm = <T extends z.ZodType<any, any>>() => {
   return context;
 };
 
-interface MultiStepFormProps<T extends z.ZodType<any, any>>
-  extends Omit<ComponentProps<"form">, "onSubmit"> {
+interface MultiStepFormProps<T extends z.ZodType<any, any>> extends Omit<
+  ComponentProps<"form">,
+  "onSubmit"
+> {
   children: ReactNode;
   validationSchema: T;
-  defaultValues?: z.infer<T>;
-  onSubmit: (values: z.infer<T>) => void | Promise<void>;
-  formOptions?: UseFormProps<z.infer<T>>;
-  setFormMethod?: Dispatch<SetStateAction<UseFormReturn<T, any, T> | null>>;
+  onSubmit: (values: z.output<T>) => void | Promise<void>;
+  defaultValues?: z.input<T>;
+  formOptions?: UseFormProps<z.input<T>, any, z.output<T>>;
+  setFormMethod?: Dispatch<
+    SetStateAction<UseFormReturn<z.input<T>, any, z.output<T>> | null>
+  >;
 }
 
 /**
@@ -80,9 +84,9 @@ export const MultiStepForm = <T extends z.ZodType<any, any>>({
   setFormMethod,
   ...rest
 }: MultiStepFormProps<T>) => {
-  const methods = useForm<z.infer<T>>({
-    resolver: zodResolver(validationSchema),
-    defaultValues,
+  const methods = useForm<z.input<T>, any, z.output<T>>({
+    resolver: zodResolver(validationSchema) as any,
+    defaultValues: defaultValues as any,
     ...formOptions,
   });
 
@@ -95,14 +99,14 @@ export const MultiStepForm = <T extends z.ZodType<any, any>>({
             child &&
             typeof child === "object" &&
             "type" in child &&
-            child.type === FormSteps
+            child.type === FormSteps,
         )
       : children &&
-        typeof children === "object" &&
-        "type" in children &&
-        children.type === FormSteps
-      ? children
-      : null;
+          typeof children === "object" &&
+          "type" in children &&
+          children.type === FormSteps
+        ? children
+        : null;
 
     if (formSteps && "props" in formSteps && formSteps.props.children) {
       const stepChildren = Array.isArray(formSteps.props.children)
@@ -113,7 +117,7 @@ export const MultiStepForm = <T extends z.ZodType<any, any>>({
           child &&
           typeof child === "object" &&
           "type" in child &&
-          child.type === FormStep
+          child.type === FormStep,
       ).length;
     }
   }
@@ -211,13 +215,13 @@ export const FormSteps = ({ children }: { children: ReactNode }) => {
           child &&
           typeof child === "object" &&
           "type" in child &&
-          child.type === FormStep
+          child.type === FormStep,
       )
     : children &&
-      typeof children === "object" &&
-      "type" in children &&
-      children.type === FormStep
-    ? [children]
-    : [];
+        typeof children === "object" &&
+        "type" in children &&
+        children.type === FormStep
+      ? [children]
+      : [];
   return <>{steps[currentStep]}</>;
 };

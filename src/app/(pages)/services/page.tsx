@@ -24,7 +24,10 @@ const ServicesPage = () => {
 
         <nav className="mt-6 flex flex-wrap gap-2">
           {serviceLinks.map((service) => {
-            const content = serviceContentByName[service.name];
+            const content =
+              serviceContentByName[
+                service.name as keyof typeof serviceContentByName
+              ];
             const slug = serviceSlugFromHref(service.href);
 
             return (
@@ -42,7 +45,10 @@ const ServicesPage = () => {
 
       <div className="space-y-6">
         {serviceLinks.map((service) => {
-          const content = serviceContentByName[service.name];
+          const content =
+            serviceContentByName[
+              service.name as keyof typeof serviceContentByName
+            ];
           const slug = serviceSlugFromHref(service.href);
 
           return (

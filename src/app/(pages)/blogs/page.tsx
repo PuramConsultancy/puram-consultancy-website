@@ -25,7 +25,7 @@ const posts = [
 const BlogsPage = () => {
   return (
     <PageShell>
-      <SurfaceCard as="header" padding="roomy">
+      <SurfaceCard as="section" padding="roomy">
         <p className="text-xs font-semibold tracking-[0.18em] uppercase text-(--color-secondary)">
           Insights
         </p>
