@@ -1,0 +1,51 @@
+import prisma from "@/lib/prisma";
+import { NextRequest, NextResponse } from "next/server";
+import handleError from "../helpers/handleError";
+import { BookingContactSchema } from "@/schemas/contact.schema";
+
+/**
+ * @route   POST /api/contact
+ * @desc    Create contact / booking enquiry submission
+ * @access  Public
+ */
+
+export async function POST(request: NextRequest) {
+  try {
+    const body = await request.json();
+    const validatedData = BookingContactSchema.parse(body);
+
+    const {
+      firstName,
+      lastName,
+      phone,
+      message,
+      serviceName,
+      appointmentDate,
+    } = validatedData;
+
+    const booking = await prisma.booking.create({
+      data: {
+        notes: JSON.stringify({
+          firstName,
+          lastName,
+          phone,
+          message,
+          serviceName,
+        }),
+        appointmentDate: appointmentDate ? new Date(appointmentDate) : null,
+        status: "PENDING",
+      },
+    });
+
+    return NextResponse.json(
+      {
+        success: true,
+        message: "Booking created successfully",
+        data: { booking },
+      },
+      { status: 201 },
+    );
+  } catch (error) {
+    return handleError(error, "Failed to create booking");
+  }
+}

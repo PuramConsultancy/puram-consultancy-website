@@ -61,7 +61,7 @@ const FrameworkSection = () => {
           size="lg"
           className="mt-6"
         >
-          Explore How It Works -&gt;
+          Explore How It Works
         </LinkCta>
       </div>
     </SurfaceCard>
