@@ -18,7 +18,7 @@
     "@radix-ui/react-select": "^2.2.6",
     "@tanstack/react-query": "^5.90.21",
     "argon2": "^0.44.0",
-    "axios": "^1.13.5",
+    "axios": "^1.13.6",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "dotenv": "^17.2.4",
@@ -49,6 +49,7 @@
     "prettier-plugin-tailwindcss": "^0.7.2",
     "prisma": "6.19",
     "tailwindcss": "^4.1.18",
+    "tsconfig-paths": "^4.2.0",
     "typescript": "^5"
   }
 }
