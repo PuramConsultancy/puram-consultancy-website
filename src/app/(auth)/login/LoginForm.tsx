@@ -39,7 +39,11 @@ const LoginForm = () => {
           setAuthToken(token);
           setUser(user);
 
-          router.push("/");
+          if (user.role === "ADMIN") {
+            router.push("/dashboard/admin");
+          } else {
+            router.push("/");
+          }
         } catch (error) {
           const err = error as AxiosError;
           const errObject = err.response?.data as CustomError;
