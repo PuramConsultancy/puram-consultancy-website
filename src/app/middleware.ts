@@ -39,16 +39,16 @@ export async function middleware(request: NextRequest, _: NextResponse) {
   // Logged in, protected routes
   if (session && !isOnlyPublic) {
     // Admin dashboard: ADMIN only
-    if (request.nextUrl.pathname.includes("dashboard/admin")) {
+    if (request.nextUrl.pathname.includes("admin-dashboard")) {
       if (user?.role !== UserRole.ADMIN) {
         return NextResponse.redirect(new URL("/", request.url));
       }
     }
 
     // User dashboard: USER only (admins use admin-dashboard)
-    if (request.nextUrl.pathname.includes("dashboard/user")) {
+    if (request.nextUrl.pathname.includes("user-dashboard")) {
       if (user?.role !== UserRole.USER) {
-        return NextResponse.redirect(new URL("/dashboard/admin", request.url));
+        return NextResponse.redirect(new URL("admin-dashboard", request.url));
       }
     }
 
@@ -61,8 +61,8 @@ export const config = {
     "/",
     "/login/:path*",
     "/register/:path*",
-    "/dashboard/admin/:path*",
-    "/dashboard/user/:path*",
+    "/admin-dashboard/:path*",
+    "/user-dashboard/:path*",
     "/profile/:path*",
     "/bookings/:path*",
     "/forms/:path*",
