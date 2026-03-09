@@ -40,7 +40,7 @@ const LoginForm = () => {
           setUser(user);
 
           if (user.role === "ADMIN") {
-            router.push("/dashboard/admin");
+            router.push("admin-dashboard");
           } else {
             router.push("/");
           }
