@@ -1,97 +1,57 @@
+import { UserRole } from "@prisma/client";
+
 /**
- * Permission Structure Overview:
+ * Permission Structure: [RESOURCE]:[ACTION]:[SCOPE]
  *
- * Permissions follow a 3-part syntax:
+ * RESOURCE  → USER | FORM | SECTION | QUESTION | SUBMISSION | FILE | BOOKING
+ * ACTION    → READ | CREATE | UPDATE | DELETE | * (all)
+ * SCOPE     → OWN | ASSIGNED | * (system-wide)
  *
- *    [RESOURCE]:[ACTION]:[SCOPE]
- *
- * This ensures scalable and consistent Role-Based Access Control (RBAC)
- * across the Puram Consultancy platform.
- *
- * -------------------------------------------------------------
- * Components:
- *
- * 1. RESOURCE
- *    The entity being acted upon:
- *    - USER
- *    - FORM
- *    - SECTION
- *    - QUESTION
- *    - SUBMISSION
- *    - FILE
- *
- * 2. ACTION
- *    The operation allowed:
- *    - READ
- *    - CREATE
- *    - UPDATE
- *    - DELETE
- *    - *   (all actions)
- *
- * 3. SCOPE
- *    The extent of access:
- *    - OWN       → User’s own data
- *    - ASSIGNED  → Data assigned/shared with user
- *    - *         → Full system-wide access
- *
- * -------------------------------------------------------------
- * Purpose:
- *
- * This permission system is used to enforce secure access control
- * for different roles in the Puram Consultancy Form Platform.
- *
- * Example:
- *   "FORM:UPDATE:OWN"
- *   → A user can update only the forms they created.
- *
- *   "SUBMISSION:READ:*"
- *   → Admin can read all submissions in the system.
+ * Examples:
+ *   "SUBMISSION:READ:OWN"   → User can read only their own submissions
+ *   "BOOKING:*:*"           → Admin can do anything with all bookings
  */
 
 /* ------------------------------------------------------------------ */
-/* ADMIN PERMISSIONS */
+/* ADMIN PERMISSIONS                                                     */
 /* ------------------------------------------------------------------ */
-
 export const ADMIN_PERMISSIONS = [
-  "USER:*:*", // Admin can manage all users
-  "FORM:*:*", // Admin can create/update/delete any form
-  "SECTION:*:*", // Admin can manage all form sections
-  "QUESTION:*:*", // Admin can manage all questions
-  "SUBMISSION:*:*", // Admin can view/manage all submissions
-  "FILE:*:*", // Admin can manage uploaded submission files
+  "USER:*:*", // Full user management
+  "FORM:*:*", // Full form management
+  "SECTION:*:*", // Full section management
+  "QUESTION:*:*", // Full question management
+  "SUBMISSION:*:*", // Full submission management
+  "FILE:*:*", // Full file management
+  "BOOKING:*:*", // Full booking management
 ];
 
 /* ------------------------------------------------------------------ */
-/* USER PERMISSIONS */
+/* USER PERMISSIONS                                                      */
 /* ------------------------------------------------------------------ */
-
 export const USER_PERMISSIONS = [
-  // User Profile Permissions
-  "USER:READ:OWN", // Users can read their own profile
-  "USER:UPDATE:OWN", // Users can update their own profile
+  "USER:READ:OWN", // Read own profile
+  "USER:UPDATE:OWN", // Update own profile
 
-  // Form Permissions
-  "FORM:READ:*", // Users can view public/available forms
+  "FORM:READ:*", // View all available forms
 
-  // Submission Permissions
-  "SUBMISSION:CREATE:OWN", // Users can submit responses
-  "SUBMISSION:READ:OWN", // Users can view their own submissions
+  "SUBMISSION:CREATE:OWN", // Submit form responses
+  "SUBMISSION:READ:OWN", // View own submissions
+  "SUBMISSION:UPDATE:OWN", // Update own submissions
 
-  // File Upload Permissions
-  "FILE:CREATE:OWN", // Users can upload files in their submissions
+  "FILE:CREATE:OWN", // Upload files in own submissions
+  "FILE:READ:OWN", // Read own uploaded files
+
+  "BOOKING:CREATE:OWN", // Create own bookings
+  "BOOKING:READ:OWN", // View own bookings
+  "BOOKING:UPDATE:OWN", // Update own bookings (e.g. cancel)
 ];
 
 /* ------------------------------------------------------------------ */
-/* ROLE PERMISSION MAP */
+/* ROLE → PERMISSIONS MAP                                                */
 /* ------------------------------------------------------------------ */
-
-export const ROLE_PERMISSIONS = {
-  ADMIN: ADMIN_PERMISSIONS,
-  USER: USER_PERMISSIONS,
+export const ROLE_PERMISSIONS: Record<UserRole, string[]> = {
+  [UserRole.ADMIN]: ADMIN_PERMISSIONS,
+  [UserRole.USER]: USER_PERMISSIONS,
 };
-
-/* ------------------------------------------------------------------ */
-/* Permission Type Helper */
-/* ------------------------------------------------------------------ */
 
 export type Permission = string;
