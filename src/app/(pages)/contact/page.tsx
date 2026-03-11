@@ -1,6 +1,5 @@
 import Link from "next/link";
 
-import BookingContactForm from "@/components/contact/BookingContactForm";
 import { PageShell } from "@/components/ui/page-shell";
 import { SurfaceCard } from "@/components/ui/surface-card";
 
@@ -25,7 +24,7 @@ const ContactPage = () => {
       </header>
 
       <section className="grid gap-5 lg:grid-cols-[1.1fr_0.9fr]">
-        <SurfaceCard as="article">
+        <SurfaceCard as="article" hoverable>
           <h2 className="text-2xl font-semibold text-(--color-primary) sm:text-3xl">
             Reach Us Directly
           </h2>
@@ -43,7 +42,7 @@ const ContactPage = () => {
           </ul>
         </SurfaceCard>
 
-        <SurfaceCard as="article" tone="muted">
+        <SurfaceCard as="article" tone="muted" hoverable>
           <h2 className="text-2xl font-semibold text-(--color-primary) sm:text-3xl">
             Follow Us
           </h2>

@@ -29,7 +29,7 @@ const ReusableCard = ({
   const resolvedCtaLabel = ctaLabel ?? "Learn More";
 
   return (
-    <article className={cn("rounded-3xl", className)}>
+    <article className={cn("card-hover rounded-3xl", className)}>
       <div
         className={cn(
           "mb-5 flex h-16 w-16 items-center justify-center rounded-2xl bg-orange-100/60 text-(--color-secondary)",

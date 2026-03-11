@@ -1,5 +1,3 @@
-import Link from "next/link";
-
 import { LinkCta } from "@/components/ui/link-cta";
 import { SurfaceCard } from "@/components/ui/surface-card";
 
@@ -20,9 +18,9 @@ const CaseStudySection = () => {
           See how we helped a SaaS founder:
         </p>
 
-        <ul className="mt-4 space-y-2 text-base leading-relaxed text-slate-700 sm:text-lg">
+        <ul className="mt-4 list-disc space-y-2 pl-5 text-base leading-relaxed text-slate-700 sm:text-lg">
           {outcomes.map((outcome) => (
-            <li key={outcome}>- {outcome}</li>
+            <li key={outcome}>{outcome}</li>
           ))}
         </ul>
 

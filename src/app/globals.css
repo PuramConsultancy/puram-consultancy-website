@@ -56,6 +56,33 @@ body {
   font-family: var(--font-primary);
 }
 
+.card-hover {
+  transition:
+    transform 240ms ease,
+    box-shadow 240ms ease,
+    border-color 240ms ease;
+  will-change: transform, box-shadow;
+}
+
+@media (hover: hover) {
+  .card-hover:hover {
+    transform: translateY(-4px) scale(1.015);
+    box-shadow:
+      0 16px 32px rgb(2 51 65 / 0.14),
+      0 0 0 1px rgb(2 51 65 / 0.08);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card-hover {
+    transition: none;
+  }
+
+  .card-hover:hover {
+    transform: none;
+  }
+}
+
 html,
 body {
   max-width: 100%;

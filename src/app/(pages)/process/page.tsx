@@ -44,7 +44,7 @@ const ProcessPage = () => {
 
       <section className="grid gap-5 sm:grid-cols-2">
         {steps.map((step, index) => (
-          <SurfaceCard as="article" key={step.title} className="p-6 sm:p-7">
+          <SurfaceCard as="article" key={step.title} hoverable className="p-6 sm:p-7">
             <p className="text-xs font-semibold tracking-[0.14em] text-(--color-secondary) uppercase">
               Step {index + 1}
             </p>

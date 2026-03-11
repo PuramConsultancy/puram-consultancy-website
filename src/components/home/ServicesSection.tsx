@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { FiCompass, FiSearch, FiSettings, FiTrendingUp, FiZap } from "react-icons/fi";
 import { IconType } from "react-icons";
 

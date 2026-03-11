@@ -44,6 +44,7 @@ const BlogsPage = () => {
             as="article"
             key={post.title}
             tone="muted"
+            hoverable
             className="p-6"
           >
             <p className="text-xs font-semibold tracking-[0.14em] uppercase text-(--color-secondary)">

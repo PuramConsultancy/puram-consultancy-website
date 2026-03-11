@@ -85,7 +85,7 @@ const AboutPage = () => {
           {impactStats.map((stat) => (
             <article
               key={stat.label}
-              className="rounded-2xl border border-white/15 bg-white/5 p-4"
+              className="card-hover rounded-2xl border border-white/15 bg-white/5 p-4"
             >
               <p className="text-2xl font-semibold text-white sm:text-3xl">
                 {stat.value}
@@ -109,7 +109,7 @@ const AboutPage = () => {
           {coreValues.map((value) => (
             <article
               key={value.title}
-              className="rounded-2xl border border-slate-200 bg-slate-50 p-5"
+              className="card-hover rounded-2xl border border-slate-200 bg-slate-50 p-5"
             >
               <h3 className="text-lg font-semibold text-(--color-primary) sm:text-xl">
                 {value.title}
@@ -130,7 +130,7 @@ const AboutPage = () => {
           {engagementFlow.map((step) => (
             <article
               key={step.phase}
-              className="rounded-2xl border border-slate-200 bg-slate-50 p-5"
+              className="card-hover rounded-2xl border border-slate-200 bg-slate-50 p-5"
             >
               <p className="text-xs font-semibold tracking-[0.14em] uppercase text-(--color-secondary)">
                 Stage {step.phase}
