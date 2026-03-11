@@ -29,6 +29,7 @@ const surfaceCardVariants = cva("rounded-3xl border", {
 type SurfaceCardProps = HTMLAttributes<HTMLElement> &
   VariantProps<typeof surfaceCardVariants> & {
     as?: "article" | "section" | "div" | "header" | "main" | "footer";
+    hoverable?: boolean;
   };
 
 const SurfaceCard = ({
@@ -36,13 +37,18 @@ const SurfaceCard = ({
   className,
   tone,
   padding,
+  hoverable = false,
   ...props
 }: SurfaceCardProps) => {
   const Comp = as;
 
   return (
     <Comp
-      className={cn(surfaceCardVariants({ tone, padding, className }))}
+      className={cn(
+        surfaceCardVariants({ tone, padding }),
+        hoverable && "card-hover",
+        className,
+      )}
       {...props}
     />
   );

@@ -18,9 +18,9 @@ const ProblemSection = () => {
 
         <p className="mt-5 text-lg text-slate-600">If you&apos;re experiencing:</p>
 
-        <ul className="mt-4 space-y-2 text-base leading-relaxed text-slate-700 sm:text-lg">
+        <ul className="mt-4 list-disc space-y-2 pl-5 text-base leading-relaxed text-slate-700 sm:text-lg">
           {painPoints.map((point) => (
-            <li key={point}>- {point}</li>
+            <li key={point}>{point}</li>
           ))}
         </ul>
 
