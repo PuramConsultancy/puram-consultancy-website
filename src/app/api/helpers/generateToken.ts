@@ -22,3 +22,7 @@ export default function generateToken<T extends Record<string, string>>(
     };
   }
 }
+
+export function verifyToken<T>(token: string): T {
+  return jwt.verify(token, process?.env?.JWT_SECRET || "") as T;
+}
