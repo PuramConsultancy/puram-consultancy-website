@@ -25,9 +25,9 @@ const PositioningSection = () => {
           At Puram Consultancy, we design scalable systems that:
         </p>
 
-        <ul className="mt-4 space-y-2 text-base leading-relaxed text-slate-700 sm:text-lg">
+        <ul className="mt-4 list-disc space-y-2 pl-5 text-base leading-relaxed text-slate-700 sm:text-lg">
           {pillars.map((pillar) => (
-            <li key={pillar}>- {pillar}</li>
+            <li key={pillar}>{pillar}</li>
           ))}
         </ul>
 

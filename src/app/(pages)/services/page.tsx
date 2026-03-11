@@ -56,6 +56,7 @@ const ServicesPage = () => {
               as="article"
               key={service.name}
               id={slug}
+              hoverable
               className="scroll-mt-28"
             >
               <h2 className="text-2xl font-semibold text-(--color-primary) sm:text-3xl">
@@ -65,9 +66,9 @@ const ServicesPage = () => {
                 {content.fullDescription}
               </p>
 
-              <ul className="mt-5 space-y-2 text-sm leading-relaxed text-slate-600 sm:text-base">
+              <ul className="mt-5 list-disc space-y-2 pl-5 text-sm leading-relaxed text-slate-600 sm:text-base">
                 {content.outcomes.map((outcome) => (
-                  <li key={outcome}>- {outcome}</li>
+                  <li key={outcome}>{outcome}</li>
                 ))}
               </ul>
             </SurfaceCard>

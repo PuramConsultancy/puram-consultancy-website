@@ -17,9 +17,9 @@ const ConsultationCtaSection = () => {
           Schedule a free strategy call and discover:
         </p>
 
-        <ul className="mx-auto mt-5 max-w-3xl space-y-2 text-left text-sm sm:text-base">
+        <ul className="mx-auto mt-5 max-w-3xl list-disc space-y-2 pl-5 text-left text-sm sm:text-base">
           {calloutItems.map((item) => (
-            <li key={item}>- {item}</li>
+            <li key={item}>{item}</li>
           ))}
         </ul>
 

@@ -11,6 +11,9 @@
     "create-diff:mac": "{ git diff -- . ':(exclude)node_modules' ':(exclude)package-lock.json' ':(exclude)src/app/fonts' ':(exclude)public' && git ls-files --others --exclude-standard ':!node_modules/*' ':!package-lock.json' ':!src/app/fonts/*' ':!public/*' | while read file; do echo \"+++ $file\"; cat \"$file\"; done; } > ~/Desktop/diff.txt"
   },
   "dependencies": {
+    "@dnd-kit/core": "^6.3.1",
+    "@dnd-kit/sortable": "^10.0.0",
+    "@dnd-kit/utilities": "^3.2.2",
     "@hookform/resolvers": "^5.2.2",
     "@prisma/client": "6.19",
     "@radix-ui/react-dialog": "^1.1.15",
@@ -32,7 +35,9 @@
     "react-dom": "19.2.3",
     "react-hook-form": "^7.71.2",
     "react-icons": "^5.5.0",
+    "react-responsive": "^10.0.1",
     "tailwind-merge": "^3.4.0",
+    "vaul": "^1.1.2",
     "zod": "^4.3.6",
     "zustand": "^5.0.11"
   },

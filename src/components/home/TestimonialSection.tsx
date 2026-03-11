@@ -40,8 +40,6 @@ const testimonials: Testimonial[] = [
 
 const AUTO_SLIDE_MS = 5000;
 const TRANSITION_MS = 500;
-const navButtonClassName =
-  "flex h-12 w-12 items-center justify-center rounded-full border border-slate-300 text-slate-500 transition-colors duration-300 hover:bg-slate-100 sm:h-16 sm:w-16 lg:h-[4.5rem] lg:w-[4.5rem]";
 
 const TestimonialContent = ({ testimonial }: { testimonial: Testimonial }) => {
   return (
@@ -151,7 +149,7 @@ const TestimonialSection = () => {
             <FiChevronLeft className="text-2xl lg:text-3xl" />
           </button>
 
-          <article className="min-w-0 overflow-hidden rounded-3xl border border-slate-200 bg-slate-50 p-5 text-center sm:p-8 lg:p-10 xl:p-12">
+          <article className="card-hover min-w-0 overflow-hidden rounded-3xl border border-slate-200 bg-slate-50 p-5 text-center sm:p-8 lg:p-10 xl:p-12">
             <div className="relative min-h-[19rem] overflow-hidden sm:min-h-[22rem] lg:min-h-[25rem]">
               {previousIndex !== null ? (
                 <div

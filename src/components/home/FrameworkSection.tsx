@@ -1,5 +1,3 @@
-import Link from "next/link";
-
 import { LinkCta } from "@/components/ui/link-cta";
 import { SurfaceCard } from "@/components/ui/surface-card";
 
@@ -37,7 +35,7 @@ const FrameworkSection = () => {
           {phases.map((phase, index) => (
             <article
               key={phase.title}
-              className="rounded-2xl border border-white/15 bg-white/5 p-5"
+              className="card-hover rounded-2xl border border-white/15 bg-white/5 p-5"
             >
               <p className="text-xs font-semibold tracking-[0.16em] uppercase text-(--color-secondary-200)">
                 Phase {index + 1}
