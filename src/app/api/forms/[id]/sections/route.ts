@@ -1,7 +1,6 @@
-import prisma from "@/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
-import handleError from "../../../helpers/handleError";
-import { getAuthUser } from "../../../helpers/getAuthUser";
+import prisma from "@/lib/prisma";
+import { getAuthUser } from "@/app/api/helpers/getAuthUser";
 import { CreateSectionSchema } from "@/schemas/form.schemas";
 
 export async function POST(
@@ -16,19 +15,19 @@ export async function POST(
         { status: 401 },
       );
     }
-
     const { id: formId } = await params;
     const body = await request.json();
-    const { title, order } = CreateSectionSchema.parse(body);
-
+    const validated = CreateSectionSchema.parse(body);
     const section = await prisma.formSection.create({
-      data: { formId, title, order },
-      include: { questions: true },
+      data: { formId, title: validated.title, order: validated.order },
     });
-
-    return NextResponse.json({ success: true, data: section });
+    return NextResponse.json({ success: true, data: section }, { status: 201 });
   } catch (error) {
-    return handleError(error, "Failed to create section");
+    console.error("POST /sections error:", error);
+    return NextResponse.json(
+      { success: false, message: "Failed to create section" },
+      { status: 500 },
+    );
   }
 }
 
@@ -37,21 +36,27 @@ export async function GET(
   { params }: { params: Promise<{ id: string }> },
 ) {
   try {
+    const user = getAuthUser(request);
+    if (!user) {
+      return NextResponse.json(
+        { success: false, message: "Unauthorized" },
+        { status: 401 },
+      );
+    }
     const { id: formId } = await params;
-
     const sections = await prisma.formSection.findMany({
       where: { formId },
       orderBy: { order: "asc" },
       include: {
-        questions: {
-          orderBy: { order: "asc" },
-          include: { options: true },
-        },
+        questions: { orderBy: { order: "asc" }, include: { options: true } },
       },
     });
-
     return NextResponse.json({ success: true, data: sections });
   } catch (error) {
-    return handleError(error, "Failed to fetch sections");
+    console.error("GET /sections error:", error);
+    return NextResponse.json(
+      { success: false, message: "Failed to fetch sections" },
+      { status: 500 },
+    );
   }
 }

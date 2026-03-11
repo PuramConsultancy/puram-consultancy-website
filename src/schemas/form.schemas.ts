@@ -30,7 +30,7 @@ export const CreateQuestionSchema = z.object({
 });
 
 export const CreateSectionSchema = z.object({
-  title: z.string().min(1, "Section title is required"),
+  title: z.string().default(""),
   order: z.number().default(0),
 });
 

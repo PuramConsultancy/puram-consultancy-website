@@ -1,338 +1,17 @@
 "use client";
 
-import { useState, useCallback, use } from "react";
-import {
-  DndContext,
-  closestCenter,
-  DragEndEvent,
-  PointerSensor,
-  useSensor,
-  useSensors,
-} from "@dnd-kit/core";
-import {
-  SortableContext,
-  verticalListSortingStrategy,
-  useSortable,
-  arrayMove,
-} from "@dnd-kit/sortable";
-import { CSS } from "@dnd-kit/utilities";
-import {
-  IoAdd,
-  IoTrash,
-  IoChevronDown,
-  IoChevronUp,
-  IoSave,
-  IoArrowBack,
-  IoEye,
-} from "react-icons/io5";
-import { MdDragIndicator } from "react-icons/md";
+import { useState, useCallback, use, useEffect } from "react";
+import { IoAdd } from "react-icons/io5";
 import { useRouter } from "next/navigation";
-
-// ─── Types ────────────────────────────────────────────────────────────────────
-
-type QuestionType =
-  | "TEXT"
-  | "TEXTAREA"
-  | "EMAIL"
-  | "PHONE"
-  | "NUMBER"
-  | "MULTIPLE_CHOICE"
-  | "CHECKBOX"
-  | "DROPDOWN"
-  | "DATE"
-  | "FILE";
-
-interface Option {
-  id: string;
-  label: string;
-  value: string;
-}
-
-interface Question {
-  id: string;
-  label: string;
-  type: QuestionType;
-  required: boolean;
-  order: number;
-  options: Option[];
-}
-
-interface Section {
-  id: string;
-  title: string;
-  order: number;
-  questions: Question[];
-}
-
-const QUESTION_TYPES: { value: QuestionType; label: string }[] = [
-  { value: "TEXT", label: "Short Text" },
-  { value: "TEXTAREA", label: "Long Text" },
-  { value: "EMAIL", label: "Email" },
-  { value: "PHONE", label: "Phone" },
-  { value: "NUMBER", label: "Number" },
-  { value: "MULTIPLE_CHOICE", label: "Multiple Choice" },
-  { value: "CHECKBOX", label: "Checkbox" },
-  { value: "DROPDOWN", label: "Dropdown" },
-  { value: "DATE", label: "Date" },
-  { value: "FILE", label: "File Upload" },
-];
-
-const OPTION_TYPES: QuestionType[] = [
-  "MULTIPLE_CHOICE",
-  "CHECKBOX",
-  "DROPDOWN",
-];
-
-const uid = () => Math.random().toString(36).slice(2, 10);
-
-// ─── Sortable Question Card ───────────────────────────────────────────────────
-
-function SortableQuestion({
-  question,
-  sectionId,
-  onUpdate,
-  onDelete,
-}: {
-  question: Question;
-  sectionId: string;
-  onUpdate: (sectionId: string, q: Question) => void;
-  onDelete: (sectionId: string, questionId: string) => void;
-}) {
-  const [expanded, setExpanded] = useState(true);
-  const {
-    attributes,
-    listeners,
-    setNodeRef,
-    transform,
-    transition,
-    isDragging,
-  } = useSortable({ id: question.id });
-
-  const style = {
-    transform: CSS.Transform.toString(transform),
-    transition,
-    opacity: isDragging ? 0.4 : 1,
-  };
-
-  const update = (patch: Partial<Question>) =>
-    onUpdate(sectionId, { ...question, ...patch });
-
-  const addOption = () =>
-    update({
-      options: [
-        ...question.options,
-        { id: uid(), label: "Option", value: `option_${uid()}` },
-      ],
-    });
-
-  const updateOption = (id: string, label: string) =>
-    update({
-      options: question.options.map((o) =>
-        o.id === id
-          ? { ...o, label, value: label.toLowerCase().replace(/\s+/g, "_") }
-          : o,
-      ),
-    });
-
-  const deleteOption = (id: string) =>
-    update({ options: question.options.filter((o) => o.id !== id) });
-
-  return (
-    <div
-      ref={setNodeRef}
-      style={style}
-      className="rounded-xl border border-gray-200 bg-white shadow-sm transition-shadow hover:shadow-md"
-    >
-      {/* Question Header */}
-      <div className="flex items-center gap-2 p-3">
-        <button
-          {...attributes}
-          {...listeners}
-          className="cursor-grab text-gray-300 hover:text-gray-500 active:cursor-grabbing"
-        >
-          <MdDragIndicator className="size-5" />
-        </button>
-
-        <input
-          className="flex-1 bg-transparent text-sm font-medium text-gray-800 placeholder:text-gray-400 focus:outline-none"
-          placeholder="Question label..."
-          value={question.label}
-          onChange={(e) => update({ label: e.target.value })}
-        />
-
-        <select
-          className="rounded-lg border border-gray-200 bg-gray-50 px-2 py-1 text-xs text-gray-600 focus:ring-2 focus:ring-blue-500 focus:outline-none"
-          value={question.type}
-          onChange={(e) =>
-            update({ type: e.target.value as QuestionType, options: [] })
-          }
-        >
-          {QUESTION_TYPES.map((t) => (
-            <option key={t.value} value={t.value}>
-              {t.label}
-            </option>
-          ))}
-        </select>
-
-        <label className="flex items-center gap-1 text-xs text-gray-500">
-          <input
-            type="checkbox"
-            checked={question.required}
-            onChange={(e) => update({ required: e.target.checked })}
-            className="accent-blue-600"
-          />
-          Required
-        </label>
-
-        <button
-          onClick={() => setExpanded((v) => !v)}
-          className="text-gray-400 hover:text-gray-600"
-        >
-          {expanded ? (
-            <IoChevronUp className="size-4" />
-          ) : (
-            <IoChevronDown className="size-4" />
-          )}
-        </button>
-
-        <button
-          onClick={() => onDelete(sectionId, question.id)}
-          className="text-gray-300 transition-colors hover:text-red-500"
-        >
-          <IoTrash className="size-4" />
-        </button>
-      </div>
-
-      {/* Options (for choice-type questions) */}
-      {expanded && OPTION_TYPES.includes(question.type) && (
-        <div className="border-t border-gray-100 px-4 pt-2 pb-3">
-          <p className="mb-2 text-xs font-medium text-gray-500">Options</p>
-          <div className="flex flex-col gap-1.5">
-            {question.options.map((opt) => (
-              <div key={opt.id} className="flex items-center gap-2">
-                <div className="size-3 rounded-full border border-gray-300" />
-                <input
-                  className="flex-1 rounded-lg border border-gray-200 bg-gray-50 px-2 py-1 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"
-                  value={opt.label}
-                  onChange={(e) => updateOption(opt.id, e.target.value)}
-                />
-                <button
-                  onClick={() => deleteOption(opt.id)}
-                  className="text-gray-300 transition-colors hover:text-red-500"
-                >
-                  <IoTrash className="size-3.5" />
-                </button>
-              </div>
-            ))}
-            <button
-              onClick={addOption}
-              className="mt-1 flex items-center gap-1 text-xs text-blue-500 hover:text-blue-700"
-            >
-              <IoAdd className="size-3.5" /> Add option
-            </button>
-          </div>
-        </div>
-      )}
-    </div>
-  );
-}
-
-// ─── Section Card ─────────────────────────────────────────────────────────────
-
-function SectionCard({
-  section,
-  onUpdateTitle,
-  onDeleteSection,
-  onAddQuestion,
-  onUpdateQuestion,
-  onDeleteQuestion,
-  onReorderQuestions,
-}: {
-  section: Section;
-  onUpdateTitle: (id: string, title: string) => void;
-  onDeleteSection: (id: string) => void;
-  onAddQuestion: (sectionId: string) => void;
-  onUpdateQuestion: (sectionId: string, q: Question) => void;
-  onDeleteQuestion: (sectionId: string, questionId: string) => void;
-  onReorderQuestions: (sectionId: string, questions: Question[]) => void;
-}) {
-  const sensors = useSensors(
-    useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),
-  );
-
-  const handleDragEnd = (event: DragEndEvent) => {
-    const { active, over } = event;
-    if (!over || active.id === over.id) return;
-    const oldIndex = section.questions.findIndex((q) => q.id === active.id);
-    const newIndex = section.questions.findIndex((q) => q.id === over.id);
-    const reordered = arrayMove(section.questions, oldIndex, newIndex).map(
-      (q, i) => ({ ...q, order: i }),
-    );
-    onReorderQuestions(section.id, reordered);
-  };
-
-  return (
-    <div className="rounded-2xl border border-gray-200 bg-gray-50 p-4">
-      {/* Section Header */}
-      <div className="mb-4 flex items-center gap-3">
-        <div className="flex-1">
-          <input
-            className="w-full bg-transparent text-base font-semibold text-gray-800 placeholder:text-gray-400 focus:outline-none"
-            placeholder="Section title..."
-            value={section.title}
-            onChange={(e) => onUpdateTitle(section.id, e.target.value)}
-          />
-          <div className="mt-1 h-px bg-gray-200" />
-        </div>
-        <button
-          onClick={() => onDeleteSection(section.id)}
-          className="rounded-lg p-1.5 text-gray-300 transition-colors hover:bg-red-50 hover:text-red-500"
-        >
-          <IoTrash className="size-4" />
-        </button>
-      </div>
-
-      {/* Questions */}
-      <DndContext
-        sensors={sensors}
-        collisionDetection={closestCenter}
-        onDragEnd={handleDragEnd}
-      >
-        <SortableContext
-          items={section.questions.map((q) => q.id)}
-          strategy={verticalListSortingStrategy}
-        >
-          <div className="flex flex-col gap-2">
-            {section.questions.length === 0 && (
-              <p className="py-6 text-center text-sm text-gray-400">
-                No questions yet. Add one below.
-              </p>
-            )}
-            {section.questions.map((q) => (
-              <SortableQuestion
-                key={q.id}
-                question={q}
-                sectionId={section.id}
-                onUpdate={onUpdateQuestion}
-                onDelete={onDeleteQuestion}
-              />
-            ))}
-          </div>
-        </SortableContext>
-      </DndContext>
-
-      {/* Add Question */}
-      <button
-        onClick={() => onAddQuestion(section.id)}
-        className="mt-3 flex w-full items-center justify-center gap-2 rounded-xl border border-dashed border-blue-300 py-2.5 text-sm text-blue-500 transition-colors hover:border-blue-400 hover:bg-blue-50"
-      >
-        <IoAdd className="size-4" /> Add Question
-      </button>
-    </div>
-  );
-}
-
-// ─── Main Page ────────────────────────────────────────────────────────────────
+import { useGetForm } from "@/app/api-client/forms/useGetForm";
+import { useCreateSection } from "@/app/api-client/forms/useCreateSection";
+import { useUpdateSection } from "@/app/api-client/forms/useUpdateSection";
+import { useCreateQuestion } from "@/app/api-client/forms/useCreateQuestion";
+import { useApi } from "@/app/providers/ApiProvider";
+import { QuestionType, Section, isDbId } from "./types";
+import { useSections } from "@/hooks/useSections";
+import { BuilderToolbar } from "@/components/builder/Buildertoolbar";
+import { SectionBlock } from "@/components/builder/Sectionblock";
 
 export default function FormBuilderPage({
   params,
@@ -341,121 +20,165 @@ export default function FormBuilderPage({
 }) {
   const { id: formId } = use(params);
   const router = useRouter();
-  const [formTitle] = useState("Untitled Form");
-  const [sections, setSections] = useState<Section[]>([]);
+  const { jsonApiClient } = useApi();
+
+  const [formTitle, setFormTitle] = useState("");
   const [isSaving, setIsSaving] = useState(false);
   const [saveStatus, setSaveStatus] = useState<"idle" | "saved" | "error">(
     "idle",
   );
 
-  // ── Section actions ──
+  const {
+    sections,
+    setSections,
+    addSection,
+    updateSectionTitle,
+    addQuestion,
+    updateQuestion,
+    reorderQuestions,
+  } = useSections();
 
-  const addSection = () =>
-    setSections((prev) => [
-      ...prev,
-      { id: uid(), title: "New Section", order: prev.length, questions: [] },
-    ]);
+  // ── API hooks ──
+  const { data: formData, isLoading, refetch } = useGetForm(formId);
+  const { mutateAsync: createSection } = useCreateSection({
+    invalidateQueryKey: [`form-${formId}`],
+  });
+  const { mutateAsync: updateSection } = useUpdateSection({
+    invalidateQueryKey: [`form-${formId}`],
+  });
+  const { mutateAsync: createQuestion } = useCreateQuestion({
+    invalidateQueryKey: [`form-${formId}`],
+  });
 
-  const updateSectionTitle = (id: string, title: string) =>
-    setSections((prev) => prev.map((s) => (s.id === id ? { ...s, title } : s)));
-
-  const deleteSection = (id: string) =>
-    setSections((prev) => prev.filter((s) => s.id !== id));
-
-  // ── Question actions ──
-
-  const addQuestion = (sectionId: string) =>
-    setSections((prev) =>
-      prev.map((s) =>
-        s.id === sectionId
-          ? {
-              ...s,
-              questions: [
-                ...s.questions,
-                {
-                  id: uid(),
-                  label: "",
-                  type: "TEXT",
-                  required: false,
-                  order: s.questions.length,
-                  options: [],
-                },
-              ],
-            }
-          : s,
+  // ── Load form data into local state ──
+  useEffect(() => {
+    if (!formData?.data) return;
+    setFormTitle(formData.data.title);
+    setSections(
+      formData.data.sections.map(
+        (s): Section => ({
+          id: s.id,
+          title: s.title,
+          order: s.order,
+          questions: s.questions.map((q) => ({
+            id: q.id,
+            label: q.label,
+            type: q.type as QuestionType,
+            required: q.required,
+            order: q.order,
+            options: q.options.map((o) => ({
+              id: o.id,
+              label: o.label,
+              value: o.value,
+            })),
+          })),
+        }),
       ),
     );
+  }, [formData, setSections]);
 
-  const updateQuestion = (sectionId: string, updated: Question) =>
-    setSections((prev) =>
-      prev.map((s) =>
-        s.id === sectionId
-          ? {
-              ...s,
-              questions: s.questions.map((q) =>
-                q.id === updated.id ? updated : q,
-              ),
-            }
-          : s,
-      ),
-    );
+  // ── Delete section — calls API then refetches ──
+  const handleDeleteSection = useCallback(
+    async (sectionId: string) => {
+      // Optimistic UI update
+      setSections((prev) => prev.filter((s) => s.id !== sectionId));
 
-  const deleteQuestion = (sectionId: string, questionId: string) =>
-    setSections((prev) =>
-      prev.map((s) =>
-        s.id === sectionId
-          ? { ...s, questions: s.questions.filter((q) => q.id !== questionId) }
-          : s,
-      ),
-    );
+      // Only call API if it's a real DB record
+      if (isDbId(sectionId)) {
+        try {
+          await jsonApiClient.delete(
+            `/api/forms/${formId}/sections/${sectionId}`,
+          );
+          await refetch(); // ✅ sync with DB
+        } catch (error) {
+          console.error("Failed to delete section:", error);
+          await refetch(); // revert optimistic update on error
+        }
+      }
+    },
+    [formId, jsonApiClient, refetch, setSections],
+  );
 
-  const reorderQuestions = (sectionId: string, questions: Question[]) =>
-    setSections((prev) =>
-      prev.map((s) => (s.id === sectionId ? { ...s, questions } : s)),
-    );
+  // ── Delete question — calls API then refetches ──
+  const handleDeleteQuestion = useCallback(
+    async (sectionId: string, questionId: string) => {
+      // Optimistic UI update
+      setSections((prev) =>
+        prev.map((s) =>
+          s.id === sectionId
+            ? {
+                ...s,
+                questions: s.questions.filter((q) => q.id !== questionId),
+              }
+            : s,
+        ),
+      );
+
+      // Only call API if it's a real DB record
+      if (isDbId(questionId)) {
+        try {
+          await jsonApiClient.delete(
+            `/api/forms/${formId}/sections/${sectionId}/questions/${questionId}`,
+          );
+          await refetch(); // ✅ sync with DB
+        } catch (error) {
+          console.error("Failed to delete question:", error);
+          await refetch(); // revert on error
+        }
+      }
+    },
+    [formId, jsonApiClient, refetch, setSections],
+  );
 
   // ── Save ──
-
   const handleSave = useCallback(async () => {
     setIsSaving(true);
     setSaveStatus("idle");
 
     try {
-      // 1. Save each section + its questions
       for (const section of sections) {
-        // Create section
-        const sectionRes = await fetch(`/api/forms/${formId}/sections`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ title: section.title, order: section.order }),
-        });
+        let savedSectionId = section.id;
 
-        if (!sectionRes.ok) throw new Error("Failed to save section");
-        const { data: savedSection } = await sectionRes.json();
+        if (!isDbId(section.id)) {
+          // New section → create
+          const res = await createSection({
+            params: { id: formId },
+            body: { title: section.title, order: section.order },
+          });
+          savedSectionId = res.data.id;
+        } else {
+          // Existing section → update title/order
+          await updateSection({
+            params: { id: formId, sectionId: section.id },
+            body: { title: section.title, order: section.order },
+          });
+        }
 
-        // Create questions for this section
+        // Only save new (non-DB) questions
         for (const question of section.questions) {
-          const qRes = await fetch(
-            `/api/forms/${formId}/sections/${savedSection.id}/questions`,
-            {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({
-                label: question.label || "Untitled Question",
-                type: question.type,
-                required: question.required,
-                order: question.order,
-                options: question.options.map(({ label, value }) => ({
+          if (isDbId(question.id)) continue;
+
+          await createQuestion({
+            params: { id: formId, sectionId: savedSectionId },
+            body: {
+              label: question.label || "Untitled Question",
+              type: question.type,
+              required: question.required,
+              order: question.order,
+              options: question.options.map(
+                ({ label, value }: { label: string; value: string }) => ({
                   label,
                   value,
-                })),
-              }),
+                }),
+              ),
             },
-          );
-
-          if (!qRes.ok) throw new Error("Failed to save question");
+          });
         }
       }
+
+      // ✅ Refetch from DB — this replaces all temp IDs with real ones
+      // and makes questions appear correctly after save
+      await refetch();
 
       setSaveStatus("saved");
       setTimeout(() => setSaveStatus("idle"), 3000);
@@ -464,89 +187,104 @@ export default function FormBuilderPage({
     } finally {
       setIsSaving(false);
     }
-  }, [formId, sections]);
+  }, [formId, sections, createSection, updateSection, createQuestion, refetch]);
+
+  const totalQuestions = sections.reduce(
+    (acc, s) => acc + s.questions.length,
+    0,
+  );
+
+  // ── Loading ──
+  if (isLoading) {
+    return (
+      <div className="flex h-full flex-col items-center justify-center gap-3 bg-gray-50">
+        <div className="size-7 animate-spin rounded-full border-2 border-(--color-primary) border-t-transparent" />
+        <p className="text-xs text-gray-400">Loading form...</p>
+      </div>
+    );
+  }
 
   return (
-    <div className="flex h-full flex-col overflow-hidden bg-gray-100">
-      {/* Top Bar */}
-      <div className="flex items-center justify-between border-b border-gray-200 bg-white px-6 py-3 shadow-sm">
-        <div className="flex items-center gap-3">
-          <button
-            onClick={() => router.back()}
-            className="rounded-lg p-1.5 text-gray-400 transition-colors hover:bg-gray-100 hover:text-gray-700"
-          >
-            <IoArrowBack className="size-5" />
-          </button>
-          <div>
-            <h1 className="text-sm font-semibold text-gray-800">{formTitle}</h1>
-            <p className="text-xs text-gray-400">Form Builder</p>
+    <div className="flex h-full flex-col overflow-hidden bg-gray-50">
+      {/* Toolbar */}
+      <BuilderToolbar
+        formTitle={formTitle}
+        isSaving={isSaving}
+        saveStatus={saveStatus}
+        onBack={() => router.back()}
+        onPreview={() =>
+          router.push(`/admin-dashboard/forms/${formId}/preview`)
+        }
+        onSave={handleSave}
+      />
+
+      {/* Canvas */}
+      <div className="flex-1 overflow-y-auto">
+        <div className="mx-auto max-w-2xl px-4 py-8">
+          {/* Form header */}
+          <div className="mb-6 overflow-hidden rounded-2xl bg-(--color-primary) px-6 py-5 text-white shadow-md">
+            <p className="text-[10px] font-bold tracking-widest text-white/40 uppercase">
+              Form Builder
+            </p>
+            <h2 className="mt-1 text-xl font-bold">
+              {formTitle || "Untitled Form"}
+            </h2>
+            <div className="mt-3 flex items-center gap-4 border-t border-white/10 pt-3">
+              <span className="text-xs text-white/50">
+                <span className="font-semibold text-white">
+                  {sections.length}
+                </span>{" "}
+                section{sections.length !== 1 ? "s" : ""}
+              </span>
+              <span className="text-white/20">·</span>
+              <span className="text-xs text-white/50">
+                <span className="font-semibold text-white">
+                  {totalQuestions}
+                </span>{" "}
+                question{totalQuestions !== 1 ? "s" : ""}
+              </span>
+            </div>
           </div>
-        </div>
 
-        <div className="flex items-center gap-2">
-          {saveStatus === "saved" && (
-            <span className="text-xs text-green-500">✓ Saved successfully</span>
-          )}
-          {saveStatus === "error" && (
-            <span className="text-xs text-red-500">✗ Failed to save</span>
-          )}
-
-          <button
-            onClick={() =>
-              router.push(`/admin-dashboard/forms/${formId}/preview`)
-            }
-            className="flex items-center gap-2 rounded-xl border border-gray-200 px-3 py-1.5 text-sm text-gray-600 transition-colors hover:bg-gray-50"
-          >
-            <IoEye className="size-4" /> Preview
-          </button>
-
-          <button
-            onClick={handleSave}
-            disabled={isSaving}
-            className="flex items-center gap-2 rounded-xl bg-blue-600 px-4 py-1.5 text-sm font-medium text-white transition-colors hover:bg-blue-700 disabled:opacity-60"
-          >
-            <IoSave className="size-4" />
-            {isSaving ? "Saving..." : "Save Form"}
-          </button>
-        </div>
-      </div>
-
-      {/* Builder Body */}
-      <div className="flex-1 overflow-y-auto p-6">
-        <div className="mx-auto max-w-3xl space-y-4">
+          {/* Empty state */}
           {sections.length === 0 && (
-            <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-gray-300 bg-white py-16 text-center">
-              <div className="mb-3 rounded-full bg-blue-50 p-4">
-                <IoAdd className="size-8 text-blue-400" />
+            <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-gray-200 bg-white py-16 text-center">
+              <div className="mb-3 flex size-12 items-center justify-center rounded-full bg-(--color-primary)/8 text-(--color-primary)">
+                <IoAdd className="size-6" />
               </div>
-              <p className="text-sm font-medium text-gray-600">
-                No sections yet
+              <p className="text-sm font-semibold text-gray-600">
+                Start building your form
               </p>
               <p className="mt-1 text-xs text-gray-400">
-                Add a section to start building your form
+                Add a section to get started
               </p>
             </div>
           )}
 
-          {sections.map((section) => (
-            <SectionCard
-              key={section.id}
-              section={section}
-              onUpdateTitle={updateSectionTitle}
-              onDeleteSection={deleteSection}
-              onAddQuestion={addQuestion}
-              onUpdateQuestion={updateQuestion}
-              onDeleteQuestion={deleteQuestion}
-              onReorderQuestions={reorderQuestions}
-            />
-          ))}
+          {/* Sections */}
+          <div className="flex flex-col gap-4">
+            {sections.map((section, index) => (
+              <SectionBlock
+                key={section.id}
+                section={section}
+                index={index}
+                isLast={index === sections.length - 1}
+                onUpdateTitle={updateSectionTitle}
+                onDeleteSection={handleDeleteSection}
+                onAddQuestion={addQuestion}
+                onUpdateQuestion={updateQuestion}
+                onDeleteQuestion={handleDeleteQuestion}
+                onReorderQuestions={reorderQuestions}
+              />
+            ))}
+          </div>
 
-          {/* Add Section Button */}
+          {/* Add section */}
           <button
             onClick={addSection}
-            className="flex w-full items-center justify-center gap-2 rounded-2xl border border-dashed border-gray-300 bg-white py-4 text-sm font-medium text-gray-500 transition-colors hover:border-blue-300 hover:text-blue-500"
+            className="mt-4 flex w-full items-center justify-center gap-2 rounded-xl border border-dashed border-gray-300 bg-white py-3 text-sm font-medium text-gray-400 transition-all hover:border-(--color-primary)/30 hover:bg-(--color-primary)/3 hover:text-(--color-primary)"
           >
-            <IoAdd className="size-5" /> Add Section
+            <IoAdd className="size-4" /> Add Section
           </button>
         </div>
       </div>
