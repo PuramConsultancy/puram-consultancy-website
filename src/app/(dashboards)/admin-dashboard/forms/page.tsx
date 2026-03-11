@@ -1,49 +1,42 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useMemo, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
-import { z } from "zod";
 import Form from "@/components/Form/Form";
 import Input from "@/components/Form/Input";
 import Field from "@/components/Form/Field";
-import InputGroup from "@/components/Form/InputGroup";
 import ErrorMessage from "@/components/Form/ErrorMessage";
 import Button from "@/components/Button";
 import { Sheet } from "@/components/drawer";
-import { IoAdd, IoClose, IoSearch } from "react-icons/io5";
+import {
+  IoAdd,
+  IoClose,
+  IoEye,
+  IoPencil,
+  IoSearch,
+  IoTrash,
+} from "react-icons/io5";
 import { CreateFormSchema } from "@/schemas/form.schemas";
 import { useCreateForm } from "@/app/api-client/forms/useCreateForm";
+import { useGetForms } from "@/app/api-client/forms/useGetForms";
+import { useDeleteForm } from "@/app/api-client/forms/useDeleteForm";
 import { AxiosError } from "axios";
 import { CustomError } from "@/app/api/helpers/handleError";
 import { useRouter } from "next/navigation";
-
-interface FormItem {
-  id: string;
-  title: string;
-  description?: string;
-  createdAt: string;
-}
 
 const FormsPage = () => {
   const router = useRouter();
   const [isFormCreationOpen, setIsFormCreationOpen] = useState(false);
   const [search, setSearch] = useState("");
-  const [forms, setForms] = useState<FormItem[]>([
-    {
-      id: "1",
-      title: "Survey Form",
-      description: "General survey",
-      createdAt: "2026-03-09",
-    },
-    {
-      id: "2",
-      title: "Feedback Form",
-      description: "Product feedback",
-      createdAt: "2026-03-08",
-    },
-  ]);
+
+  const { data: formsData, isLoading } = useGetForms();
+  const forms = formsData?.data ?? [];
 
   const { mutateAsync: createForm } = useCreateForm({
+    invalidateQueryKey: ["forms"],
+  });
+
+  const { mutateAsync: deleteForm } = useDeleteForm({
     invalidateQueryKey: ["forms"],
   });
 
@@ -53,11 +46,17 @@ const FormsPage = () => {
     [forms, search],
   );
 
+  const handleDelete = async (e: React.MouseEvent, id: string) => {
+    e.stopPropagation();
+    if (!confirm("Are you sure you want to delete this form?")) return;
+    await deleteForm({ params: { id } });
+  };
+
   return (
     <section className="flex h-full flex-1 flex-col overflow-hidden">
       <div className="h-full w-full flex-1 overflow-y-auto bg-gray-100 p-5">
         <div className="flex min-h-full flex-1 flex-col rounded-2xl bg-white p-5">
-          {/* Header: Search + Create */}
+          {/* Header */}
           <div className="flex items-center justify-between gap-3">
             <div className="bg-primary/10 flex items-center gap-2 rounded-md px-2 py-1">
               <IoSearch className="text-primary size-5" />
@@ -105,13 +104,10 @@ const FormsPage = () => {
                       onSubmit={async (values, methods) => {
                         try {
                           const form = await createForm({ body: values });
-
-                          // ✅ Navigate to form builder instead of staying on list
+                          setIsFormCreationOpen(false);
                           router.push(
                             `/admin-dashboard/forms/${form.data.id}/builder`,
                           );
-
-                          setIsFormCreationOpen(false);
                         } catch (error) {
                           const err = error as AxiosError;
                           const errObject = err.response?.data as CustomError;
@@ -133,7 +129,6 @@ const FormsPage = () => {
                             />
                             <ErrorMessage>{errors.title?.message}</ErrorMessage>
                           </Field>
-
                           <Field>
                             <Input
                               placeholder="Enter form description"
@@ -144,7 +139,6 @@ const FormsPage = () => {
                               {errors.description?.message}
                             </ErrorMessage>
                           </Field>
-
                           <Button type="submit" isLoading={isSubmitting}>
                             Create Form
                           </Button>
@@ -159,35 +153,101 @@ const FormsPage = () => {
 
           {/* Forms List */}
           <div className="mt-5 flex flex-col gap-3">
+            {/* Loading */}
+            {isLoading && (
+              <div className="flex flex-col gap-3">
+                {[1, 2, 3].map((i) => (
+                  <div
+                    key={i}
+                    className="h-20 animate-pulse rounded-md border bg-gray-100"
+                  />
+                ))}
+              </div>
+            )}
+
+            {/* Empty */}
+            {!isLoading && filteredForms.length === 0 && (
+              <div className="flex flex-col items-center justify-center py-16 text-center">
+                <p className="text-sm font-medium text-gray-500">
+                  {search ? "No forms match your search." : "No forms yet."}
+                </p>
+                {!search && (
+                  <p className="mt-1 text-xs text-gray-400">
+                    Click "Create Form" to get started.
+                  </p>
+                )}
+              </div>
+            )}
+
+            {/* List */}
             <AnimatePresence>
-              {filteredForms.length > 0 ? (
+              {!isLoading &&
                 filteredForms.map((form) => (
                   <motion.div
                     key={form.id}
                     initial={{ opacity: 0, y: 5 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: 5 }}
-                    className="rounded-md border bg-white p-3 hover:shadow-md"
+                    onClick={() =>
+                      router.push(`/admin-dashboard/forms/${form.id}/builder`)
+                    }
+                    className="group flex cursor-pointer items-center justify-between rounded-md border bg-white p-3 transition-shadow hover:shadow-md"
                   >
-                    <h3 className="text-lg font-medium">{form.title}</h3>
-                    {form.description && (
-                      <p className="text-sm text-gray-600">
-                        {form.description}
+                    <div className="flex-1">
+                      <h3 className="text-base font-medium text-gray-800">
+                        {form.title}
+                      </h3>
+                      {form.description && (
+                        <p className="text-sm text-gray-500">
+                          {form.description}
+                        </p>
+                      )}
+                      <p className="mt-1 text-xs text-gray-400">
+                        Created:{" "}
+                        {new Date(form.createdAt).toLocaleDateString("en-US", {
+                          year: "numeric",
+                          month: "short",
+                          day: "numeric",
+                        })}
                       </p>
-                    )}
-                    <p className="mt-1 text-xs text-gray-400">
-                      Created:{" "}
-                      {new Date(form.createdAt).toLocaleDateString("en-US", {
-                        year: "numeric",
-                        month: "short",
-                        day: "numeric",
-                      })}
-                    </p>
+                    </div>
+
+                    {/* Actions */}
+                    <div className="flex items-center gap-1 opacity-0 transition-opacity group-hover:opacity-100">
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          router.push(
+                            `/admin-dashboard/forms/${form.id}/preview`,
+                          );
+                        }}
+                        className="rounded-lg p-2 text-gray-400 transition-colors hover:bg-gray-100 hover:text-blue-500"
+                        title="Preview"
+                      >
+                        <IoEye className="size-4" />
+                      </button>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          router.push(
+                            `/admin-dashboard/forms/${form.id}/builder`,
+                          );
+                        }}
+                        className="rounded-lg p-2 text-gray-400 transition-colors hover:bg-gray-100 hover:text-green-500"
+                        title="Edit"
+                      >
+                        <IoPencil className="size-4" />
+                      </button>
+                      <button
+                        onClick={(e) => handleDelete(e, form.id)}
+                        className="rounded-lg p-2 text-gray-400 transition-colors hover:bg-red-50 hover:text-red-500"
+                        title="Delete"
+                      >
+                        <IoTrash className="size-4" />
+                      </button>
+                    </div>
                   </motion.div>
-                ))
-              ) : (
-                <p className="text-sm text-gray-500">No forms found.</p>
-              )}
+                ))}
             </AnimatePresence>
           </div>
         </div>

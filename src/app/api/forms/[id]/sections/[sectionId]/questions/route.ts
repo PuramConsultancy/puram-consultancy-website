@@ -1,9 +1,8 @@
-import prisma from "@/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
-import handleError from "../../../../../helpers/handleError";
-import { getAuthUser } from "../../../../../helpers/getAuthUser";
-import { Prisma } from "@prisma/client";
+import prisma from "@/lib/prisma";
+import { getAuthUser } from "@/app/api/helpers/getAuthUser";
 import { CreateQuestionSchema } from "@/schemas/form.schemas";
+import { Prisma } from "@prisma/client";
 
 export async function POST(
   request: NextRequest,
@@ -17,7 +16,6 @@ export async function POST(
         { status: 401 },
       );
     }
-
     const { sectionId } = await params;
     const body = await request.json();
     const validated = CreateQuestionSchema.parse(body);
@@ -36,15 +34,27 @@ export async function POST(
           ? (validated.visibilityRules as Prisma.InputJsonValue)
           : null,
         options: validated.options?.length
-          ? { create: validated.options }
+          ? {
+              create: validated.options.map((o) => ({
+                label: o.label,
+                value: o.value,
+              })),
+            }
           : undefined,
       },
       include: { options: true },
     });
 
-    return NextResponse.json({ success: true, data: question });
+    return NextResponse.json(
+      { success: true, data: question },
+      { status: 201 },
+    );
   } catch (error) {
-    return handleError(error, "Failed to create question");
+    console.error("POST /questions error:", error);
+    return NextResponse.json(
+      { success: false, message: "Failed to create question" },
+      { status: 500 },
+    );
   }
 }
 
@@ -53,16 +63,25 @@ export async function GET(
   { params }: { params: Promise<{ id: string; sectionId: string }> },
 ) {
   try {
+    const user = getAuthUser(request);
+    if (!user) {
+      return NextResponse.json(
+        { success: false, message: "Unauthorized" },
+        { status: 401 },
+      );
+    }
     const { sectionId } = await params;
-
     const questions = await prisma.question.findMany({
       where: { sectionId },
       orderBy: { order: "asc" },
       include: { options: true },
     });
-
     return NextResponse.json({ success: true, data: questions });
   } catch (error) {
-    return handleError(error, "Failed to fetch questions");
+    console.error("GET /questions error:", error);
+    return NextResponse.json(
+      { success: false, message: "Failed to fetch questions" },
+      { status: 500 },
+    );
   }
 }
