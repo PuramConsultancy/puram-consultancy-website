@@ -9,11 +9,16 @@ import ServicesSection from "@/components/home/ServicesSection";
 import TestimonialSection from "@/components/home/TestimonialSection";
 import TrustedBySection from "@/components/home/TrustedBySection";
 import WhyPuramSection from "@/components/home/WhyPuramSection";
+import FormsSection from "@/components/home/Formssection";
+import { useGetPublicForms } from "../api-client/forms/useGetPublicForms";
+import HeroFormsSection from "@/components/home/HeroFormSection";
 
-const HomePage = () => {
+const HomePage = async () => {
+  const forms = await useGetPublicForms();
+
   return (
     <section className="mx-auto flex w-full max-w-430 flex-col gap-12 py-6 sm:gap-16 sm:py-8 lg:gap-20 lg:py-10">
-      <HomeHeroSection />
+      <HeroFormsSection forms={forms} />
       <TrustedBySection />
       <ProblemSection />
       <PositioningSection />
