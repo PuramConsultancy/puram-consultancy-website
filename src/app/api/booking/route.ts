@@ -49,3 +49,15 @@ export async function POST(request: NextRequest) {
     return handleError(error, "Failed to create booking");
   }
 }
+
+export async function GET() {
+  try {
+    const bookings = await prisma.booking.findMany({
+      orderBy: { createdAt: "desc" },
+    });
+
+    return NextResponse.json({ success: true, data: bookings });
+  } catch (error) {
+    return handleError(error, "Failed to fetch bookings");
+  }
+}

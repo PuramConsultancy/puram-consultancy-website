@@ -15,6 +15,7 @@ import {
   IoPencil,
   IoSearch,
   IoTrash,
+  IoListOutline,
 } from "react-icons/io5";
 import { CreateFormSchema } from "@/schemas/form.schemas";
 import { useCreateForm } from "@/app/api-client/forms/useCreateForm";
@@ -48,7 +49,6 @@ const FormsPage = () => {
     e.stopPropagation();
     if (!confirm("Are you sure you want to delete this form?")) return;
 
-    // ✅ Optimistically remove from cache before request completes
     queryClient.setQueryData<{ success: boolean; data: typeof forms }>(
       ["forms"],
       (old) => {
@@ -60,11 +60,9 @@ const FormsPage = () => {
     try {
       await deleteForm({ params: { id } });
     } catch {
-      // ✅ If delete fails, refetch to restore correct state
       queryClient.invalidateQueries({ queryKey: ["forms"] });
     }
 
-    // ✅ Revalidates server components (home page)
     router.refresh();
   };
 
@@ -78,7 +76,7 @@ const FormsPage = () => {
               <IoSearch className="text-primary size-5" />
               <input
                 placeholder="Search forms..."
-                className="w-64 border-0 bg-transparent text-sm text-gray-800 placeholder:text-gray-500 focus:outline-none dark:text-white dark:placeholder:text-white/50"
+                className="w-64 border-0 bg-transparent text-sm text-gray-800 placeholder:text-gray-500 focus:outline-none"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
               />
@@ -120,7 +118,6 @@ const FormsPage = () => {
                       onSubmit={async (values, methods) => {
                         try {
                           const form = await createForm({ body: values });
-                          // ✅ Invalidate so list refetches with new form
                           await queryClient.invalidateQueries({
                             queryKey: ["forms"],
                           });
@@ -232,6 +229,21 @@ const FormsPage = () => {
                     </div>
 
                     <div className="flex items-center gap-1 opacity-0 transition-opacity group-hover:opacity-100">
+                      {/* ✅ Submissions button */}
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          router.push(
+                            `/admin-dashboard/forms/${form.id}/submissions`,
+                          );
+                        }}
+                        className="flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-xs font-medium text-gray-400 transition-colors hover:bg-violet-50 hover:text-violet-600"
+                        title="View Submissions"
+                      >
+                        <IoListOutline className="size-4" />
+                        Submissions
+                      </button>
+
                       <button
                         onClick={(e) => {
                           e.stopPropagation();

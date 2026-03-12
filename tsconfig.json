@@ -29,6 +29,6 @@
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts",
     "**/*.mts"
-  ],
+, "src/app/api/forms/[id]/submission"  ],
   "exclude": ["node_modules"]
 }
