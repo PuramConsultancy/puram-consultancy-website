@@ -16,6 +16,8 @@ import {
   IoLogOut,
   IoSettings,
   IoTrendingUpOutline,
+  IoListOutline,
+  IoCalendarOutline,
 } from "react-icons/io5";
 import { FaHome } from "react-icons/fa";
 
@@ -160,6 +162,7 @@ const Sidebar = () => {
 
             <NavLink
               href="/admin-dashboard"
+              exact
               Icon={() => (
                 <div
                   className="rounded-xl p-2 text-white shadow-md transition-transform duration-200 hover:scale-110 hover:shadow-xl"
@@ -171,62 +174,34 @@ const Sidebar = () => {
             >
               {() => <p>Dashboard</p>}
             </NavLink>
-          </div>
-
-          {/* 
-          <div className="mt-5 w-full space-y-0.5">
-            <Title>agent</Title>
 
             <NavLink
-              href={`/admin/agents/create`}
+              href="/admin-dashboard/submissions"
               Icon={() => (
-                <div className="bg-(--color-secondary) rounded-xl p-2 text-white shadow-md">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="size-5"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      fill="currentColor"
-                      fillRule="evenodd"
-                      d="M17.5 2.75a.75.75 0 01.75.75v2.25h2.25a.75.75 0 010 1.5h-2.25V9.5a.75.75 0 01-1.5 0V7.25H14.5a.75.75 0 010-1.5h2.25V3.5a.75.75 0 01.75-.75"
-                      clipRule="evenodd"
-                    />
-                    <path
-                      fill="currentColor"
-                      d="M2 6.5c0-2.121 0-3.182.659-3.841S4.379 2 6.5 2s3.182 0 3.841.659S11 4.379 11 6.5s0 3.182-.659 3.841S8.621 11 6.5 11s-3.182 0-3.841-.659S2 8.621 2 6.5m11 11c0-2.121 0-3.182.659-3.841S15.379 13 17.5 13s3.182 0 3.841.659S22 15.379 22 17.5s0 3.182-.659 3.841S19.621 22 17.5 22s-3.182 0-3.841-.659S13 19.621 13 17.5m-11 0c0-2.121 0-3.182.659-3.841S4.379 13 6.5 13s3.182 0 3.841.659S11 15.379 11 17.5s0 3.182-.659 3.841S8.621 22 6.5 22s-3.182 0-3.841-.659S2 19.621 2 17.5"
-                    />
-                  </svg>
+                <div
+                  className="rounded-xl p-2 text-white shadow-md transition-transform duration-200 hover:scale-110 hover:shadow-xl"
+                  style={{ backgroundColor: "var(--color-secondary)" }}
+                >
+                  <IoListOutline className="h-5 w-5" />
                 </div>
               )}
             >
-              {() => <p>Create new agent</p>}
+              {() => <p>Submissions</p>}
             </NavLink>
-          </div>
-
-          <div className="mt-5 w-full space-y-0.5">
-            <Title>hub</Title>
-
             <NavLink
-              href={`/admin/hubs/create`}
+              href="/admin-dashboard/bookings"
               Icon={() => (
-                <div className="bg-(--color-secondary) rounded-xl p-2 text-white shadow-md">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="size-5"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      fill="currentColor"
-                      d="M17.5 16.5v2q0 .2.15.35T18 19t.35-.15.15-.35v-2h2q.2 0 .35-.15T21 16t-.15-.35-.35-.15h-2v-2q0-.2-.15-.35T18 13t-.35.15-.15.35v2h-2q-.2 0-.35.15T15 16t.15.35.35.15zM18 21q-2.075 0-3.537-1.463T13 16t1.463-3.537T18 11t3.538 1.463T23 16t-1.463 3.538T18 21M4 17V8q0-.475.213-.9t.587-.7l6-4.5q.525-.4 1.2-.4t1.2.4l6 4.5q.375.275.588.7T20 8v.525q0 .3-.238.463t-.537.112q-1.675-.3-3.312.213T13.05 11.05q-1.35 1.35-1.838 3.15t.013 3.625q.125.45-.125.813t-.675.362H6q-.825 0-1.412-.587T4 17"
-                    />
-                  </svg>
+                <div
+                  className="rounded-xl p-2 text-white shadow-md transition-transform duration-200 hover:scale-110 hover:shadow-xl"
+                  style={{ backgroundColor: "var(--color-secondary)" }}
+                >
+                  <IoCalendarOutline className="h-5 w-5" />
                 </div>
               )}
             >
-              {() => <p>Create new hub</p>}
+              {() => <p>Bookings</p>}
             </NavLink>
-          </div> */}
+          </div>
         </div>
 
         <div className="w-full space-y-0.5 px-5 pt-3">
