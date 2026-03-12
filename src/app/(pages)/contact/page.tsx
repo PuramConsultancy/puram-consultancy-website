@@ -1,15 +1,15 @@
 import Link from "next/link";
-
 import { PageShell } from "@/components/ui/page-shell";
 import { SurfaceCard } from "@/components/ui/surface-card";
-
 import { contactLinks } from "@/data/contactLinks";
 import { socialLinks } from "@/data/socialLinks";
 import ContactForm from "./ContactForm";
+import { IoDocumentText, IoArrowForward } from "react-icons/io5";
 
 const ContactPage = () => {
   return (
     <PageShell>
+      {/* Hero */}
       <header className="rounded-3xl bg-(--color-primary) p-6 text-(--color-primary-50) sm:p-8 lg:p-10">
         <p className="text-xs font-semibold tracking-[0.18em] text-(--color-secondary-300) uppercase">
           Contact
@@ -23,6 +23,7 @@ const ContactPage = () => {
         </p>
       </header>
 
+      {/* Contact cards */}
       <section className="grid gap-5 lg:grid-cols-[1.1fr_0.9fr]">
         <SurfaceCard as="article" hoverable>
           <h2 className="text-2xl font-semibold text-(--color-primary) sm:text-3xl">
@@ -49,7 +50,6 @@ const ContactPage = () => {
           <div className="mt-5 flex flex-wrap gap-3">
             {socialLinks.map((social) => {
               const Icon = social.icon;
-
               return (
                 <Link
                   key={social.name}
@@ -68,6 +68,29 @@ const ContactPage = () => {
         </SurfaceCard>
       </section>
 
+      {/* Applications CTA banner */}
+      <SurfaceCard as="section">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <h2 className="text-lg font-semibold text-(--color-primary)">
+              Applications & Inquiries
+            </h2>
+            <p className="mt-1 text-sm text-slate-500">
+              Browse and fill out our available forms for specific inquiries.
+            </p>
+          </div>
+          <Link
+            href="/contact/forms"
+            className="flex shrink-0 items-center gap-2 rounded-xl bg-(--color-primary) px-5 py-2.5 text-sm font-semibold text-white transition-all hover:bg-(--color-primary)/90"
+          >
+            <IoDocumentText className="size-4" />
+            View Forms
+            <IoArrowForward className="size-4" />
+          </Link>
+        </div>
+      </SurfaceCard>
+
+      {/* Booking form */}
       <SurfaceCard as="section" id="booking-form-section">
         <h2 className="text-2xl font-semibold text-(--color-primary) sm:text-3xl">
           Booking Form
@@ -76,7 +99,6 @@ const ContactPage = () => {
           Fill in the details below and our team will reach out for your booking
           inquiry.
         </p>
-
         <div className="mt-6">
           <ContactForm />
         </div>

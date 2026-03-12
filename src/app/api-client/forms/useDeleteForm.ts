@@ -10,7 +10,6 @@ export const useDeleteForm = ({
   const { jsonApiClient } = useApi();
 
   return useCreateMutation<
-  
     { id: string },
     undefined,
     { success: boolean; message: string },
@@ -20,6 +19,7 @@ export const useDeleteForm = ({
     method: "delete",
     url: "/api/forms/${id}",
     errorMessage: "Failed to delete form.",
-    invalidateQueryKey,
+    // ✅ Must match the queryKey array that useGetForms registers: ["forms"]
+    invalidateQueryKey: invalidateQueryKey ?? ["forms"],
   });
 };

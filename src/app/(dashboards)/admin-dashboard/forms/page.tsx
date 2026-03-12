@@ -23,22 +23,20 @@ import { useDeleteForm } from "@/app/api-client/forms/useDeleteForm";
 import { AxiosError } from "axios";
 import { CustomError } from "@/app/api/helpers/handleError";
 import { useRouter } from "next/navigation";
+import { useQueryClient } from "@tanstack/react-query";
 
 const FormsPage = () => {
   const router = useRouter();
+  const queryClient = useQueryClient();
+
   const [isFormCreationOpen, setIsFormCreationOpen] = useState(false);
   const [search, setSearch] = useState("");
 
   const { data: formsData, isLoading } = useGetForms();
   const forms = formsData?.data ?? [];
 
-  const { mutateAsync: createForm } = useCreateForm({
-    invalidateQueryKey: ["forms"],
-  });
-
-  const { mutateAsync: deleteForm } = useDeleteForm({
-    invalidateQueryKey: ["forms"],
-  });
+  const { mutateAsync: createForm } = useCreateForm({});
+  const { mutateAsync: deleteForm } = useDeleteForm({});
 
   const filteredForms = useMemo(
     () =>
@@ -49,7 +47,25 @@ const FormsPage = () => {
   const handleDelete = async (e: React.MouseEvent, id: string) => {
     e.stopPropagation();
     if (!confirm("Are you sure you want to delete this form?")) return;
-    await deleteForm({ params: { id } });
+
+    // ✅ Optimistically remove from cache before request completes
+    queryClient.setQueryData<{ success: boolean; data: typeof forms }>(
+      ["forms"],
+      (old) => {
+        if (!old) return old;
+        return { ...old, data: old.data.filter((f) => f.id !== id) };
+      },
+    );
+
+    try {
+      await deleteForm({ params: { id } });
+    } catch {
+      // ✅ If delete fails, refetch to restore correct state
+      queryClient.invalidateQueries({ queryKey: ["forms"] });
+    }
+
+    // ✅ Revalidates server components (home page)
+    router.refresh();
   };
 
   return (
@@ -104,7 +120,12 @@ const FormsPage = () => {
                       onSubmit={async (values, methods) => {
                         try {
                           const form = await createForm({ body: values });
+                          // ✅ Invalidate so list refetches with new form
+                          await queryClient.invalidateQueries({
+                            queryKey: ["forms"],
+                          });
                           setIsFormCreationOpen(false);
+                          router.refresh();
                           router.push(
                             `/admin-dashboard/forms/${form.data.id}/builder`,
                           );
@@ -153,7 +174,6 @@ const FormsPage = () => {
 
           {/* Forms List */}
           <div className="mt-5 flex flex-col gap-3">
-            {/* Loading */}
             {isLoading && (
               <div className="flex flex-col gap-3">
                 {[1, 2, 3].map((i) => (
@@ -165,7 +185,6 @@ const FormsPage = () => {
               </div>
             )}
 
-            {/* Empty */}
             {!isLoading && filteredForms.length === 0 && (
               <div className="flex flex-col items-center justify-center py-16 text-center">
                 <p className="text-sm font-medium text-gray-500">
@@ -179,15 +198,15 @@ const FormsPage = () => {
               </div>
             )}
 
-            {/* List */}
-            <AnimatePresence>
+            <AnimatePresence mode="popLayout">
               {!isLoading &&
                 filteredForms.map((form) => (
                   <motion.div
                     key={form.id}
                     initial={{ opacity: 0, y: 5 }}
                     animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: 5 }}
+                    exit={{ opacity: 0, x: -10, scale: 0.98 }}
+                    transition={{ duration: 0.18 }}
                     onClick={() =>
                       router.push(`/admin-dashboard/forms/${form.id}/builder`)
                     }
@@ -212,7 +231,6 @@ const FormsPage = () => {
                       </p>
                     </div>
 
-                    {/* Actions */}
                     <div className="flex items-center gap-1 opacity-0 transition-opacity group-hover:opacity-100">
                       <button
                         onClick={(e) => {
