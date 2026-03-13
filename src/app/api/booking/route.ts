@@ -23,15 +23,17 @@ export async function POST(request: NextRequest) {
       appointmentDate,
     } = validatedData;
 
+    const notes = JSON.stringify({
+      firstName,
+      lastName,
+      phone,
+      message,
+      serviceName,
+    });
+
     const booking = await prisma.booking.create({
       data: {
-        notes: JSON.stringify({
-          firstName,
-          lastName,
-          phone,
-          message,
-          serviceName,
-        }),
+        notes,
         appointmentDate: appointmentDate ? new Date(appointmentDate) : null,
         status: "PENDING",
       },

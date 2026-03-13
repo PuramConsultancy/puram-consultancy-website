@@ -5,7 +5,7 @@ import { LinkCta } from "@/components/ui/link-cta";
 import { SurfaceCard } from "@/components/ui/surface-card";
 
 import { serviceLinks } from "@/data/serviceLinks";
-import { serviceContentByName, serviceSlugFromHref } from "@/data/serviceDetails";
+import { serviceContentByName } from "@/data/serviceDetails";
 
 import ReusableCard from "./ReusableCard";
 
@@ -43,19 +43,17 @@ const ServicesSection = () => {
           {orderedServices.map((service, index) => {
             const content = serviceContentByName[service.name as keyof typeof serviceContentByName];
             const Icon = iconByIndex[index % iconByIndex.length];
-            const slug = serviceSlugFromHref(service.href);
 
             return (
               <ReusableCard
                 key={service.name}
                 icon={Icon}
                 title={content.heading}
-                description={content.shortDescription}
-                href={`/services#${slug}`}
+                href={service.href}
                 className="border border-slate-200 bg-white p-6 shadow-[0_2px_10px_rgba(2,51,65,0.04)]"
                 iconWrapClassName="h-16 w-16 rounded-2xl border border-orange-100 bg-orange-50"
                 titleClassName="text-2xl leading-snug"
-                descriptionClassName="text-base text-slate-600"
+                ctaLabel="Explore Service"
               />
             );
           })}

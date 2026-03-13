@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 type ReusableCardProps = {
   icon: IconType;
   title: string;
-  description: string;
+  description?: string;
   href?: string;
   ctaLabel?: string;
   className?: string;
@@ -43,9 +43,16 @@ const ReusableCard = ({
         {title}
       </h3>
 
-      <p className={cn("mt-4 text-base leading-relaxed text-slate-600 sm:text-lg", descriptionClassName)}>
-        {description}
-      </p>
+      {description ? (
+        <p
+          className={cn(
+            "mt-4 text-base leading-relaxed text-slate-600 sm:text-lg",
+            descriptionClassName,
+          )}
+        >
+          {description}
+        </p>
+      ) : null}
 
       {href ? (
         <Link

@@ -47,12 +47,16 @@ const LoginForm = () => {
         } catch (error) {
           const err = error as AxiosError;
           const errObject = err.response?.data as CustomError;
+          const errorMessage =
+            errObject?.error?.message ??
+            errObject?.message ??
+            "Login failed.";
 
-          methods.setError("email", { message: errObject.error.message });
+          methods.setError("email", { message: errorMessage });
         }
       }}
     >
-      {({ register, formState: { errors, isSubmitting }, setError }) => (
+      {({ register, formState: { errors, isSubmitting } }) => (
         <>
           <Field>
             <InputGroup>

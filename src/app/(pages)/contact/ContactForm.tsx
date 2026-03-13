@@ -9,7 +9,6 @@ import Button from "@/components/Button";
 
 import { BookingContactSchema } from "@/schemas/contact.schema";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
 
 import { IoPerson, IoCall, IoChatbox, IoCalendar } from "react-icons/io5";
 import { useContactBooking } from "@/app/api-client/booking/useBooking";
@@ -33,11 +32,15 @@ const ContactForm = () => {
           methods.reset();
           alert("Message sent successfully!");
           router.refresh();
-        } catch (error: any) {
+        } catch (error: unknown) {
           const err = error as AxiosError;
           const errObject = err.response?.data as CustomError;
+          const errorMessage =
+            errObject?.error?.message ??
+            errObject?.message ??
+            "Failed to submit contact request.";
 
-          methods.setError("message", { message: errObject.error.message });
+          methods.setError("message", { message: errorMessage });
         }
       }}
     >

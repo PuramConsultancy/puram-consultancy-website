@@ -7,7 +7,6 @@ import { SurfaceCard } from "@/components/ui/surface-card";
 import { serviceLinks } from "@/data/serviceLinks";
 import {
   serviceContentByName,
-  serviceSlugFromHref,
 } from "@/data/serviceDetails";
 
 const ServicesPage = () => {
@@ -28,12 +27,11 @@ const ServicesPage = () => {
               serviceContentByName[
                 service.name as keyof typeof serviceContentByName
               ];
-            const slug = serviceSlugFromHref(service.href);
 
             return (
               <Link
                 key={service.name}
-                href={`#${slug}`}
+                href={service.href}
                 className="rounded-full border border-slate-300 px-4 py-2 text-sm font-medium text-(--color-primary) transition-colors duration-300 hover:bg-slate-100"
               >
                 {content.heading}
@@ -49,19 +47,32 @@ const ServicesPage = () => {
             serviceContentByName[
               service.name as keyof typeof serviceContentByName
             ];
-          const slug = serviceSlugFromHref(service.href);
 
           return (
             <SurfaceCard
               as="article"
               key={service.name}
-              id={slug}
               hoverable
               className="scroll-mt-28"
             >
-              <h2 className="text-2xl font-semibold text-(--color-primary) sm:text-3xl">
-                {content.heading}
-              </h2>
+              <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
+                <div className="max-w-3xl">
+                  <h2 className="text-2xl font-semibold text-(--color-primary) sm:text-3xl">
+                    {content.heading}
+                  </h2>
+                  <p className="mt-3 text-sm font-medium uppercase tracking-[0.18em] text-(--color-secondary)">
+                    {content.shortDescription}
+                  </p>
+                </div>
+
+                <Link
+                  href={service.href}
+                  className="inline-flex h-11 items-center justify-center rounded-xl border border-slate-300 px-5 text-sm font-semibold text-(--color-primary) transition-colors duration-300 hover:bg-slate-100"
+                >
+                  View Service Page
+                </Link>
+              </div>
+
               <p className="mt-4 text-base leading-relaxed text-slate-700 sm:text-lg">
                 {content.fullDescription}
               </p>

@@ -16,6 +16,8 @@ import { JsonWebTokenError, TokenExpiredError } from "jsonwebtoken";
 
 export type CustomError = {
   success: boolean;
+  code?: string;
+  message?: string;
   error: {
     code: string;
     message: string;
@@ -23,7 +25,7 @@ export type CustomError = {
   };
 };
 
-export default function handleError(error: any, defaultMessage: string) {
+export default function handleError(error: unknown, defaultMessage: string) {
   console.error(defaultMessage, error);
 
   if (error instanceof z.ZodError) {
@@ -60,7 +62,13 @@ export default function handleError(error: any, defaultMessage: string) {
   }
 
   return NextResponse.json(
-    { code: "server-error", message: defaultMessage },
+    {
+      success: false,
+      error: {
+        code: "server-error",
+        message: defaultMessage,
+      },
+    },
     { status: 500 },
   );
 }

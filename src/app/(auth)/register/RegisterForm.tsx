@@ -7,7 +7,6 @@ import { AxiosError } from "axios";
 import Cookie from "js-cookie";
 import { useRouter } from "next/navigation";
 import { IoLockClosed, IoMail, IoPerson } from "react-icons/io5";
-import { BsBuildingFill } from "react-icons/bs";
 import { useAuthActions } from "@/store/authStore";
 import Form from "@/components/Form/Form";
 import cookieKeys from "@/app/config/cookieKeys";
@@ -44,8 +43,12 @@ const RegisterForm = () => {
         } catch (error) {
           const err = error as AxiosError;
           const errObject = err.response?.data as CustomError;
+          const errorMessage =
+            errObject?.error?.message ??
+            errObject?.message ??
+            "Registration failed.";
 
-          methods.setError("email", { message: errObject.error.message });
+          methods.setError("email", { message: errorMessage });
         }
       }}
     >
