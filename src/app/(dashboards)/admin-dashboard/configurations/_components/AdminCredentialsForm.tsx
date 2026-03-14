@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   IoEyeOutline,
   IoEyeOffOutline,
@@ -72,6 +72,11 @@ const AdminCredentialsForm = () => {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [saved, setSaved] = useState(false);
   const [apiError, setApiError] = useState("");
+
+  // ← Sync email field when Zustand user updates after save
+  useEffect(() => {
+    if (user?.email) setEmail(user.email);
+  }, [user?.email]);
 
   const validate = () => {
     const e: Record<string, string> = {};
