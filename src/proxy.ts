@@ -10,7 +10,7 @@ type SessionUser = {
   lastName?: string | null;
 };
 
-export async function middleware(request: NextRequest, _: NextResponse) {
+export async function proxy(request: NextRequest, _: NextResponse) {
   const { pathname } = request.nextUrl;
 
   if (pathname.startsWith("/admin-dashboard")) {

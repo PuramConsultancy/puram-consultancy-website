@@ -99,7 +99,7 @@ const Topbar = ({ heading, subHeading, Heading }: ITopbar) => {
           Home
         </Link>
         <Link
-          href="/blogs"
+          href="/admin-dashboard/blogs"
           className="text-sm font-medium text-(--color-primary) transition-colors hover:text-(--color-secondary)"
         >
           Blogs
