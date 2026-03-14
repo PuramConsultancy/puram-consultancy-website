@@ -33,8 +33,6 @@ export async function PATCH(request: NextRequest) {
   return privateRoute(request, { roles: [UserRole.ADMIN] }, async () => {
     try {
       const body = await request.json();
-
-      // Upsert each key-value pair
       await Promise.all(
         Object.entries(body).map(([key, value]) =>
           prisma.siteConfig.upsert({
@@ -44,10 +42,8 @@ export async function PATCH(request: NextRequest) {
           }),
         ),
       );
-
       const records = await prisma.siteConfig.findMany();
       const config = Object.fromEntries(records.map((r) => [r.key, r.value]));
-
       return NextResponse.json({
         success: true,
         data: { ...DEFAULT_CONFIG, ...config },

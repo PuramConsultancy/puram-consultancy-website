@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { IoCheckmarkOutline, IoSaveOutline } from "react-icons/io5";
 import { SiteConfig } from "@/app/api-client/config/useGetConfig";
 import { useUpdateConfig } from "@/app/api-client/config/useUpdateConfig";
+import { useAuth } from "@/store/authStore";
 
 const Field = ({
   label,
@@ -33,9 +34,10 @@ const Field = ({
 );
 
 const CompanyInfoForm = ({ config }: { config: SiteConfig }) => {
+  const { user } = useAuth();
+
   const [form, setForm] = useState({
     companyName: "",
-    email: "",
     phone: "",
     address: "",
   });
@@ -45,7 +47,6 @@ const CompanyInfoForm = ({ config }: { config: SiteConfig }) => {
   useEffect(() => {
     setForm({
       companyName: config.companyName,
-      email: config.email,
       phone: config.phone,
       address: config.address,
     });
@@ -69,13 +70,25 @@ const CompanyInfoForm = ({ config }: { config: SiteConfig }) => {
           onChange={set("companyName")}
           placeholder="Puram Consultancy"
         />
-        <Field
-          label="Email"
-          value={form.email}
-          onChange={set("email")}
-          placeholder="hello@company.com"
-          type="email"
-        />
+
+        {/* Email — read only, comes from admin credentials */}
+        <div>
+          <label className="mb-1.5 block text-xs font-semibold tracking-wider text-gray-500 uppercase">
+            Email
+          </label>
+          <div className="flex items-center gap-2 rounded-xl border border-gray-200 bg-gray-100 px-4 py-2.5">
+            <p className="flex-1 truncate text-sm text-gray-400">
+              {user?.email ?? "—"}
+            </p>
+            <span className="shrink-0 rounded-md bg-gray-200 px-2 py-0.5 text-xs text-gray-400">
+              From credentials
+            </span>
+          </div>
+          <p className="mt-1 text-xs text-gray-400">
+            Change email in Admin Credentials section below.
+          </p>
+        </div>
+
         <Field
           label="Phone"
           value={form.phone}
@@ -89,6 +102,7 @@ const CompanyInfoForm = ({ config }: { config: SiteConfig }) => {
           placeholder="Colombo, Sri Lanka"
         />
       </div>
+
       <div className="flex justify-end">
         <button
           onClick={handleSave}
