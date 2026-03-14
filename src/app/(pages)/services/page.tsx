@@ -9,6 +9,7 @@ import {
   serviceContentByName,
   serviceSlugFromHref,
 } from "@/data/serviceDetails";
+import { IoArrowForward } from "react-icons/io5";
 
 const ServicesPage = () => {
   return (
@@ -50,6 +51,13 @@ const ServicesPage = () => {
               service.name as keyof typeof serviceContentByName
             ];
           const slug = serviceSlugFromHref(service.href);
+          const hasExpandedContent =
+            Boolean(content.overview?.length) ||
+            Boolean(content.problems?.length) ||
+            Boolean(content.approachPoints?.length) ||
+            Boolean(content.deliverables?.length) ||
+            Boolean(content.audience?.length) ||
+            Boolean(content.ctaLabel);
 
           return (
             <SurfaceCard
@@ -62,15 +70,128 @@ const ServicesPage = () => {
               <h2 className="text-2xl font-semibold text-(--color-primary) sm:text-3xl">
                 {content.heading}
               </h2>
-              <p className="mt-4 text-base leading-relaxed text-slate-700 sm:text-lg">
-                {content.fullDescription}
-              </p>
 
-              <ul className="mt-5 list-disc space-y-2 pl-5 text-sm leading-relaxed text-slate-600 sm:text-base">
-                {content.outcomes.map((outcome) => (
-                  <li key={outcome}>{outcome}</li>
-                ))}
-              </ul>
+              {hasExpandedContent ? (
+                <div className="mt-4 space-y-8">
+                  <section className="space-y-3">
+                    {content.overviewTitle ? (
+                      <h3 className="text-xl font-semibold text-slate-900 sm:text-2xl">
+                        {content.overviewTitle}
+                      </h3>
+                    ) : null}
+                    {content.overview?.map((paragraph) => (
+                      <p
+                        key={paragraph}
+                        className="text-base leading-relaxed text-slate-700 sm:text-lg"
+                      >
+                        {paragraph}
+                      </p>
+                    ))}
+                  </section>
+
+                  {content.problems?.length ? (
+                    <section>
+                      {content.problemTitle ? (
+                        <h3 className="text-xl font-semibold text-slate-900 sm:text-2xl">
+                          {content.problemTitle}
+                        </h3>
+                      ) : null}
+                      {content.problemIntro ? (
+                        <p className="mt-3 text-base leading-relaxed text-slate-700 sm:text-lg">
+                          {content.problemIntro}
+                        </p>
+                      ) : null}
+                      <ul className="mt-4 list-disc space-y-2 pl-5 text-sm leading-relaxed text-slate-600 sm:text-base">
+                        {content.problems.map((problem) => (
+                          <li key={problem}>{problem}</li>
+                        ))}
+                      </ul>
+                    </section>
+                  ) : null}
+
+                  {content.approachPoints?.length ? (
+                    <section>
+                      {content.approachTitle ? (
+                        <h3 className="text-xl font-semibold text-slate-900 sm:text-2xl">
+                          {content.approachTitle}
+                        </h3>
+                      ) : null}
+                      {content.approachIntro ? (
+                        <p className="mt-3 text-base leading-relaxed text-slate-700 sm:text-lg">
+                          {content.approachIntro}
+                        </p>
+                      ) : null}
+                      <ul className="mt-4 list-disc space-y-2 pl-5 text-sm leading-relaxed text-slate-600 sm:text-base">
+                        {content.approachPoints.map((point) => (
+                          <li key={point}>{point}</li>
+                        ))}
+                      </ul>
+                    </section>
+                  ) : null}
+
+                  {content.deliverables?.length ? (
+                    <section>
+                      {content.deliverablesTitle ? (
+                        <h3 className="text-xl font-semibold text-slate-900 sm:text-2xl">
+                          {content.deliverablesTitle}
+                        </h3>
+                      ) : null}
+                      <ul className="mt-4 list-disc space-y-2 pl-5 text-sm leading-relaxed text-slate-600 sm:text-base">
+                        {content.deliverables.map((deliverable) => (
+                          <li key={deliverable}>{deliverable}</li>
+                        ))}
+                      </ul>
+                    </section>
+                  ) : null}
+
+                  {content.audience?.length ? (
+                    <section>
+                      {content.audienceTitle ? (
+                        <h3 className="text-xl font-semibold text-slate-900 sm:text-2xl">
+                          {content.audienceTitle}
+                        </h3>
+                      ) : null}
+                      <ul className="mt-4 list-disc space-y-2 pl-5 text-sm leading-relaxed text-slate-600 sm:text-base">
+                        {content.audience.map((audienceItem) => (
+                          <li key={audienceItem}>{audienceItem}</li>
+                        ))}
+                      </ul>
+                    </section>
+                  ) : null}
+
+                  <section>
+                    {content.outcomeTitle ? (
+                      <h3 className="text-xl font-semibold text-slate-900 sm:text-2xl">
+                        {content.outcomeTitle}
+                      </h3>
+                    ) : null}
+                    <ul className="mt-4 list-disc space-y-2 pl-5 text-sm leading-relaxed text-slate-600 sm:text-base">
+                      {content.outcomes.map((outcome) => (
+                        <li key={outcome}>{outcome}</li>
+                      ))}
+                    </ul>
+                  </section>
+
+                  {content.ctaLabel && content.ctaHref ? (
+                    <LinkCta href={content.ctaHref} className="mt-2">
+                      {content.ctaLabel}
+                      <IoArrowForward className="text-(--color-secondary)" />
+                    </LinkCta>
+                  ) : null}
+                </div>
+              ) : (
+                <>
+                  <p className="mt-4 text-base leading-relaxed text-slate-700 sm:text-lg">
+                    {content.fullDescription}
+                  </p>
+
+                  <ul className="mt-5 list-disc space-y-2 pl-5 text-sm leading-relaxed text-slate-600 sm:text-base">
+                    {content.outcomes.map((outcome) => (
+                      <li key={outcome}>{outcome}</li>
+                    ))}
+                  </ul>
+                </>
+              )}
             </SurfaceCard>
           );
         })}
@@ -85,7 +206,8 @@ const ServicesPage = () => {
           business model, current constraints, and growth goals.
         </p>
         <LinkCta href="/contact#booking-form" className="mt-5">
-          Book a Free Strategy Call -&gt;
+          Book a Free Strategy Call
+          <IoArrowForward className="text-(--color-secondary)" />
         </LinkCta>
       </SurfaceCard>
     </PageShell>

@@ -44,13 +44,15 @@ const ServicesSection = () => {
             const content = serviceContentByName[service.name as keyof typeof serviceContentByName];
             const Icon = iconByIndex[index % iconByIndex.length];
             const slug = serviceSlugFromHref(service.href);
+            const title = content.homeHeading ?? content.heading;
+            const description = content.homeShortDescription ?? content.shortDescription;
 
             return (
               <ReusableCard
                 key={service.name}
                 icon={Icon}
-                title={content.heading}
-                description={content.shortDescription}
+                title={title}
+                description={description}
                 href={`/services#${slug}`}
                 className="border border-slate-200 bg-white p-6 shadow-[0_2px_10px_rgba(2,51,65,0.04)]"
                 iconWrapClassName="h-16 w-16 rounded-2xl border border-orange-100 bg-orange-50"

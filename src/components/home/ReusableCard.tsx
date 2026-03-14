@@ -2,6 +2,7 @@ import Link from "next/link";
 import { IconType } from "react-icons";
 
 import { cn } from "@/lib/utils";
+import { IoArrowForward } from "react-icons/io5";
 
 type ReusableCardProps = {
   icon: IconType;
@@ -53,7 +54,7 @@ const ReusableCard = ({
           className="mt-7 inline-flex items-center gap-2 text-lg font-semibold text-(--color-secondary) transition-colors duration-300 hover:text-(--color-secondary-500) sm:text-xl"
         >
           {resolvedCtaLabel}
-          <span aria-hidden="true">-&gt;</span>
+          <IoArrowForward className="text-(--color-secondary)" />
         </Link>
       ) : null}
     </article>

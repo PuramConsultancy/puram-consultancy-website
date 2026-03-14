@@ -58,19 +58,31 @@ const RegisterUserSchema = z
     path: ["confirmPassword"],
   });
 
+const LoginUserSchema = z.object({
+  email: z
+    .string({ message: "Email is required" })
+    .email({ message: "Invalid email format" })
+    .max(255, { message: "Email cannot exceed 255 characters" })
+    .trim()
+    .toLowerCase(),
 
-  const LoginUserSchema = z.object({
-    email: z
-      .string({ message: "Email is required" })
-      .email({ message: "Invalid email format" })
-      .max(255, { message: "Email cannot exceed 255 characters" })
-      .trim()
-      .toLowerCase(),
-  
-    password: z
-      .string({ message: "Password is required" })
-      .min(8, { message: "Password must be at least 8 characters long" })
-      .max(100, { message: "Password cannot exceed 100 characters" }),
-  });
+  password: z
+    .string({ message: "Password is required" })
+    .min(8, { message: "Password must be at least 8 characters long" })
+    .max(100, { message: "Password cannot exceed 100 characters" }),
+});
 
-  export { RegisterUserSchema , LoginUserSchema};
+const UpdateCredentialsSchema = z.object({
+  email: z.string().email().optional(),
+  currentPassword: z.string().min(1, "Current password is required"),
+  newPassword: z
+    .string()
+    .min(8)
+    .regex(/[A-Z]/, "Must contain uppercase")
+    .regex(/[a-z]/, "Must contain lowercase")
+    .regex(/\d/, "Must contain number")
+    .regex(/[!@#$%^&*]/, "Must contain special character")
+    .optional(),
+});
+
+export { RegisterUserSchema, LoginUserSchema, UpdateCredentialsSchema };
