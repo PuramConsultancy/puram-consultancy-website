@@ -208,7 +208,7 @@ const Sidebar = () => {
           <Title>other</Title>
 
           <NavLink
-            href={"/admin/configurations"}
+            href={"/admin-dashboard/configurations"}
             Icon={() => (
               <div className="rounded-xl bg-(--color-secondary) p-2 text-white shadow-md">
                 <IoSettings className="size-5" />

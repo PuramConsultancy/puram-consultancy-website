@@ -9,6 +9,7 @@ import {
   serviceContentByName,
   serviceSlugFromHref,
 } from "@/data/serviceDetails";
+import { IoArrowForward } from "react-icons/io5";
 
 const ServicesPage = () => {
   return (
@@ -173,7 +174,8 @@ const ServicesPage = () => {
 
                   {content.ctaLabel && content.ctaHref ? (
                     <LinkCta href={content.ctaHref} className="mt-2">
-                      {content.ctaLabel} -&gt;
+                      {content.ctaLabel}
+                      <IoArrowForward className="text-(--color-secondary)" />
                     </LinkCta>
                   ) : null}
                 </div>
@@ -204,7 +206,8 @@ const ServicesPage = () => {
           business model, current constraints, and growth goals.
         </p>
         <LinkCta href="/contact#booking-form" className="mt-5">
-          Book a Free Strategy Call -&gt;
+          Book a Free Strategy Call
+          <IoArrowForward className="text-(--color-secondary)" />
         </LinkCta>
       </SurfaceCard>
     </PageShell>
