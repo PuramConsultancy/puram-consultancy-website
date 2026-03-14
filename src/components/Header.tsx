@@ -7,7 +7,6 @@ import { FiMenu, FiX } from "react-icons/fi";
 
 import { navLinks } from "@/data/navLinks";
 import { Button } from "./ui/button";
-import SiteLogo from "./SiteLogo";
 
 const desktopNavLinkClassName =
   "group relative text-gray-800 transition-colors duration-300 hover:text-(--color-secondary)";
