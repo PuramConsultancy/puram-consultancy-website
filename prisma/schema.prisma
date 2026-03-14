@@ -146,3 +146,13 @@ enum BookingStatus {
   CANCELLED
   COMPLETED
 }
+
+model Blog {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  title       String
+  content     String
+  slug        String   @unique
+  published   Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
