@@ -1,30 +1,23 @@
+import prisma from "@/lib/prisma";
 import { SiteConfig } from "./useGetConfig";
 
+const DEFAULT: SiteConfig = {
+  companyName: "Puram Consultancy",
+  email: "",
+  phone: "",
+  address: "",
+  facebook: "",
+  instagram: "",
+  tiktok: "",
+  youtube: "",
+  linkedin: "",
+};
+
 export async function getServerConfig(): Promise<SiteConfig> {
-  const DEFAULT: SiteConfig = {
-    companyName: "Puram Consultancy",
-    email: "",
-    phone: "",
-    address: "",
-    facebook: "",
-    instagram: "",
-    tiktok: "",
-    youtube: "",
-    linkedin: "",
-  };
-
   try {
-    const baseUrl =
-      process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:3000";
-
-    const res = await fetch(`${baseUrl}/api/config`, {
-      cache: "no-store", // ← always fresh, no 60s cache delay
-    });
-
-    if (!res.ok) return DEFAULT;
-
-    const data = await res.json();
-    return { ...DEFAULT, ...data.data };
+    const records = await prisma.siteConfig.findMany();
+    const config = Object.fromEntries(records.map((r) => [r.key, r.value]));
+    return { ...DEFAULT, ...config };
   } catch {
     return DEFAULT;
   }
