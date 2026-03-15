@@ -1,6 +1,30 @@
 import { LinkCta } from "@/components/ui/link-cta";
 import { PageShell } from "@/components/ui/page-shell";
 import { SurfaceCard } from "@/components/ui/surface-card";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "About Us — Growth Systems & Strategy Consulting",
+  description:
+    "Learn about Puram Consultancy — 120+ growth projects guided, a 4-step execution framework, and a 90-day momentum window. We build systems teams can actually run.",
+  keywords: [
+    "about Puram Consultancy",
+    "business consulting firm",
+    "growth strategy",
+    "execution framework",
+    "business systems consulting",
+  ],
+  alternates: {
+    canonical: "https://www.puramconsultancy.com/about",
+  },
+  openGraph: {
+    title: "About Puram Consultancy",
+    description:
+      "120+ growth projects guided. We build systems that scale businesses predictably.",
+    url: "https://www.puramconsultancy.com/about",
+    images: [{ url: "/og-image.jpg", width: 1200, height: 630 }],
+  },
+};
 
 const impactStats = [
   {

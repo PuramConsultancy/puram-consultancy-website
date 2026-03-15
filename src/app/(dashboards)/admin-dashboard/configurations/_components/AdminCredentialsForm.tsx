@@ -6,6 +6,7 @@ import {
   IoEyeOffOutline,
   IoCheckmarkOutline,
   IoShieldCheckmarkOutline,
+  IoAlertCircleOutline,
 } from "react-icons/io5";
 import { useUpdateAdminCredentials } from "@/app/api-client/config/useUpdateAdminCredentials";
 import { useAuth } from "@/store/authStore";
@@ -30,7 +31,7 @@ const PasswordInput = ({
         {label}
       </label>
       <div
-        className={`flex items-center gap-2 rounded-xl border bg-gray-50 px-4 py-2.5 focus-within:ring-2 focus-within:ring-[var(--color-primary)]/10 ${
+        className={`flex items-center gap-2 rounded-xl border bg-gray-50 px-4 py-2.5 transition-all focus-within:ring-2 focus-within:ring-[var(--color-primary)]/10 ${
           error
             ? "border-rose-300 focus-within:border-rose-400"
             : "border-gray-200 focus-within:border-[var(--color-primary)]/40"
@@ -55,7 +56,12 @@ const PasswordInput = ({
           )}
         </button>
       </div>
-      {error && <p className="mt-1 text-xs text-rose-500">{error}</p>}
+      {error && (
+        <p className="mt-1 flex items-center gap-1 text-xs text-rose-500">
+          <IoAlertCircleOutline className="size-3.5 shrink-0" />
+          {error}
+        </p>
+      )}
     </div>
   );
 };
@@ -73,7 +79,6 @@ const AdminCredentialsForm = () => {
   const [saved, setSaved] = useState(false);
   const [apiError, setApiError] = useState("");
 
-  // ← Sync email field when Zustand user updates after save
   useEffect(() => {
     if (user?.email) setEmail(user.email);
   }, [user?.email]);
@@ -92,6 +97,7 @@ const AdminCredentialsForm = () => {
   const handleSave = async () => {
     if (!validate()) return;
     setApiError("");
+
     try {
       await updateCredentials({
         email: email !== user?.email ? email : undefined,
@@ -104,9 +110,21 @@ const AdminCredentialsForm = () => {
       setConfirmPassword("");
       setTimeout(() => setSaved(false), 2500);
     } catch (err: any) {
-      const msg =
-        err?.response?.data?.error?.message || "Failed to update credentials";
-      setApiError(msg);
+      // Parse error from axios response
+      const status = err?.response?.status;
+      const serverMessage = err?.response?.data?.error?.message;
+
+      if (status === 401) {
+        // Wrong password — show inline under the field
+        setErrors((prev) => ({
+          ...prev,
+          currentPassword: "Incorrect password. Please try again.",
+        }));
+      } else if (serverMessage) {
+        setApiError(serverMessage);
+      } else {
+        setApiError("Something went wrong. Please try again.");
+      }
     }
   };
 
@@ -120,8 +138,11 @@ const AdminCredentialsForm = () => {
         <input
           type="email"
           value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-2.5 text-sm text-gray-800 focus:border-[var(--color-primary)]/40 focus:ring-2 focus:ring-[var(--color-primary)]/10 focus:outline-none"
+          onChange={(e) => {
+            setEmail(e.target.value);
+            setApiError("");
+          }}
+          className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-2.5 text-sm text-gray-800 transition-all focus:border-[var(--color-primary)]/40 focus:ring-2 focus:ring-[var(--color-primary)]/10 focus:outline-none"
         />
       </div>
 
@@ -133,31 +154,47 @@ const AdminCredentialsForm = () => {
       <PasswordInput
         label="Current Password"
         value={currentPassword}
-        onChange={setCurrentPassword}
+        onChange={(v) => {
+          setCurrentPassword(v);
+          // Clear the inline error as user types
+          if (errors.currentPassword)
+            setErrors((p) => ({ ...p, currentPassword: "" }));
+        }}
         placeholder="Enter current password"
         error={errors.currentPassword}
       />
+
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <PasswordInput
           label="New Password"
           value={newPassword}
-          onChange={setNewPassword}
+          onChange={(v) => {
+            setNewPassword(v);
+            if (errors.newPassword)
+              setErrors((p) => ({ ...p, newPassword: "" }));
+          }}
           placeholder="Leave blank to keep current"
           error={errors.newPassword}
         />
         <PasswordInput
           label="Confirm New Password"
           value={confirmPassword}
-          onChange={setConfirmPassword}
+          onChange={(v) => {
+            setConfirmPassword(v);
+            if (errors.confirmPassword)
+              setErrors((p) => ({ ...p, confirmPassword: "" }));
+          }}
           placeholder="Repeat new password"
           error={errors.confirmPassword}
         />
       </div>
 
+      {/* API error banner — only for non-field errors */}
       {apiError && (
-        <p className="rounded-xl bg-rose-50 px-4 py-2.5 text-xs font-medium text-rose-600">
+        <div className="flex items-start gap-2.5 rounded-xl bg-rose-50 px-4 py-3 text-xs font-medium text-rose-600">
+          <IoAlertCircleOutline className="mt-0.5 size-4 shrink-0" />
           {apiError}
-        </p>
+        </div>
       )}
 
       <div className="flex justify-end">

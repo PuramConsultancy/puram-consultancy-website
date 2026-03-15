@@ -1,4 +1,3 @@
-import React from "react";
 import Link from "next/link";
 import { PageShell } from "@/components/ui/page-shell";
 import { SurfaceCard } from "@/components/ui/surface-card";
@@ -17,6 +16,32 @@ import {
 } from "react-icons/io5";
 import { SiTiktok } from "react-icons/si";
 import { IconType } from "react-icons";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Contact Us — Book a Strategy Call",
+  description:
+    "Get in touch with Puram Consultancy. Book a free strategy call, fill out an inquiry form, or reach us directly. Let's talk about your business growth goals.",
+  keywords: [
+    "contact Puram Consultancy",
+    "book strategy call",
+    "business consulting inquiry",
+    "free strategy call",
+    "business growth consultation",
+  ],
+  alternates: {
+    canonical: "https://www.puramconsultancy.com/contact",
+  },
+  openGraph: {
+    title: "Contact Puram Consultancy",
+    description:
+      "Book a free strategy call and let's map your path to predictable growth.",
+    url: "https://www.puramconsultancy.com/contact",
+    images: [{ url: "/og-image.jpg", width: 1200, height: 630 }],
+  },
+};
+
+// ... rest of your existing ContactPage component unchanged
 
 // ── Social icon map ───────────────────────────────────────────────────────────
 interface SocialEntry {

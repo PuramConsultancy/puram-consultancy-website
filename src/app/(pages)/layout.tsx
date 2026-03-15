@@ -1,5 +1,12 @@
+import type { Metadata } from "next";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+
+export const metadata: Metadata = {
+  alternates: {
+    canonical: "https://www.puramconsultancy.com",
+  },
+};
 
 export default function PagesLayout({
   children,
@@ -9,7 +16,6 @@ export default function PagesLayout({
   return (
     <div className="flex min-h-screen flex-col">
       <Header />
-
       <main className="flex-1 px-4 py-4 sm:px-6 lg:px-10 xl:px-14">
         {children}
       </main>
