@@ -44,6 +44,9 @@ export const metadata: Metadata = {
   creator: "Puram Consultancy",
   publisher: "Puram Consultancy",
   metadataBase: new URL("https://www.puramconsultancy.com"),
+  verification: {
+    google: "k9PkBoF9HSih1_Oeap0j9TV3HmalYjUCNJzBRyVLNf8", // ← here
+  },
   openGraph: {
     type: "website",
     locale: "en_US",
