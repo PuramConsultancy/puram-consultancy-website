@@ -70,7 +70,7 @@ const page = () => {
 
           <footer className="w-full px-5 pb-5">
             <p className="mx-auto max-w-xs text-center text-[0.65rem] text-balance text-gray-600">
-              Copyright &copy; {new Date().getFullYear()} Employee Rating (pvt)
+              Copyright &copy; {new Date().getFullYear()} Puram Consultancy (pvt)
               Ltd. All Rights Reserved. 
             </p>
           </footer>

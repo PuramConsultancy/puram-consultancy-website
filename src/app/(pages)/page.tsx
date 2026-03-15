@@ -9,9 +9,33 @@ import ServicesSection from "@/components/home/ServicesSection";
 import TestimonialSection from "@/components/home/TestimonialSection";
 import TrustedBySection from "@/components/home/TrustedBySection";
 import WhyPuramSection from "@/components/home/WhyPuramSection";
-import FormsSection from "@/components/home/Formssection";
 import { useGetPublicForms } from "../api-client/forms/useGetPublicForms";
 import HeroFormsSection from "@/components/home/HeroFormSection";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Business Growth Systems for Founders & Teams",
+  description:
+    "Puram Consultancy builds scalable business systems — automated lead generation, predictable revenue, and streamlined operations. Book a free strategy call today.",
+  keywords: [
+    "Puram Consultancy",
+    "business growth systems",
+    "lead generation",
+    "business scaling",
+    "strategy consulting",
+    "predictable revenue",
+  ],
+  alternates: {
+    canonical: "https://www.puramconsultancy.com",
+  },
+  openGraph: {
+    title: "Puram Consultancy — Business Growth Systems",
+    description:
+      "We build systems that scale your business. Consistent leads, predictable revenue, automated operations.",
+    url: "https://www.puramconsultancy.com",
+    images: [{ url: "/og-image.jpg", width: 1200, height: 630 }],
+  },
+};
 
 const HomePage = async () => {
   const forms = await useGetPublicForms();

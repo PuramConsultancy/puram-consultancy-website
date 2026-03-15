@@ -1,15 +1,38 @@
 import Link from "next/link";
-
 import { LinkCta } from "@/components/ui/link-cta";
 import { PageShell } from "@/components/ui/page-shell";
 import { SurfaceCard } from "@/components/ui/surface-card";
-
 import { serviceLinks } from "@/data/serviceLinks";
 import {
   serviceContentByName,
   serviceSlugFromHref,
 } from "@/data/serviceDetails";
 import { IoArrowForward } from "react-icons/io5";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Services — End-to-End Growth & Scaling Solutions",
+  description:
+    "Explore Puram Consultancy's services — lead generation systems, revenue optimization, operations automation, marketing strategy, and business scaling solutions.",
+  keywords: [
+    "business consulting services",
+    "lead generation service",
+    "revenue optimization",
+    "operations automation",
+    "marketing strategy consulting",
+    "business scaling solutions",
+    "growth consulting services",
+  ],
+  alternates: {
+    canonical: "https://www.puramconsultancy.com/services",
+  },
+  openGraph: {
+    title: "Services — Puram Consultancy",
+    description: "End-to-end growth solutions for founders and scaling teams.",
+    url: "https://www.puramconsultancy.com/services",
+    images: [{ url: "/og-image.jpg", width: 1200, height: 630 }],
+  },
+};
 
 const ServicesPage = () => {
   return (
