@@ -21,27 +21,10 @@ export const useUpdateAdminCredentials = () => {
       return res.data;
     },
     onSuccess: (data) => {
-      console.log("AUTH UPDATE RESPONSE:", data);
-
       const updatedUser: User | null = data?.data?.user ?? null;
-
-      if (!updatedUser) {
-        console.warn("No user in response — Topbar will not update");
-        return;
-      }
-
-      // Update Zustand store → Topbar re-renders immediately
+      if (!updatedUser) return;
       setUser(updatedUser);
-
-      // Update cookie → email persists after page refresh
-      Cookie.set(cookieKeys.USER, JSON.stringify(updatedUser), {
-        expires: 7,
-      });
-
-      console.log("User updated in store and cookie:", updatedUser.email);
-    },
-    onError: (error) => {
-      console.error("AUTH UPDATE FAILED:", error);
+      Cookie.set(cookieKeys.USER, JSON.stringify(updatedUser), { expires: 7 });
     },
   });
 };
