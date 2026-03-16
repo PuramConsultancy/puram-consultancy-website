@@ -18,23 +18,17 @@ const Header = () => {
 
   useEffect(() => {
     if (!isMenuOpen) return;
-
     const handleEscape = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        setIsMenuOpen(false);
-      }
+      if (event.key === "Escape") setIsMenuOpen(false);
     };
-
     window.addEventListener("keydown", handleEscape);
-
-    return () => {
-      window.removeEventListener("keydown", handleEscape);
-    };
+    return () => window.removeEventListener("keydown", handleEscape);
   }, [isMenuOpen]);
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-slate-200/80 bg-white/95 shadow-sm backdrop-blur-xl">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 sm:py-4 lg:px-10 xl:px-14">
+        {/* Logo */}
         <Link href="/" className="flex items-center gap-3">
           <div className="relative h-10 w-10 overflow-hidden rounded-xl transition-transform duration-300 hover:scale-110 focus-visible:scale-110 sm:h-12 sm:w-12">
             <Image
@@ -45,7 +39,6 @@ const Header = () => {
               priority
             />
           </div>
-
           <div className="hidden leading-tight sm:block">
             <h1 className="text-2xl font-bold text-(--color-primary) lg:text-3xl">
               Puram
@@ -54,6 +47,7 @@ const Header = () => {
         </Link>
 
         <div className="flex items-center gap-5 lg:gap-8">
+          {/* Desktop nav links */}
           <nav className="hidden items-center gap-6 text-sm font-medium md:flex lg:gap-7">
             {navLinks.map((link) => (
               <Link
@@ -62,28 +56,34 @@ const Header = () => {
                 className={desktopNavLinkClassName}
               >
                 {link.name}
-                <span className="absolute -bottom-1 left-0 h-0.5 w-full origin-center scale-x-0 bg-(--color-secondary) transition-transform duration-300 group-hover:scale-x-100"></span>
+                <span className="absolute -bottom-1 left-0 h-0.5 w-full origin-center scale-x-0 bg-(--color-secondary) transition-transform duration-300 group-hover:scale-x-100" />
               </Link>
             ))}
           </nav>
 
+          {/* Desktop auth buttons */}
           <div className="hidden items-center gap-3 md:flex">
-            <Button
-              variant="outline"
-              size="sm"
-              className="cursor-pointer transition-colors duration-300 hover:bg-slate-100"
-            >
-              <Link href="/login"> Login</Link>
-            </Button>
-            <Button
-              variant="default"
-              size="sm"
-              className="cursor-pointer bg-(--color-secondary) text-white transition-colors duration-300 hover:bg-(--color-secondary-500)"
-            >
-              <Link href="/register">Sign Up</Link>
-            </Button>
+            <Link href="/login">
+              <Button
+                variant="outline"
+                size="sm"
+                className="cursor-pointer transition-colors duration-300 hover:bg-slate-100"
+              >
+                Login
+              </Button>
+            </Link>
+            <Link href="/register">
+              <Button
+                variant="default"
+                size="sm"
+                className="cursor-pointer bg-(--color-secondary) text-white transition-colors duration-300 hover:bg-(--color-secondary-500)"
+              >
+                Sign Up
+              </Button>
+            </Link>
           </div>
 
+          {/* Mobile hamburger */}
           <button
             type="button"
             aria-expanded={isMenuOpen}
@@ -106,6 +106,7 @@ const Header = () => {
         </div>
       </div>
 
+      {/* Mobile nav */}
       <div
         id="mobile-nav"
         className={`overflow-hidden border-t bg-white shadow-[0_14px_30px_rgba(2,51,65,0.08)] transition-[max-height,opacity,border-color] duration-300 ease-out md:hidden ${
@@ -126,23 +127,34 @@ const Header = () => {
             </Link>
           ))}
 
+          {/* Mobile auth buttons — Link wraps Button so navigation works */}
           <div className="mt-3 grid grid-cols-2 gap-2">
-            <Button
-              variant="outline"
-              size="sm"
-              className="cursor-pointer border-slate-300 transition-colors duration-300 hover:bg-slate-100"
+            <Link
+              href="/login"
               onClick={() => setIsMenuOpen(false)}
+              className="w-full"
             >
-              Login
-            </Button>
-            <Button
-              variant="default"
-              size="sm"
-              className="cursor-pointer bg-(--color-secondary) text-white transition-colors duration-300 hover:bg-(--color-secondary-500)"
+              <Button
+                variant="outline"
+                size="sm"
+                className="w-full cursor-pointer border-slate-300 transition-colors duration-300 hover:bg-slate-100"
+              >
+                Login
+              </Button>
+            </Link>
+            <Link
+              href="/register"
               onClick={() => setIsMenuOpen(false)}
+              className="w-full"
             >
-              Sign Up
-            </Button>
+              <Button
+                variant="default"
+                size="sm"
+                className="w-full cursor-pointer bg-(--color-secondary) text-white transition-colors duration-300 hover:bg-(--color-secondary-500)"
+              >
+                Sign Up
+              </Button>
+            </Link>
           </div>
         </nav>
       </div>
