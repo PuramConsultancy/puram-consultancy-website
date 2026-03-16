@@ -57,7 +57,7 @@ export const metadata: Metadata = {
       "We build scalable systems that generate consistent leads, predictable revenue, and automated operations for founders and teams.",
     images: [
       {
-        url: "/image.png",
+        url: "/image.png", 
         width: 1200,
         height: 630,
         alt: "Puram Consultancy — Business Growth Systems",
@@ -86,8 +86,13 @@ export const metadata: Metadata = {
     canonical: "https://www.puramconsultancy.com",
   },
   icons: {
-    icon: "/image.png",
+    icon: [
+      { url: "/image.png", sizes: "32x32", type: "image/png" },
+      { url: "/image.png", sizes: "192x192", type: "image/png" },
+      { url: "/image.png", sizes: "512x512", type: "image/png" },
+    ],
     apple: "/image.png",
+    shortcut: "/image.png",
   },
 };
 
