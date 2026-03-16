@@ -265,3 +265,33 @@ body {
 }
 
 
+/* iOS Safari universal input fix */
+input,
+textarea,
+select,
+button {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="tel"],
+input[type="search"],
+input[type="url"],
+textarea {
+  -webkit-text-fill-color: inherit;
+  opacity: 1;
+  background-color: white;
+}
+
+/* Prevent iOS zoom on focus (font-size must be >= 16px) */
+@media screen and (max-width: 768px) {
+  input,
+  textarea,
+  select {
+    font-size: 16px !important;
+  }
+}
