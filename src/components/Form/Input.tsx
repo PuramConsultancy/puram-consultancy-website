@@ -25,8 +25,7 @@ const Input = ({
       className={cn(
         "relative block rounded-xl",
         "transition-all duration-150",
-        "focus-within:ring-primary focus-within:ring-2 dark:focus-within:ring-white/30",
-        "dark:focus-within:ring-offset-primary-dark focus-within:ring-offset-1 focus-within:ring-offset-inherit",
+        "focus-within:ring-2 focus-within:ring-blue-500/20",
         "has-[input[data-invalid]]:focus-within:ring-red-700",
         className,
       )}
@@ -34,30 +33,37 @@ const Input = ({
       <input
         id={id}
         type={type}
+        style={{
+          // ← Inline styles for iOS Safari — Tailwind arbitrary values
+          // don't always compile correctly on WebKit
+          WebkitAppearance: "none",
+          WebkitTextFillColor: "inherit",
+          opacity: 1,
+          // ← Critical: bg-transparent breaks on iOS, use white instead
+          backgroundColor: "white",
+        }}
         className={cn(
-          // Base style
+          // Base
           "relative block w-full rounded-xl",
-          "dark:bg-primary-dark-foreground border-[1.5px] border-gray-300 bg-transparent dark:border-white/10",
-          "text-sm leading-6 text-gray-800 placeholder:text-gray-500 dark:text-white dark:placeholder:text-white/50",
+          "border-[1.5px] border-gray-300",
+          "text-sm leading-6 text-gray-800 placeholder:text-gray-500",
 
-          // ← Fixed padding — works on all browsers including iOS Safari
+          // Padding
           "px-3.5 py-2.5",
 
-          // ← iOS Safari fix — must use both
-          "appearance-none [-webkit-appearance:none]",
+          // Focus
+          "focus:outline-none",
+          "enabled:hover:border-gray-400",
 
-          // ← iOS Safari text color fix
-          "opacity-100 [-webkit-text-fill-color:inherit]",
+          // Invalid
+          "data-[invalid]:border-red-700",
 
-          // States
-          "focus:outline-none enabled:hover:border-gray-400 dark:enabled:hover:border-white/20",
-          "data-[invalid]:border-red-700 focus:data-[invalid]:border-red-100",
-
-          // Disabled state
-          "group-data-[disabled=true]:bg-gray-100 dark:group-data-[disabled=true]:bg-white/20",
-          "group-data-[disabled=true]:text-gray-400 group-data-[disabled=true]:placeholder-gray-400 dark:group-data-[disabled=true]:text-white/50",
-          "group-data-[disabled=true]:border-gray-200 dark:group-data-[disabled=true]:border-white/10",
-          "data-disabled:border-gray-200 data-disabled:bg-gray-100 data-disabled:text-gray-400 dark:data-disabled:border-white/10 dark:data-disabled:bg-gray-900/50 dark:data-disabled:text-white/50",
+          // Disabled
+          "disabled:bg-gray-100 disabled:text-gray-400",
+          "disabled:border-gray-200 disabled:placeholder:text-gray-400",
+          "group-data-[disabled=true]:bg-gray-100",
+          "group-data-[disabled=true]:text-gray-400",
+          "group-data-[disabled=true]:border-gray-200",
 
           // Transitions
           "transition-all duration-150",
