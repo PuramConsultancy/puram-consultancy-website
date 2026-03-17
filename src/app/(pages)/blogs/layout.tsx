@@ -22,6 +22,13 @@ export const metadata: Metadata = {
     url: "https://www.puramconsultancy.com/blogs",
     images: [{ url: "/image.png", width: 1200, height: 630 }],
   },
+  robots: {
+    index: false,
+    follow: false,
+    googleBot: {
+      index: false,
+    },
+  },
 };
 
 export default function BlogsLayout({ children }: { children: ReactNode }) {
