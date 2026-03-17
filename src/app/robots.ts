@@ -6,7 +6,7 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: "*",
         allow: "/",
-        disallow: ["/admin-dashboard/", "/api/", "/login", "/register"],
+        disallow: ["/admin-dashboard/", "/api/", "/login", "/register","/about","/contact","/blogs","/projects","/process","/services"]
       },
     ],
     sitemap: "https://www.puramconsultancy.com/sitemap.xml",

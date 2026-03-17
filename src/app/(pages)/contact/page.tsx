@@ -39,6 +39,13 @@ export const metadata: Metadata = {
     url: "https://www.puramconsultancy.com/contact",
     images: [{ url: "/og-image.jpg", width: 1200, height: 630 }],
   },
+  robots: {
+    index: false,
+    follow: false,
+    googleBot: {
+      index: false,
+    },
+  },
 };
 
 // ... rest of your existing ContactPage component unchanged

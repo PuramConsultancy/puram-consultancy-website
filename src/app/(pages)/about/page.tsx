@@ -5,6 +5,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "About Us — Growth Systems & Strategy Consulting",
+
   description:
     "Learn about Puram Consultancy — 120+ growth projects guided, a 4-step execution framework, and a 90-day momentum window. We build systems teams can actually run.",
   keywords: [
@@ -23,6 +24,13 @@ export const metadata: Metadata = {
       "120+ growth projects guided. We build systems that scale businesses predictably.",
     url: "https://www.puramconsultancy.com/about",
     images: [{ url: "/og-image.jpg", width: 1200, height: 630 }],
+  },
+  robots: {
+    index: false,
+    follow: false,
+    googleBot: {
+      index: false,
+    },
   },
 };
 
