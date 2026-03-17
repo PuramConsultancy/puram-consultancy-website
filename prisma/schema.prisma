@@ -162,3 +162,34 @@ model SiteConfig {
   key         String  @unique
   value       String
 }
+
+enum ProjectType {
+  PRODUCT_LAUNCH
+  INVESTMENT_NEW_COMPANY
+  INVESTMENT_OLD_COMPANY
+  BUYING_PRODUCTS
+}
+
+model Project {
+  id          String         @id @default(auto()) @map("_id") @db.ObjectId
+  title       String
+  type        ProjectType
+  budget      String
+  description String
+  published   Boolean        @default(false)
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+
+  inquiries   ProjectInquiry[]
+}
+
+model ProjectInquiry {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  fullName    String
+  email       String
+  phone       String
+  projectId   String   @db.ObjectId
+  project     Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  seenAt      DateTime?
+  createdAt   DateTime @default(now())
+}

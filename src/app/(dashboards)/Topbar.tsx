@@ -110,6 +110,12 @@ const Topbar = ({ heading, subHeading, Heading }: ITopbar) => {
         >
           Forms
         </Link>
+        <Link
+          href="/admin-dashboard/projects"
+          className="text-sm font-medium text-(--color-primary) transition-colors hover:text-(--color-secondary)"
+        >
+          Projects
+        </Link>
       </div>
 
       {/* Right: User controls */}
