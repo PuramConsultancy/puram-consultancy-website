@@ -86,13 +86,9 @@ export const metadata: Metadata = {
     canonical: "https://www.puramconsultancy.com",
   },
   icons: {
-    icon: [
-      { url: "/image.png", sizes: "32x32", type: "image/png" },
-      { url: "/image.png", sizes: "192x192", type: "image/png" },
-      { url: "/image.png", sizes: "512x512", type: "image/png" },
-    ],
-    apple: "/image.png",
-    shortcut: "/image.png",
+    icon: "/favicon.png",        // main favicon for browsers
+    shortcut: "/favicon.png",    // shortcut icon for legacy browsers
+    apple: "/favicon.png",       // Apple touch icon (iOS)
   },
 };
 
